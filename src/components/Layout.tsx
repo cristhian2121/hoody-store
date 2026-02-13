@@ -35,10 +35,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           >
             <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
               <span className="text-primary-foreground text-sm font-extrabold">
-                CW
+                KH
               </span>
             </div>
-            <span>CustomWear</span>
+            <span>Kame Hoody</span>
           </Link>
 
           {/* Desktop nav */}
@@ -127,10 +127,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             <div className="flex items-center gap-2 font-bold text-lg">
               <div className="h-7 w-7 rounded-md bg-primary flex items-center justify-center">
                 <span className="text-primary-foreground text-xs font-extrabold">
-                  CW
+                  KH
                 </span>
               </div>
-              CustomWear
+              Kame Hoody
             </div>
             <div className="flex items-center gap-6 text-sm text-muted-foreground">
               <span>{t("footer.about")}</span>
@@ -139,7 +139,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               <span>{t("footer.privacy")}</span>
             </div>
             <p className="text-sm text-muted-foreground">
-              © 2026 CustomWear. {t("footer.rights")}
+              © 2026 Kame Hoody. {t("footer.rights")}
             </p>
           </div>
         </div>
