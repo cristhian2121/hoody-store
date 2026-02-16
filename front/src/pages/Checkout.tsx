@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { COLOMBIA_CITIES, SHIPPING_DAYS } from "@/lib/shipping";
-import { createCheckoutSession } from "@/lib/stripe";
+import { createCheckoutSession } from "@/lib/mercadopago";
 import { CitySearchInput } from "@/components/checkout/CitySearchInput";
 import { OrderSummary } from "@/components/checkout/OrderSummary";
 
@@ -17,6 +17,11 @@ const Checkout = () => {
   const { t, language } = useLanguage();
   const { items, subtotal } = useCart();
   const [processing, setProcessing] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [zip, setZip] = useState("");
 
   const defaultCity = COLOMBIA_CITIES[0];
   const citySearch = useCitySearch(defaultCity);
@@ -48,20 +53,36 @@ const Checkout = () => {
       const baseUrl = window.location.origin;
       await createCheckoutSession({
         items: items.map((item) => ({
+          productId: item.productId,
           name: item.name[language],
           price: item.price,
           quantity: item.quantity,
+          gender: item.gender,
+          size: item.size,
+          color: item.color,
+          category: item.category,
+          personalization: item.personalization,
           description: `${item.size} · ${item.color.name[language]}`,
           image: item.image,
         })),
+        customer: {
+          firstName,
+          lastName,
+          email,
+          phone,
+        },
         shippingCost,
-        shippingCity: selectedCity.name,
+        shipping: {
+          city: selectedCity.name,
+          department: selectedCity.department,
+          zip,
+        },
         successUrl: `${baseUrl}/checkout/success`,
         cancelUrl: `${baseUrl}/checkout/cancel`,
       });
     } catch (error) {
       console.error(error);
-      toast.error(t("checkout.stripeError"));
+      toast.error(t("checkout.paymentError"));
     } finally {
       setProcessing(false);
     }
@@ -99,13 +120,23 @@ const Checkout = () => {
                   <Label htmlFor="firstName" className="text-sm">
                     {t("checkout.firstName")}
                   </Label>
-                  <Input id="firstName" required />
+                  <Input
+                    id="firstName"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    required
+                  />
                 </div>
                 <div className="space-y-1">
                   <Label htmlFor="lastName" className="text-sm">
                     {t("checkout.lastName")}
                   </Label>
-                  <Input id="lastName" required />
+                  <Input
+                    id="lastName"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    required
+                  />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3">
@@ -113,13 +144,25 @@ const Checkout = () => {
                   <Label htmlFor="email" className="text-sm">
                     {t("checkout.email")}
                   </Label>
-                  <Input id="email" type="email" required />
+                  <Input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
                 </div>
                 <div className="space-y-1">
                   <Label htmlFor="phone" className="text-sm">
                     {t("checkout.phone")}
                   </Label>
-                  <Input id="phone" type="tel" required />
+                  <Input
+                    id="phone"
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    required
+                  />
                 </div>
               </div>
             </section>
@@ -149,7 +192,7 @@ const Checkout = () => {
                   <Label htmlFor="zip" className="text-sm">
                     {t("checkout.zip")}
                   </Label>
-                  <Input id="zip" />
+                  <Input id="zip" value={zip} onChange={(e) => setZip(e.target.value)} />
                 </div>
               </div>
               <p className="rounded-2xl border border-primary/30 bg-primary/5 px-4 py-2 text-sm text-primary">
@@ -168,7 +211,7 @@ const Checkout = () => {
             <section className="space-y-4">
               <h2 className="text-lg font-semibold">{t("checkout.payment")}</h2>
               <div className="space-y-3 rounded-2xl border border-border bg-muted/50 p-4 text-sm">
-                <p>{t("checkout.stripeInfo")}</p>
+                <p>{t("checkout.paymentInfo")}</p>
                 <p className="text-xs text-muted-foreground">
                   {t("checkout.secure")}
                 </p>
