@@ -1,46 +1,70 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  ChevronLeft,
-  CreditCard,
-  Building2,
-  Landmark,
-  ShieldCheck,
-} from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { useLanguage, formatPrice } from "@/lib/i18n";
 import { useCart } from "@/lib/cart";
+import { useCitySearch } from "@/hooks/useCitySearch";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { toast } from "sonner";
-
-type PaymentMethod = "card" | "pse" | "transfer";
+import { COLOMBIA_CITIES, SHIPPING_DAYS } from "@/lib/shipping";
+import { createCheckoutSession } from "@/lib/stripe";
+import { CitySearchInput } from "@/components/checkout/CitySearchInput";
+import { OrderSummary } from "@/components/checkout/OrderSummary";
 
 const Checkout = () => {
   const { t, language } = useLanguage();
   const { items, subtotal } = useCart();
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("card");
   const [processing, setProcessing] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const defaultCity = COLOMBIA_CITIES[0];
+  const citySearch = useCitySearch(defaultCity);
+
+  const {
+    selectedCity,
+    cityQuery,
+    showCityOptions,
+    filteredCities,
+    handleCityInput,
+    handleCitySelect,
+    handleFocus,
+    handleBlur,
+  } = citySearch;
+
+  const shippingCost = selectedCity ? selectedCity.shippingCost : 0;
+  const total = subtotal + shippingCost;
+
+  const handleCheckout = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!selectedCity) {
+      toast.error(t("checkout.selectCity"));
+      return;
+    }
+    if (items.length === 0) return;
+
     setProcessing(true);
-    await new Promise((r) => setTimeout(r, 2000));
-    setProcessing(false);
-    toast.success(
-      language === "es"
-        ? "¡Pedido realizado con éxito!"
-        : "Order placed successfully!",
-    );
+    try {
+      const baseUrl = window.location.origin;
+      await createCheckoutSession({
+        items: items.map((item) => ({
+          name: item.name[language],
+          price: item.price,
+          quantity: item.quantity,
+          description: `${item.size} · ${item.color.name[language]}`,
+          image: item.image,
+        })),
+        shippingCost,
+        shippingCity: selectedCity.name,
+        successUrl: `${baseUrl}/checkout/success`,
+        cancelUrl: `${baseUrl}/checkout/cancel`,
+      });
+    } catch (error) {
+      console.error(error);
+      toast.error(t("checkout.stripeError"));
+    } finally {
+      setProcessing(false);
+    }
   };
 
   if (items.length === 0) {
@@ -65,11 +89,9 @@ const Checkout = () => {
 
       <h1 className="text-3xl font-bold mb-8">{t("checkout.title")}</h1>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleCheckout}>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Form */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Contact */}
             <section className="space-y-4">
               <h2 className="text-lg font-semibold">{t("checkout.contact")}</h2>
               <div className="grid grid-cols-2 gap-3">
@@ -102,42 +124,26 @@ const Checkout = () => {
               </div>
             </section>
 
-            {/* Shipping */}
             <section className="space-y-4">
-              <h2 className="text-lg font-semibold">
-                {t("checkout.shipping")}
-              </h2>
-              <div className="space-y-1">
-                <Label className="text-sm">{t("checkout.country")}</Label>
-                <Select defaultValue="CO">
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="CO">Colombia 🇨🇴</SelectItem>
-                    <SelectItem value="EC">Ecuador 🇪🇨</SelectItem>
-                    <SelectItem value="PA">Panamá 🇵🇦</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-1">
-                <Label htmlFor="address" className="text-sm">
-                  {t("checkout.address")}
-                </Label>
-                <Input id="address" required />
-              </div>
-              <div className="grid grid-cols-3 gap-3">
+              <h2 className="text-lg font-semibold">{t("checkout.shipping")}</h2>
+              <CitySearchInput
+                cityQuery={cityQuery}
+                selectedCity={selectedCity}
+                showCityOptions={showCityOptions}
+                filteredCities={filteredCities}
+                onCityInput={handleCityInput}
+                onCitySelect={handleCitySelect}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+              />
+              <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1">
-                  <Label htmlFor="city" className="text-sm">
-                    {t("checkout.city")}
-                  </Label>
-                  <Input id="city" required />
-                </div>
-                <div className="space-y-1">
-                  <Label htmlFor="state" className="text-sm">
-                    {t("checkout.state")}
-                  </Label>
-                  <Input id="state" required />
+                  <Label className="text-sm">{t("checkout.state")}</Label>
+                  <Input
+                    value={selectedCity?.department ?? ""}
+                    readOnly
+                    placeholder="Departamento"
+                  />
                 </div>
                 <div className="space-y-1">
                   <Label htmlFor="zip" className="text-sm">
@@ -146,133 +152,37 @@ const Checkout = () => {
                   <Input id="zip" />
                 </div>
               </div>
+              <p className="rounded-2xl border border-primary/30 bg-primary/5 px-4 py-2 text-sm text-primary">
+                {selectedCity
+                  ? `${t("shipping.deliveryTime")} · ${SHIPPING_DAYS} ${t(
+                      "shipping.businessDays",
+                    )} · ${selectedCity.name}`
+                  : t("shipping.selectCityHint")}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                {t("shipping.cost")}:{" "}
+                {selectedCity ? formatPrice(shippingCost) : t("shipping.pending")}
+              </p>
             </section>
 
-            {/* Payment */}
             <section className="space-y-4">
               <h2 className="text-lg font-semibold">{t("checkout.payment")}</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                {[
-                  {
-                    id: "card" as const,
-                    icon: CreditCard,
-                    label: t("checkout.card"),
-                  },
-                  {
-                    id: "pse" as const,
-                    icon: Building2,
-                    label: t("checkout.pse"),
-                  },
-                  {
-                    id: "transfer" as const,
-                    icon: Landmark,
-                    label: t("checkout.bankTransfer"),
-                  },
-                ].map((pm) => (
-                  <button
-                    key={pm.id}
-                    type="button"
-                    onClick={() => setPaymentMethod(pm.id)}
-                    className={`p-4 rounded-xl border-2 text-left transition-colors ${
-                      paymentMethod === pm.id
-                        ? "border-primary bg-accent"
-                        : "border-border hover:border-muted-foreground/30"
-                    }`}
-                  >
-                    <pm.icon className="h-5 w-5 mb-2" />
-                    <span className="text-sm font-medium">{pm.label}</span>
-                  </button>
-                ))}
+              <div className="space-y-3 rounded-2xl border border-border bg-muted/50 p-4 text-sm">
+                <p>{t("checkout.stripeInfo")}</p>
+                <p className="text-xs text-muted-foreground">
+                  {t("checkout.secure")}
+                </p>
               </div>
-
-              {paymentMethod === "card" && (
-                <div className="space-y-3 p-4 rounded-xl bg-muted/50">
-                  <Input placeholder="1234 5678 9012 3456" />
-                  <div className="grid grid-cols-2 gap-3">
-                    <Input placeholder="MM/YY" />
-                    <Input placeholder="CVC" />
-                  </div>
-                </div>
-              )}
             </section>
           </div>
 
-          {/* Order summary */}
           <div className="lg:col-span-1">
-            <div className="sticky top-24 rounded-2xl border bg-card p-6 space-y-4">
-              <h2 className="font-semibold text-lg">{t("checkout.review")}</h2>
-              <div className="space-y-3 max-h-80 overflow-y-auto">
-                {items.map((item) => (
-                  <div key={item.cartItemId} className="flex gap-3">
-                    <div className="h-14 w-14 rounded-md overflow-hidden bg-muted flex-shrink-0">
-                      <img
-                        src={item.image}
-                        alt={item.name[language]}
-                        className="h-full w-full object-cover"
-                      />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium truncate">
-                        {item.name[language]}
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        {item.size} · {item.color.name[language]} · x
-                        {item.quantity}
-                      </p>
-                      {item.personalization && (
-                        <Badge
-                          variant="secondary"
-                          className="text-[10px] mt-0.5"
-                        >
-                          ✨
-                        </Badge>
-                      )}
-                    </div>
-                    <span className="text-sm font-medium">
-                      {formatPrice(item.price * item.quantity)}
-                    </span>
-                  </div>
-                ))}
-              </div>
-              <Separator />
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">
-                    {t("cart.subtotal")}
-                  </span>
-                  <span>{formatPrice(subtotal)}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">
-                    {t("cart.shipping")}
-                  </span>
-                  <span className="text-muted-foreground">
-                    {t("cart.shippingCalc")}
-                  </span>
-                </div>
-              </div>
-              <Separator />
-              <div className="flex justify-between font-bold text-lg">
-                <span>{t("cart.total")}</span>
-                <span>{formatPrice(subtotal)}</span>
-              </div>
-              <Button
-                type="submit"
-                size="lg"
-                className="w-full"
-                disabled={processing}
-              >
-                <ShieldCheck className="h-4 w-4 mr-2" />
-                {processing
-                  ? t("checkout.processing")
-                  : t("checkout.placeOrder")}
-              </Button>
-              <p className="text-[10px] text-center text-muted-foreground">
-                {language === "es"
-                  ? "Pago seguro y encriptado"
-                  : "Secure and encrypted payment"}
-              </p>
-            </div>
+            <OrderSummary
+              selectedCity={selectedCity}
+              shippingCost={shippingCost}
+              total={total}
+              processing={processing}
+            />
           </div>
         </div>
       </form>
