@@ -1,63 +1,18 @@
 import { useParams, Link } from "react-router-dom";
 import { useState } from "react";
-import { ChevronLeft, Palette, Ruler } from "lucide-react";
+import { ChevronLeft, Palette } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguage, formatPrice } from "@/lib/i18n";
 import { getProduct } from "@/lib/products";
 import { useCart } from "@/lib/cart";
-import type { Gender, PersonalizationData } from "@/lib/types";
+import { useProductSelection } from "@/hooks/useProductSelection";
+import type { PersonalizationData } from "@/lib/types";
 import PersonalizationEditor from "@/components/PersonalizationEditor";
+import { DesignLayerPreview } from "@/components/product/DesignLayerPreview";
+import { SizeGuideDialog } from "@/components/product/SizeGuideDialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { toast } from "sonner";
-
-const SIZE_DATA: Record<
-  string,
-  Record<
-    Gender,
-    Record<string, { chest: string; length: string; shoulder: string }>
-  >
-> = {
-  hoodies: {
-    hombre: {
-      S: { chest: "96", length: "68", shoulder: "44" },
-      M: { chest: "102", length: "70", shoulder: "46" },
-      L: { chest: "108", length: "72", shoulder: "48" },
-      XL: { chest: "114", length: "74", shoulder: "50" },
-      XXL: { chest: "120", length: "76", shoulder: "52" },
-    },
-    mujer: {
-      XS: { chest: "84", length: "60", shoulder: "38" },
-      S: { chest: "90", length: "62", shoulder: "40" },
-      M: { chest: "96", length: "64", shoulder: "42" },
-      L: { chest: "102", length: "66", shoulder: "44" },
-      XL: { chest: "108", length: "68", shoulder: "46" },
-    },
-  },
-  camisetas: {
-    hombre: {
-      S: { chest: "92", length: "70", shoulder: "43" },
-      M: { chest: "98", length: "72", shoulder: "45" },
-      L: { chest: "104", length: "74", shoulder: "47" },
-      XL: { chest: "110", length: "76", shoulder: "49" },
-      XXL: { chest: "116", length: "78", shoulder: "51" },
-    },
-    mujer: {
-      XS: { chest: "80", length: "60", shoulder: "36" },
-      S: { chest: "86", length: "62", shoulder: "38" },
-      M: { chest: "92", length: "64", shoulder: "40" },
-      L: { chest: "98", length: "66", shoulder: "42" },
-      XL: { chest: "104", length: "68", shoulder: "44" },
-    },
-  },
-};
 
 const ProductDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -65,33 +20,50 @@ const ProductDetail = () => {
   const { addItem } = useCart();
   const product = getProduct(slug || "");
 
-  const [selectedGender, setSelectedGender] = useState<Gender>("hombre");
-  const [selectedSize, setSelectedSize] = useState("");
-  const [selectedColorIdx, setSelectedColorIdx] = useState(0);
   const [showEditor, setShowEditor] = useState(false);
   const [personalization, setPersonalization] = useState<
     PersonalizationData | undefined
   >();
-  const [activeImage, setActiveImage] = useState(0);
+  const [livePreview, setLivePreview] = useState<PersonalizationData | undefined>();
 
-  if (!product) {
+  const productSelection = product
+    ? useProductSelection({
+        product,
+        defaultGender: "hombre",
+        defaultColorIndex: 0,
+      })
+    : null;
+
+  const previewData = showEditor ? livePreview ?? personalization : personalization;
+
+  if (!product || !productSelection) {
     return (
       <div className="container py-20 text-center">
-        <p className="text-muted-foreground">Producto no encontrado</p>
+        <p className="text-muted-foreground">{t("product.notFound")}</p>
         <Button variant="outline" asChild className="mt-4">
-          <Link to="/">Volver al inicio</Link>
+          <Link to="/">{t("product.backToHome")}</Link>
         </Button>
       </div>
     );
   }
 
-  const sizes = product.sizes[selectedGender];
-  const selectedColor = product.colors[selectedColorIdx];
-  const sizeTable = SIZE_DATA[product.category]?.[selectedGender] || {};
+  const {
+    selectedGender,
+    setSelectedGender,
+    selectedSize,
+    setSelectedSize,
+    selectedColorIdx,
+    setSelectedColorIdx,
+    activeImage,
+    setActiveImage,
+    sizes,
+    selectedColor,
+    isValidSelection,
+  } = productSelection;
 
   const handleAddToCart = () => {
-    if (!selectedSize) {
-      toast.error(language === "es" ? "Selecciona una talla" : "Select a size");
+    if (!isValidSelection) {
+      toast.error(t("product.selectSize"));
       return;
     }
     addItem({
@@ -105,15 +77,13 @@ const ProductDetail = () => {
       image: product.images[0],
       category: product.category,
     });
-    toast.success(
-      language === "es" ? "¡Agregado al carrito!" : "Added to cart!",
-    );
+    toast.success(t("product.addedToCart"));
   };
 
   const handleSavePersonalization = (data: PersonalizationData) => {
     setPersonalization(data);
     setShowEditor(false);
-    toast.success(language === "es" ? "Diseño guardado" : "Design saved");
+    toast.success(t("product.designSaved"));
   };
 
   return (
@@ -133,12 +103,17 @@ const ProductDetail = () => {
           animate={{ opacity: 1 }}
           className="space-y-3"
         >
-          <div className="aspect-square rounded-2xl overflow-hidden bg-muted border">
+          <div className="aspect-square rounded-2xl overflow-hidden bg-muted border relative">
             <img
               src={product.images[activeImage]}
               alt={product.name[language]}
               className="h-full w-full object-cover"
             />
+            {previewData?.front && (
+              <div className="absolute inset-0">
+                <DesignLayerPreview layer={previewData.front} />
+              </div>
+            )}
           </div>
           <div className="flex gap-2">
             {product.images.map((img, i) => (
@@ -178,22 +153,19 @@ const ProductDetail = () => {
             {product.description[language]}
           </p>
 
-          {/* Gender - most prominent */}
+          {/* Gender */}
           <div className="space-y-2">
             <label className="text-sm font-semibold uppercase tracking-wide">
               {t("product.gender")}
             </label>
             <div className="flex gap-2">
-              {(["hombre", "mujer"] as Gender[]).map((g) => (
+              {(["hombre", "mujer"] as const).map((g) => (
                 <Button
                   key={g}
                   variant={selectedGender === g ? "default" : "outline"}
                   size="lg"
                   className="flex-1"
-                  onClick={() => {
-                    setSelectedGender(g);
-                    setSelectedSize("");
-                  }}
+                  onClick={() => setSelectedGender(g)}
                 >
                   {g === "hombre"
                     ? t("product.gender.hombre")
@@ -209,57 +181,7 @@ const ProductDetail = () => {
               <label className="text-sm font-semibold uppercase tracking-wide">
                 {t("product.size")}
               </label>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button
-                    variant="link"
-                    size="sm"
-                    className="text-xs h-auto p-0"
-                  >
-                    <Ruler className="h-3 w-3 mr-1" /> {t("product.sizeGuide")}
-                  </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>
-                      {t("sizeGuide.title")} —{" "}
-                      {selectedGender === "hombre"
-                        ? t("product.gender.hombre")
-                        : t("product.gender.mujer")}
-                    </DialogTitle>
-                  </DialogHeader>
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-sm">
-                      <thead>
-                        <tr className="border-b">
-                          <th className="text-left py-2 pr-4">
-                            {t("product.size")}
-                          </th>
-                          <th className="text-left py-2 pr-4">
-                            {t("sizeGuide.chest")} ({t("sizeGuide.cm")})
-                          </th>
-                          <th className="text-left py-2 pr-4">
-                            {t("sizeGuide.length")} ({t("sizeGuide.cm")})
-                          </th>
-                          <th className="text-left py-2">
-                            {t("sizeGuide.shoulder")} ({t("sizeGuide.cm")})
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {Object.entries(sizeTable).map(([size, data]) => (
-                          <tr key={size} className="border-b last:border-0">
-                            <td className="py-2 pr-4 font-medium">{size}</td>
-                            <td className="py-2 pr-4">{data.chest}</td>
-                            <td className="py-2 pr-4">{data.length}</td>
-                            <td className="py-2">{data.shoulder}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </DialogContent>
-              </Dialog>
+              <SizeGuideDialog category={product.category} gender={selectedGender} />
             </div>
             <div className="flex flex-wrap gap-2">
               {sizes.map((s) => (
@@ -332,7 +254,9 @@ const ProductDetail = () => {
           <PersonalizationEditor
             category={product.category}
             garmentColor={selectedColor.hex}
+            garmentImage={product.images[activeImage]}
             onSave={handleSavePersonalization}
+            onChange={setLivePreview}
             initialData={personalization}
           />
         </motion.div>
