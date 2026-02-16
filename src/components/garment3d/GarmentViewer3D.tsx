@@ -123,8 +123,10 @@ function Scene(props: {
             scale={modelConfig.decalAnchors.front.scale}
             map={frontTexture}
             anisotropy={16}
-            depthTest={false}
-            depthWrite={true}
+            depthTest={true}
+            depthWrite={false}
+            polygonOffset={true}
+            polygonOffsetFactor={-4}
           />
         )}
 
@@ -137,8 +139,10 @@ function Scene(props: {
             scale={modelConfig.decalAnchors.back.scale}
             map={backTexture}
             anisotropy={16}
-            depthTest={false}
-            depthWrite={true}
+            depthTest={true}
+            depthWrite={false}
+            polygonOffset={true}
+            polygonOffsetFactor={-4}
           />
         )}
       </mesh>

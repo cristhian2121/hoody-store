@@ -16,8 +16,16 @@ export interface GarmentModelRef {
    * Rotation: [x, y, z] in radians
    */
   decalAnchors: {
-    front: { position: [number, number, number]; rotation: [number, number, number]; scale: number };
-    back: { position: [number, number, number]; rotation: [number, number, number]; scale: number };
+    front: {
+      position: [number, number, number];
+      rotation: [number, number, number];
+      scale: number;
+    };
+    back: {
+      position: [number, number, number];
+      rotation: [number, number, number];
+      scale: number;
+    };
   };
 }
 
@@ -32,8 +40,16 @@ export const garmentModels: Record<ProductCategory, GarmentModelRef> = {
     glbPath: "/shirt_baked.glb", // Temporary: reuse t-shirt model
     scale: 1.6,
     decalAnchors: {
-      front: { position: [0, 0.04, 0.15], rotation: [0, 0, 0], scale: 0.15 },
-      back: { position: [0, 0.04, -0.15], rotation: [0, Math.PI, 0], scale: 0.15 },
+      front: {
+        position: [0, 0, 0.15],
+        rotation: [0, 0, Math.PI],
+        scale: 0.7,
+      },
+      back: {
+        position: [0, 0, -0.15],
+        rotation: [0, Math.PI, 0],
+        scale: 0.7,
+      },
     },
   },
   camisetas: {
@@ -41,9 +57,16 @@ export const garmentModels: Record<ProductCategory, GarmentModelRef> = {
     glbPath: "/shirt_baked.glb",
     scale: 1.6,
     decalAnchors: {
-      front: { position: [0, 0.04, 0.15], rotation: [0, 0, 0], scale: 0.15 },
-      back: { position: [0, 0.04, -0.15], rotation: [0, Math.PI, 0], scale: 0.15 },
+      front: {
+        position: [0, 0, 0.15],
+        rotation: [0, 0, Math.PI],
+        scale: 0.7,
+      },
+      back: {
+        position: [0, 0, -0.15],
+        rotation: [0, Math.PI, 0],
+        scale: 0.7,
+      },
     },
   },
 };
-

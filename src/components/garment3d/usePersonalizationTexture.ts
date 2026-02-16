@@ -77,6 +77,7 @@ export function usePersonalizationTexture(params: {
         const cx = (layer.image!.x / 100) * canvas.width;
         const cy = (layer.image!.y / 100) * canvas.height;
         ctx.translate(cx, cy);
+        ctx.scale(-1, 1); // Flip horizontally to fix mirroring on 3D model
         ctx.rotate((layer.image!.rotation * Math.PI) / 180);
         const base = 260;
         const w = base * layer.image!.scale;
@@ -90,6 +91,7 @@ export function usePersonalizationTexture(params: {
           const cx = (t.x / 100) * canvas.width;
           const cy = (t.y / 100) * canvas.height;
           ctx.translate(cx, cy);
+          ctx.scale(-1, 1); // Flip horizontally to match image flip
           ctx.rotate((t.rotation * Math.PI) / 180);
           ctx.scale(t.scale, t.scale);
           const fontStyle = `${t.italic ? "italic " : ""}${t.bold ? "bold " : ""}${t.fontSize}px ${t.fontFamily}`;
@@ -151,6 +153,7 @@ export function usePersonalizationTexture(params: {
         const cx = (t.x / 100) * canvas.width;
         const cy = (t.y / 100) * canvas.height;
         ctx.translate(cx, cy);
+        ctx.scale(-1, 1); // Flip horizontally to fix mirroring on 3D model
         ctx.rotate((t.rotation * Math.PI) / 180);
         ctx.scale(t.scale, t.scale);
         const fontStyle = `${t.italic ? "italic " : ""}${t.bold ? "bold " : ""}${t.fontSize}px ${t.fontFamily}`;
