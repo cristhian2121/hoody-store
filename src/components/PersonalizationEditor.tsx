@@ -9,6 +9,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { useLanguage } from "@/lib/i18n";
+import { clampCenterToPrintArea, getPrintArea, getPrintAreaCenter } from "@/lib/printArea";
 import type {
   PersonalizationData,
   PrintSide,
@@ -31,6 +32,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
 
 const FONTS = [
   "Plus Jakarta Sans",
@@ -66,6 +68,8 @@ const PersonalizationEditor = ({
   const [aiLoading, setAiLoading] = useState(false);
   const canvasRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const imageContainerRef = useRef<HTMLDivElement | null>(null);
+  const textElementRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const dragRef = useRef<{
     type: "image" | "text";
     id?: string;
@@ -73,9 +77,23 @@ const PersonalizationEditor = ({
     startY: number;
     elemX: number;
     elemY: number;
+    sizePct?: { width: number; height: number };
   } | null>(null);
 
   const currentLayer = data[activeSide];
+  const printArea = getPrintArea(category, activeSide);
+  const printAreaCenter = getPrintAreaCenter(printArea);
+
+  const getSizePct = (el: HTMLElement | null | undefined) => {
+    if (!el || !canvasRef.current) return undefined;
+    const canvasRect = canvasRef.current.getBoundingClientRect();
+    if (!canvasRect.width || !canvasRect.height) return undefined;
+    const rect = el.getBoundingClientRect();
+    return {
+      width: (rect.width / canvasRect.width) * 100,
+      height: (rect.height / canvasRect.height) * 100,
+    };
+  };
 
   const updateLayer = useCallback(
     (side: PrintSide, updater: (layer: DesignLayer) => DesignLayer) => {
@@ -88,11 +106,11 @@ const PersonalizationEditor = ({
     const file = e.target.files?.[0];
     if (!file) return;
     if (!ALLOWED_TYPES.includes(file.type)) {
-      alert("Solo se permiten PNG, JPG y SVG");
+      toast.error(t("editor.error.invalidImageType"));
       return;
     }
     if (file.size > MAX_FILE_SIZE) {
-      alert("El archivo es demasiado grande (máx. 5MB)");
+      toast.error(t("editor.error.fileTooLarge"));
       return;
     }
     const reader = new FileReader();
@@ -114,7 +132,13 @@ const PersonalizationEditor = ({
         const src = canvas.toDataURL("image/jpeg", 0.8);
         updateLayer(activeSide, (layer) => ({
           ...layer,
-          image: { src, x: 50, y: 50, scale: 1, rotation: 0 },
+          image: {
+            src,
+            x: printAreaCenter.x,
+            y: printAreaCenter.y,
+            scale: 1,
+            rotation: 0,
+          },
         }));
       };
       img.src = ev.target?.result as string;
@@ -132,8 +156,8 @@ const PersonalizationEditor = ({
         {
           id,
           content: "Tu texto",
-          x: 50,
-          y: 60,
+          x: printAreaCenter.x,
+          y: printAreaCenter.y,
           fontFamily: FONTS[0],
           fontSize: 24,
           color: "#ffffff",
@@ -179,6 +203,8 @@ const PersonalizationEditor = ({
         ? currentLayer.image
         : currentLayer.texts.find((t) => t.id === id);
     if (!elem) return;
+
+    const sizePct = getSizePct(e.currentTarget as HTMLElement);
     dragRef.current = {
       type,
       id,
@@ -186,6 +212,7 @@ const PersonalizationEditor = ({
       startY: e.clientY,
       elemX: elem.x,
       elemY: elem.y,
+      sizePct,
     };
     if (type === "text" && id) setSelectedTextId(id);
   };
@@ -195,8 +222,12 @@ const PersonalizationEditor = ({
     const rect = canvasRef.current.getBoundingClientRect();
     const dx = ((e.clientX - dragRef.current.startX) / rect.width) * 100;
     const dy = ((e.clientY - dragRef.current.startY) / rect.height) * 100;
-    const newX = Math.max(0, Math.min(100, dragRef.current.elemX + dx));
-    const newY = Math.max(0, Math.min(100, dragRef.current.elemY + dy));
+    const unclamped = { x: dragRef.current.elemX + dx, y: dragRef.current.elemY + dy };
+    const { x: newX, y: newY } = clampCenterToPrintArea(
+      unclamped,
+      printArea,
+      dragRef.current.sizePct,
+    );
 
     if (dragRef.current.type === "image") {
       updateLayer(activeSide, (layer) => ({
@@ -216,10 +247,12 @@ const PersonalizationEditor = ({
     if (type === "image") {
       updateLayer(activeSide, (layer) => ({
         ...layer,
-        image: layer.image ? { ...layer.image, x: 50, y: 50 } : null,
+        image: layer.image
+          ? { ...layer.image, x: printAreaCenter.x, y: printAreaCenter.y }
+          : null,
       }));
     } else if (selectedTextId) {
-      updateText(selectedTextId, { x: 50 });
+      updateText(selectedTextId, { x: printAreaCenter.x, y: printAreaCenter.y });
     }
   };
 
@@ -252,7 +285,13 @@ const PersonalizationEditor = ({
     const src = canvas.toDataURL("image/png");
     updateLayer(activeSide, (layer) => ({
       ...layer,
-      image: { src, x: 50, y: 50, scale: 1, rotation: 0 },
+      image: {
+        src,
+        x: printAreaCenter.x,
+        y: printAreaCenter.y,
+        scale: 1,
+        rotation: 0,
+      },
     }));
     setAiLoading(false);
     setAiPrompt("");
@@ -368,8 +407,13 @@ const PersonalizationEditor = ({
 
           {/* Print area indicator */}
           <div
-            className="absolute inset-[18%] top-[22%] bottom-[20%] border-2 border-dashed border-primary/20 rounded-lg flex items-center justify-center transition-colors"
+            data-testid="print-area"
+            className="absolute border-2 border-dashed border-primary/20 rounded-lg flex items-center justify-center transition-colors"
             style={{
+              left: `${printArea.xMin}%`,
+              right: `${100 - printArea.xMax}%`,
+              top: `${printArea.yMin}%`,
+              bottom: `${100 - printArea.yMax}%`,
               background:
                 "repeating-linear-gradient(45deg, transparent, transparent 10px, hsl(var(--primary) / 0.02) 10px, hsl(var(--primary) / 0.02) 20px)",
             }}
@@ -387,6 +431,7 @@ const PersonalizationEditor = ({
           {/* Uploaded image */}
           {currentLayer.image && (
             <div
+              ref={imageContainerRef}
               className="absolute cursor-grab active:cursor-grabbing ring-2 ring-primary/40 ring-offset-1 rounded-sm"
               style={{
                 left: `${currentLayer.image.x}%`,
@@ -408,6 +453,9 @@ const PersonalizationEditor = ({
           {currentLayer.texts.map((txt) => (
             <div
               key={txt.id}
+              ref={(el) => {
+                textElementRefs.current[txt.id] = el;
+              }}
               className={`absolute cursor-grab active:cursor-grabbing px-1 ${selectedTextId === txt.id ? "ring-2 ring-primary rounded" : ""}`}
               style={{
                 left: `${txt.x}%`,
@@ -502,12 +550,27 @@ const PersonalizationEditor = ({
                   min={0.2}
                   max={3}
                   step={0.1}
-                  onValueChange={([v]) =>
+                  onValueChange={([v]) => {
+                    const current = currentLayer.image?.scale ?? 1;
+                    const ratio = current > 0 ? v / current : 1;
+                    const sizePct = getSizePct(imageContainerRef.current);
+                    const nextSize =
+                      sizePct ? { width: sizePct.width * ratio, height: sizePct.height * ratio } : undefined;
+                    const clamped = currentLayer.image
+                      ? clampCenterToPrintArea(
+                          { x: currentLayer.image.x, y: currentLayer.image.y },
+                          printArea,
+                          nextSize,
+                        )
+                      : { x: printAreaCenter.x, y: printAreaCenter.y };
+
                     updateLayer(activeSide, (l) => ({
                       ...l,
-                      image: l.image ? { ...l.image, scale: v } : null,
-                    }))
-                  }
+                      image: l.image
+                        ? { ...l.image, scale: v, x: clamped.x, y: clamped.y }
+                        : null,
+                    }));
+                  }}
                 />
               </div>
               <div className="space-y-1">
@@ -650,9 +713,23 @@ const PersonalizationEditor = ({
                   min={0.5}
                   max={3}
                   step={0.1}
-                  onValueChange={([v]) =>
-                    updateText(selectedText.id, { scale: v })
-                  }
+                  onValueChange={([v]) => {
+                    const current = selectedText.scale ?? 1;
+                    const ratio = current > 0 ? v / current : 1;
+                    const sizePct = getSizePct(textElementRefs.current[selectedText.id]);
+                    const nextSize =
+                      sizePct ? { width: sizePct.width * ratio, height: sizePct.height * ratio } : undefined;
+                    const clamped = clampCenterToPrintArea(
+                      { x: selectedText.x, y: selectedText.y },
+                      printArea,
+                      nextSize,
+                    );
+                    updateText(selectedText.id, {
+                      scale: v,
+                      x: clamped.x,
+                      y: clamped.y,
+                    });
+                  }}
                 />
               </div>
               <div className="space-y-1">

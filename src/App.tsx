@@ -7,7 +7,8 @@ import { ThemeProvider } from "next-themes";
 import { LanguageProvider } from "@/lib/i18n";
 import { CartProvider } from "@/lib/cart";
 import Layout from "@/components/Layout";
-import Index from "./pages/Index";
+import Home from "./pages/Home";
+import HomeLegacy from "./pages/HomeLegacy";
 import Category from "./pages/Category";
 import ProductDetail from "./pages/ProductDetail";
 import Checkout from "./pages/Checkout";
@@ -26,7 +27,8 @@ const App = () => (
             <BrowserRouter>
               <Layout>
                 <Routes>
-                  <Route path="/" element={<Index />} />
+                  <Route path="/" element={<Home />} />
+                  <Route path="/home-legacy" element={<HomeLegacy />} />
                   <Route path="/categoria/:category" element={<Category />} />
                   <Route path="/producto/:slug" element={<ProductDetail />} />
                   <Route path="/checkout" element={<Checkout />} />

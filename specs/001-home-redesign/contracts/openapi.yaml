@@ -1,0 +1,113 @@
+openapi: 3.0.3
+info:
+  title: Hoodie Customizer API (Optional)
+  version: 0.1.0
+  description: >
+    Contrato opcional para soportar generación de diseños asistida por IA y carga de imágenes.
+    El repositorio actual puede implementar parte del flujo sin backend (placeholder), pero este contrato
+    define un camino de integración futuro sin romper UI/UX.
+servers:
+  - url: /
+paths:
+  /api/ai/designs:
+    post:
+      summary: Generate a design image from a prompt
+      operationId: generateAiDesign
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AiDesignRequest"
+      responses:
+        "200":
+          description: Generated design image
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AiDesignResponse"
+        "400":
+          description: Invalid prompt
+        "429":
+          description: Rate limited
+        "500":
+          description: Generation failed
+  /api/uploads/images:
+    post:
+      summary: Upload an image for personalization
+      operationId: uploadPersonalizationImage
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+              required: [file]
+      responses:
+        "200":
+          description: Uploaded image reference
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UploadResponse"
+        "400":
+          description: Invalid file
+        "413":
+          description: File too large
+        "500":
+          description: Upload failed
+components:
+  schemas:
+    AiDesignRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        prompt:
+          type: string
+          minLength: 1
+          maxLength: 500
+        aspectRatio:
+          type: string
+          description: Desired aspect ratio hint for the generated asset
+          enum: ["1:1", "4:5", "3:4"]
+        styleHint:
+          type: string
+          description: Optional style hint (e.g., "minimal", "cartoon", "logo")
+          maxLength: 100
+      required: [prompt]
+    AiDesignResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        imageUrl:
+          type: string
+          format: uri
+        mimeType:
+          type: string
+          example: image/png
+        width:
+          type: integer
+          minimum: 1
+        height:
+          type: integer
+          minimum: 1
+      required: [imageUrl, mimeType, width, height]
+    UploadResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        imageUrl:
+          type: string
+          format: uri
+        mimeType:
+          type: string
+          example: image/jpeg
+        sizeBytes:
+          type: integer
+          minimum: 0
+      required: [imageUrl, mimeType, sizeBytes]
+

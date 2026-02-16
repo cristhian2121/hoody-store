@@ -3,6 +3,13 @@ export type Gender = "hombre" | "mujer";
 export type ProductCategory = "hoodies" | "camisetas";
 export type PrintSide = "front" | "back";
 
+export interface PrintArea {
+  xMin: number;
+  xMax: number;
+  yMin: number;
+  yMax: number;
+}
+
 export interface ProductColor {
   name: { es: string; en: string };
   hex: string;

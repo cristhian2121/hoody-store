@@ -22,6 +22,25 @@ const translations = {
       "Personaliza hoodies y camisetas con tu propio diseño o genera uno con IA.",
     "hero.cta": "Explorar productos",
     "hero.secondary": "Cómo funciona",
+    // Home (new)
+    "home.title": "Diseña tu hoodie o camiseta en minutos",
+    "home.subtitle":
+      "Sube tu imagen, agrega texto y ajusta colores. Vista 3D en tiempo real.",
+    "home.placeholder":
+      "Nuevo Home en construcción: aquí irá el selector de prenda/color, el editor y la vista 3D.",
+    "home.legacyBanner":
+      "Estás viendo el Home anterior (deprecated). El nuevo Home está en desarrollo.",
+    "home.productType": "Producto",
+    "home.productType.hoodie": "Hoodie",
+    "home.productType.tshirt": "Camiseta",
+    "home.garmentColor": "Color de la prenda",
+    "home.cta": "Personalizar y comprar",
+    "home.ctaHint":
+      "Listo. En el siguiente paso vamos a conectar esto con selección de talla y carrito.",
+    "home.designSaved": "Diseño guardado",
+    "home.rotateHint": "Arrastra para girar",
+    "home.3dUnavailable": "La vista 3D no está disponible en este dispositivo.",
+    "home.loading3d": "Cargando vista 3D…",
     // Products
     "products.featured": "Productos destacados",
     "products.all": "Todos los productos",
@@ -61,6 +80,8 @@ const translations = {
     "editor.generating": "Generando...",
     "editor.removeImage": "Quitar imagen",
     "editor.removeText": "Quitar texto",
+    "editor.error.invalidImageType": "Solo se permiten PNG, JPG y SVG",
+    "editor.error.fileTooLarge": "El archivo es demasiado grande (máx. 5MB)",
     // Cart
     "cart.title": "Tu carrito",
     "cart.empty": "Tu carrito está vacío",
@@ -131,6 +152,24 @@ const translations = {
       "Customize hoodies and t-shirts with your own design or generate one with AI.",
     "hero.cta": "Explore products",
     "hero.secondary": "How it works",
+    "home.title": "Design your hoodie or t-shirt in minutes",
+    "home.subtitle":
+      "Upload an image, add text, and adjust colors. Real-time 3D preview.",
+    "home.placeholder":
+      "New Home in progress: garment type/color picker, editor, and 3D viewer will live here.",
+    "home.legacyBanner":
+      "You’re viewing the previous Home (deprecated). The new Home is under development.",
+    "home.productType": "Product",
+    "home.productType.hoodie": "Hoodie",
+    "home.productType.tshirt": "T-Shirt",
+    "home.garmentColor": "Garment color",
+    "home.cta": "Customize & buy",
+    "home.ctaHint":
+      "Great. Next we’ll connect this flow to size selection and the cart.",
+    "home.designSaved": "Design saved",
+    "home.rotateHint": "Drag to rotate",
+    "home.3dUnavailable": "3D preview is not available on this device.",
+    "home.loading3d": "Loading 3D preview…",
     "products.featured": "Featured products",
     "products.all": "All products",
     "products.viewAll": "View all",
@@ -167,6 +206,8 @@ const translations = {
     "editor.generating": "Generating...",
     "editor.removeImage": "Remove image",
     "editor.removeText": "Remove text",
+    "editor.error.invalidImageType": "Only PNG, JPG, and SVG are allowed",
+    "editor.error.fileTooLarge": "File is too large (max 5MB)",
     "cart.title": "Your cart",
     "cart.empty": "Your cart is empty",
     "cart.subtotal": "Subtotal",
