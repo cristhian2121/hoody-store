@@ -74,7 +74,7 @@ export const OrderSummary = ({
       </div>
       <Button type="submit" size="lg" className="w-full" disabled={processing}>
         <ShieldCheck className="h-4 w-4 mr-2" />
-        {processing ? t("checkout.processing") : t("checkout.payWithStripe")}
+        {processing ? t("checkout.processing") : t("checkout.payWithMercadoPago")}
       </Button>
       <p className="text-[10px] text-center text-muted-foreground">
         {t("checkout.secure")}
