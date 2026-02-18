@@ -2,6 +2,8 @@
 
 A React application built with Vite, TypeScript, and Tailwind CSS.
 
+**Creator**: kame-house
+
 ## Technologies
 
 This project is built with:
