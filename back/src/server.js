@@ -31,7 +31,8 @@ const parseBody = async (req) => {
   return raw ? JSON.parse(raw) : {};
 };
 
-const isNonEmptyString = (value) => typeof value === "string" && value.trim().length > 0;
+const isNonEmptyString = (value) =>
+  typeof value === "string" && value.trim().length > 0;
 
 const validateCheckoutPayload = (payload) => {
   if (!payload || typeof payload !== "object") return "Payload inválido.";
@@ -48,7 +49,10 @@ const validateCheckoutPayload = (payload) => {
   if (!payload.shipping || typeof payload.shipping !== "object") {
     return "Faltan datos de envío.";
   }
-  if (!isNonEmptyString(payload.shipping.city) || !isNonEmptyString(payload.shipping.department)) {
+  if (
+    !isNonEmptyString(payload.shipping.city) ||
+    !isNonEmptyString(payload.shipping.department)
+  ) {
     return "Datos de envío incompletos.";
   }
   return null;
@@ -78,7 +82,7 @@ const verifyWebhookSignature = (req, body, queryString) => {
     // If secret is not set or is still a path (old config), skip validation
     // Log warning but don't block (for development/backward compatibility)
     console.warn(
-      "[Webhook] MERCADOPAGO_WEBHOOK_SECRET not configured properly. Webhook signature validation skipped."
+      "[Webhook] MERCADOPAGO_WEBHOOK_SECRET not configured properly. Webhook signature validation skipped.",
     );
     return true;
   }
@@ -158,7 +162,10 @@ const server = http.createServer(async (req, res) => {
         price: Number(item.price),
         quantity: Number(item.quantity),
       }));
-      const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+      const subtotal = items.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0,
+      );
       const total = subtotal + shippingCost;
 
       const order = await createOrder({
@@ -236,9 +243,12 @@ const server = http.createServer(async (req, res) => {
     ) {
       const body = req.method === "POST" ? await parseBody(req) : {};
       const queryString = url.searchParams.toString();
-      
+
       // Verify webhook signature for POST requests (MP sends POST for webhooks)
-      if (req.method === "POST" && !verifyWebhookSignature(req, body, queryString)) {
+      if (
+        req.method === "POST" &&
+        !verifyWebhookSignature(req, body, queryString)
+      ) {
         console.error("[Webhook] Invalid signature, rejecting request");
         json(res, 401, { message: "Invalid webhook signature" });
         return;
@@ -250,13 +260,6 @@ const server = http.createServer(async (req, res) => {
         body?.data?.id ||
         url.searchParams.get("id");
 
-      console.log("[Webhook] Received notification", {
-        topic,
-        paymentId,
-        method: req.method,
-        requestId: req.headers["x-request-id"],
-      });
-
       if (topic !== "payment" || !paymentId) {
         json(res, 200, { ok: true });
         return;
@@ -266,14 +269,19 @@ const server = http.createServer(async (req, res) => {
       try {
         payment = await getPaymentById(paymentId);
       } catch (error) {
-        console.error("[Webhook] Failed to fetch payment", { paymentId, error: error.message });
+        console.error("[Webhook] Failed to fetch payment", {
+          paymentId,
+          error: error.message,
+        });
         json(res, 200, { ok: true }); // Return 200 to prevent MP retries on our errors
         return;
       }
 
       const externalReference = payment.external_reference;
       if (!externalReference) {
-        console.warn("[Webhook] Payment missing external_reference", { paymentId });
+        console.warn("[Webhook] Payment missing external_reference", {
+          paymentId,
+        });
         json(res, 200, { ok: true });
         return;
       }
@@ -299,12 +307,6 @@ const server = http.createServer(async (req, res) => {
             paidAt: payment.date_approved || null,
           },
         }));
-
-        console.log("[Webhook] Order updated successfully", {
-          orderId: order.id,
-          paymentId,
-          status: payment.status,
-        });
       } catch (error) {
         console.error("[Webhook] Failed to update order", {
           orderId: order.id,
@@ -323,9 +325,7 @@ const server = http.createServer(async (req, res) => {
     console.error(error);
     json(res, 500, {
       message:
-        error instanceof Error
-          ? error.message
-          : "Error interno del servidor.",
+        error instanceof Error ? error.message : "Error interno del servidor.",
     });
   }
 });

@@ -91,7 +91,6 @@ const createPreference = async ({
 
   try {
     const response = await getPreference().create({ body: payload });
-    console.log("Preference created:", response);
     return response;
   } catch (error) {
     // Handle SDK errors
@@ -115,7 +114,6 @@ const createPreference = async ({
 const getPaymentById = async (paymentId) => {
   try {
     const response = await getPayment().get({ id: paymentId });
-    console.log("Payment retrieved:", response);
     return response;
   } catch (error) {
     // Handle SDK errors
