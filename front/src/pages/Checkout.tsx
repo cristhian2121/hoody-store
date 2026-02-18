@@ -50,7 +50,6 @@ const Checkout = () => {
 
     setProcessing(true);
     try {
-      const baseUrl = window.location.origin;
       await createCheckoutSession({
         items: items.map((item) => ({
           productId: item.productId,
@@ -77,8 +76,6 @@ const Checkout = () => {
           department: selectedCity.department,
           zip,
         },
-        successUrl: `${baseUrl}/checkout/success`,
-        cancelUrl: `${baseUrl}/checkout/cancel`,
       });
     } catch (error) {
       console.error(error);

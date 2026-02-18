@@ -1,4 +1,5 @@
-const MERCADOPAGO_API_URL = "https://api.mercadopago.com";
+// Mercado Pago SDK
+import { MercadoPagoConfig, Preference, Payment } from "mercadopago";
 
 const requiredEnv = (name) => {
   const value = process.env[name];
@@ -8,34 +9,37 @@ const requiredEnv = (name) => {
   return value;
 };
 
-const mpRequest = async (pathname, options = {}) => {
-  const token = requiredEnv("MERCADOPAGO_ACCESS_TOKEN");
-  const res = await fetch(`${MERCADOPAGO_API_URL}${pathname}`, {
-    ...options,
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-      ...(options.headers || {}),
-    },
-  });
+// Lazy initialization - initialize SDK clients on first use
+// This ensures environment variables are loaded before accessing them
+let _preference = null;
+let _payment = null;
 
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) {
-    const message = data.message || data.error || "Mercado Pago API request failed";
-    throw new Error(message);
+const getPreference = () => {
+  if (!_preference) {
+    const accessToken = requiredEnv("MERCADOPAGO_ACCESS_TOKEN");
+    const client = new MercadoPagoConfig({ accessToken });
+    _preference = new Preference(client);
   }
-  return data;
+  return _preference;
+};
+
+const getPayment = () => {
+  if (!_payment) {
+    const accessToken = requiredEnv("MERCADOPAGO_ACCESS_TOKEN");
+    const client = new MercadoPagoConfig({ accessToken });
+    _payment = new Payment(client);
+  }
+  return _payment;
 };
 
 const sanitizeUnitPrice = (value) => Number(Number(value).toFixed(2));
 
-export const createPreference = async ({
+const createPreference = async ({
   orderId,
   customer,
   items,
   shippingCost,
-  successUrl,
-  cancelUrl,
+  frontendUrl,
   notificationUrl,
 }) => {
   const preferenceItems = items.map((item) => ({
@@ -60,6 +64,14 @@ export const createPreference = async ({
     });
   }
 
+  // Build back_urls from frontendUrl (must be HTTPS per MP policy since May 2025)
+  const baseUrl = frontendUrl.replace(/\/$/, ""); // Remove trailing slash
+  const backUrls = {
+    success: `${baseUrl}/checkout/success`,
+    failure: `${baseUrl}/checkout/cancel`,
+    pending: `${baseUrl}/checkout/pending`,
+  };
+
   const payload = {
     external_reference: orderId,
     statement_descriptor: "ATUESTAMPA",
@@ -71,21 +83,55 @@ export const createPreference = async ({
       phone: { number: customer.phone },
     },
     metadata: { orderId },
-    back_urls: {
-      success: successUrl,
-      failure: cancelUrl,
-      pending: cancelUrl,
-    },
-    auto_return: "approved",
+    back_urls: backUrls,
+    // Only include auto_return if frontendUrl is HTTPS (required by MP)
+    ...(frontendUrl.startsWith("https://") && { auto_return: "approved" }),
     notification_url: notificationUrl,
   };
 
-  return mpRequest("/checkout/preferences", {
-    method: "POST",
-    body: JSON.stringify(payload),
-  });
+  try {
+    const response = await getPreference().create({ body: payload });
+    return response;
+  } catch (error) {
+    // Handle SDK errors
+    const errorMessage =
+      error.message ||
+      error.cause?.[0]?.description ||
+      "Failed to create payment preference";
+    const errorDetails = {
+      message: errorMessage,
+      ...(error.cause && { cause: error.cause }),
+      ...(error.status && { status: error.status }),
+    };
+    console.error(
+      "[Mercado Pago SDK Error]",
+      JSON.stringify(errorDetails, null, 2),
+    );
+    throw new Error(errorMessage);
+  }
 };
 
-export const getPaymentById = async (paymentId) => {
-  return mpRequest(`/v1/payments/${paymentId}`, { method: "GET" });
+const getPaymentById = async (paymentId) => {
+  try {
+    const response = await getPayment().get({ id: paymentId });
+    return response;
+  } catch (error) {
+    // Handle SDK errors
+    const errorMessage =
+      error.message ||
+      error.cause?.[0]?.description ||
+      "Failed to retrieve payment";
+    const errorDetails = {
+      message: errorMessage,
+      ...(error.cause && { cause: error.cause }),
+      ...(error.status && { status: error.status }),
+    };
+    console.error(
+      "[Mercado Pago SDK Error]",
+      JSON.stringify(errorDetails, null, 2),
+    );
+    throw new Error(errorMessage);
+  }
 };
+
+export { createPreference, getPaymentById };
