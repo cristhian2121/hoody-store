@@ -1,5 +1,5 @@
 import http from "node:http";
-import { randomUUID } from "node:crypto";
+import { randomUUID, createHmac } from "node:crypto";
 import { createPreference, getPaymentById } from "./services/mercadopago.js";
 import {
   createOrder,
@@ -51,9 +51,6 @@ const validateCheckoutPayload = (payload) => {
   if (!isNonEmptyString(payload.shipping.city) || !isNonEmptyString(payload.shipping.department)) {
     return "Datos de envío incompletos.";
   }
-  if (!isNonEmptyString(payload.successUrl) || !isNonEmptyString(payload.cancelUrl)) {
-    return "Faltan URLs de retorno.";
-  }
   return null;
 };
 
@@ -73,6 +70,54 @@ const statusFromMercadoPago = (paymentStatus) => {
     default:
       return "payment_unknown";
   }
+};
+
+const verifyWebhookSignature = (req, body, queryString) => {
+  const webhookSecret = process.env.MERCADOPAGO_WEBHOOK_SECRET;
+  if (!webhookSecret || webhookSecret.startsWith("/")) {
+    // If secret is not set or is still a path (old config), skip validation
+    // Log warning but don't block (for development/backward compatibility)
+    console.warn(
+      "[Webhook] MERCADOPAGO_WEBHOOK_SECRET not configured properly. Webhook signature validation skipped."
+    );
+    return true;
+  }
+
+  const signature = req.headers["x-signature"];
+  const requestId = req.headers["x-request-id"];
+
+  if (!signature) {
+    console.warn("[Webhook] Missing x-signature header");
+    return false;
+  }
+
+  // Mercado Pago sends signature as: sha256=hash
+  const parts = signature.split("=");
+  if (parts.length !== 2 || parts[0] !== "sha256") {
+    console.warn("[Webhook] Invalid signature format");
+    return false;
+  }
+
+  const receivedHash = parts[1];
+
+  // Build the data string: request_id + query_string + body
+  const dataToSign = `${requestId || ""}${queryString}${JSON.stringify(body)}`;
+
+  // Compute HMAC-SHA256
+  const computedHash = createHmac("sha256", webhookSecret)
+    .update(dataToSign)
+    .digest("hex");
+
+  const isValid = computedHash === receivedHash;
+  if (!isValid) {
+    console.error("[Webhook] Signature validation failed", {
+      receivedHash: receivedHash.substring(0, 16) + "...",
+      computedHash: computedHash.substring(0, 16) + "...",
+      requestId,
+    });
+  }
+
+  return isValid;
 };
 
 const server = http.createServer(async (req, res) => {
@@ -142,8 +187,7 @@ const server = http.createServer(async (req, res) => {
         customer: body.customer,
         items,
         shippingCost,
-        successUrl: body.successUrl,
-        cancelUrl: body.cancelUrl,
+        frontendUrl: FRONTEND_URL,
         notificationUrl: `${BACKEND_URL}/api/payments/mercadopago/webhook`,
       });
 
@@ -191,43 +235,84 @@ const server = http.createServer(async (req, res) => {
       url.pathname === "/api/payments/mercadopago/webhook"
     ) {
       const body = req.method === "POST" ? await parseBody(req) : {};
+      const queryString = url.searchParams.toString();
+      
+      // Verify webhook signature for POST requests (MP sends POST for webhooks)
+      if (req.method === "POST" && !verifyWebhookSignature(req, body, queryString)) {
+        console.error("[Webhook] Invalid signature, rejecting request");
+        json(res, 401, { message: "Invalid webhook signature" });
+        return;
+      }
+
       const topic = url.searchParams.get("topic") || body.type;
       const paymentId =
         url.searchParams.get("data.id") ||
         body?.data?.id ||
         url.searchParams.get("id");
 
+      console.log("[Webhook] Received notification", {
+        topic,
+        paymentId,
+        method: req.method,
+        requestId: req.headers["x-request-id"],
+      });
+
       if (topic !== "payment" || !paymentId) {
         json(res, 200, { ok: true });
         return;
       }
 
-      const payment = await getPaymentById(paymentId);
+      let payment;
+      try {
+        payment = await getPaymentById(paymentId);
+      } catch (error) {
+        console.error("[Webhook] Failed to fetch payment", { paymentId, error: error.message });
+        json(res, 200, { ok: true }); // Return 200 to prevent MP retries on our errors
+        return;
+      }
+
       const externalReference = payment.external_reference;
       if (!externalReference) {
+        console.warn("[Webhook] Payment missing external_reference", { paymentId });
         json(res, 200, { ok: true });
         return;
       }
 
       const order = await getOrderByExternalReference(externalReference);
       if (!order) {
+        console.warn("[Webhook] Order not found", { externalReference });
         json(res, 200, { ok: true });
         return;
       }
 
-      await updateOrder(order.id, (current) => ({
-        ...current,
-        updatedAt: new Date().toISOString(),
-        status: statusFromMercadoPago(payment.status),
-        payment: {
-          ...(current.payment || {}),
-          provider: "mercadopago",
-          paymentId: String(payment.id),
+      try {
+        await updateOrder(order.id, (current) => ({
+          ...current,
+          updatedAt: new Date().toISOString(),
+          status: statusFromMercadoPago(payment.status),
+          payment: {
+            ...(current.payment || {}),
+            provider: "mercadopago",
+            paymentId: String(payment.id),
+            status: payment.status,
+            statusDetail: payment.status_detail,
+            paidAt: payment.date_approved || null,
+          },
+        }));
+
+        console.log("[Webhook] Order updated successfully", {
+          orderId: order.id,
+          paymentId,
           status: payment.status,
-          statusDetail: payment.status_detail,
-          paidAt: payment.date_approved || null,
-        },
-      }));
+        });
+      } catch (error) {
+        console.error("[Webhook] Failed to update order", {
+          orderId: order.id,
+          paymentId,
+          error: error.message,
+        });
+        // Still return 200 to prevent MP retries on our errors
+      }
 
       json(res, 200, { ok: true });
       return;

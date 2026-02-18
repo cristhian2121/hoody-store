@@ -30,8 +30,6 @@ interface CreateCheckoutSessionParams {
     department: string;
     zip?: string;
   };
-  successUrl: string;
-  cancelUrl: string;
 }
 
 export const createCheckoutSession = async ({
@@ -39,8 +37,6 @@ export const createCheckoutSession = async ({
   customer,
   shippingCost,
   shipping,
-  successUrl,
-  cancelUrl,
 }: CreateCheckoutSessionParams): Promise<void> => {
   if (!API_URL) {
     throw new Error(
@@ -56,8 +52,6 @@ export const createCheckoutSession = async ({
       customer,
       shippingCost,
       shipping,
-      successUrl,
-      cancelUrl,
     }),
   });
 

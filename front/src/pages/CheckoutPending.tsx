@@ -1,9 +1,9 @@
 import { Link, useSearchParams } from "react-router-dom";
-import { AlertTriangle, ArrowLeft } from "lucide-react";
+import { Clock, ArrowLeft } from "lucide-react";
 import { useLanguage } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 
-const CheckoutCancel = () => {
+const CheckoutPending = () => {
   const { t } = useLanguage();
   const [searchParams] = useSearchParams();
 
@@ -15,14 +15,17 @@ const CheckoutCancel = () => {
 
   return (
     <div className="container py-20 text-center space-y-6">
-      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-red-500/10 text-destructive">
-        <AlertTriangle className="h-8 w-8" />
+      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-yellow-500/20 text-yellow-600 dark:text-yellow-500">
+        <Clock className="h-8 w-8" />
       </div>
-      <h1 className="text-2xl font-bold">{t("checkout.cancel.title")}</h1>
-      <p className="text-muted-foreground">{t("checkout.cancel.message")}</p>
+      <h1 className="text-2xl font-bold">{t("checkout.pending.title")}</h1>
+      <p className="text-muted-foreground">{t("checkout.pending.message")}</p>
+      <p className="text-sm text-muted-foreground max-w-md mx-auto">
+        {t("checkout.pending.instructions")}
+      </p>
 
-      {/* Display MP return parameters for debugging */}
-      {(paymentId || externalReference || merchantOrderId || status) && (
+      {/* Display MP return parameters for debugging/verification */}
+      {(paymentId || externalReference || merchantOrderId) && (
         <div className="mt-8 p-4 bg-muted rounded-lg text-left max-w-md mx-auto space-y-2 text-sm">
           {externalReference && (
             <div>
@@ -49,17 +52,14 @@ const CheckoutCancel = () => {
 
       <div className="flex justify-center gap-3">
         <Button asChild>
-          <Link to="/checkout" className="inline-flex items-center gap-1">
+          <Link to="/" className="inline-flex items-center gap-1">
             <ArrowLeft className="h-4 w-4" />
-            {t("checkout.retry")}
+            {t("cart.continue")}
           </Link>
-        </Button>
-        <Button variant="outline" asChild>
-          <Link to="/">{t("cart.continue")}</Link>
         </Button>
       </div>
     </div>
   );
 };
 
-export default CheckoutCancel;
+export default CheckoutPending;
