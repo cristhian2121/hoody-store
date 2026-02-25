@@ -39,7 +39,7 @@ describe("OrdersService", () => {
 
     service = module.get<OrdersService>(OrdersService);
     orderRepository = module.get("OrderRepository");
-    paymentsService = module.get<PaymentsService>(PaymentsService);
+    paymentsService = module.get<PaymentsService>(PaymentsService) as jest.Mocked<PaymentsService>;
   });
 
   it("should be defined", () => {

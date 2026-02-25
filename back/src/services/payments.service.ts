@@ -19,7 +19,16 @@ export class PaymentsService {
   }: {
     orderId: string;
     customer: { firstName: string; lastName: string; email: string; phone: string };
-    items: Array<{ price: number; quantity: number; [key: string]: any }>;
+    items: Array<{
+      productId: string;
+      name: string;
+      price: number;
+      quantity: number;
+      description?: string;
+      image?: string;
+      category?: string;
+      size?: string;
+    }>;
     shippingCost: number;
   }) {
     const frontendUrl = this.configService.get<string>("FRONTEND_URL") || "http://localhost:8080";
@@ -55,15 +64,18 @@ export class PaymentsService {
     }
 
     // Map Mercado Pago status to internal status
+    if (!payment.status) {
+      throw new Error("Payment missing status");
+    }
     const status = this.mapMercadoPagoStatus(payment.status);
 
     // Update order
     const updatedOrder = await this.orderRepository.update(order.id, (current) => ({
       ...current,
-      updatedAt: new Date().toISOString(),
+      updatedAt: new Date(),
       status,
       payment: {
-        ...(current.payment || {}),
+        ...((current.payment as Record<string, unknown>) || {}),
         provider: "mercadopago",
         paymentId: String(payment.id),
         status: payment.status,

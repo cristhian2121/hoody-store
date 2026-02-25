@@ -24,3 +24,43 @@ model Order {
 
   @@map("orders")
 }
+
+model Country {
+  id        String   @id @default(uuid())
+  code      String   @unique
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("countries")
+}
+
+model Department {
+  id          String   @id @default(uuid())
+  countryCode String   @map("country_code")
+  countryName String   @map("country_name")
+  code        String
+  name        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([countryCode, code])
+  @@index([name])
+  @@index([countryCode])
+  @@map("departments")
+}
+
+model City {
+  id             String   @id @default(uuid())
+  departmentCode String   @map("department_code")
+  departmentName String   @map("department_name")
+  code           String
+  name           String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@unique([departmentCode, code])
+  @@index([name])
+  @@index([departmentCode])
+  @@map("cities")
+}

@@ -3,6 +3,7 @@ import { ValidationPipe } from "@nestjs/common";
 import { AppModule } from "./app.module";
 import { execSync } from "node:child_process";
 import { PrismaService } from "./prisma/prisma.service";
+import { setupSwagger } from "./config/swagger";
 
 /**
  * Run Prisma migrations
@@ -68,6 +69,8 @@ async function bootstrap() {
         transform: true,
       }),
     );
+
+    setupSwagger(app);
 
     const port = process.env.PORT || 4242;
     await app.listen(port);

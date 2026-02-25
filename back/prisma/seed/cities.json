@@ -1,0 +1,5597 @@
+[
+  {
+    "department_name": "AMAZONAS",
+    "code": "91263",
+    "name": "El Encanto"
+  },
+  {
+    "department_name": "AMAZONAS",
+    "code": "91405",
+    "name": "La Chorrera"
+  },
+  {
+    "department_name": "AMAZONAS",
+    "code": "91407",
+    "name": "La Pedrera"
+  },
+  {
+    "department_name": "AMAZONAS",
+    "code": "91430",
+    "name": "La Victoria"
+  },
+  {
+    "department_name": "AMAZONAS",
+    "code": "91001",
+    "name": "Leticia"
+  },
+  {
+    "department_name": "AMAZONAS",
+    "code": "91460",
+    "name": "Miriti - Paraná"
+  },
+  {
+    "department_name": "AMAZONAS",
+    "code": "91530",
+    "name": "Puerto Alegria"
+  },
+  {
+    "department_name": "AMAZONAS",
+    "code": "91536",
+    "name": "Puerto Arica"
+  },
+  {
+    "department_name": "AMAZONAS",
+    "code": "91540",
+    "name": "Puerto Nariño"
+  },
+  {
+    "department_name": "AMAZONAS",
+    "code": "91669",
+    "name": "Puerto Santander"
+  },
+  {
+    "department_name": "AMAZONAS",
+    "code": "91798",
+    "name": "Tarapacá"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05120",
+    "name": "Cáceres"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05154",
+    "name": "Caucasia"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05250",
+    "name": "El Bagre"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05495",
+    "name": "Nechí"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05790",
+    "name": "Tarazá"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05895",
+    "name": "Zaragoza"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05142",
+    "name": "Caracolí"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05425",
+    "name": "Maceo"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05579",
+    "name": "Puerto Berrio"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05585",
+    "name": "Puerto Nare"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05591",
+    "name": "Puerto Triunfo"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05893",
+    "name": "Yondó"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05031",
+    "name": "Amalfi"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05040",
+    "name": "Anorí"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05190",
+    "name": "Cisneros"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05604",
+    "name": "Remedios"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05670",
+    "name": "San Roque"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05690",
+    "name": "Santo Domingo"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05736",
+    "name": "Segovia"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05858",
+    "name": "Vegachí"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05885",
+    "name": "Yalí"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05890",
+    "name": "Yolombó"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05038",
+    "name": "Angostura"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05086",
+    "name": "Belmira"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05107",
+    "name": "Briceño"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05134",
+    "name": "Campamento"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05150",
+    "name": "Carolina"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05237",
+    "name": "Don Matias"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05264",
+    "name": "Entrerrios"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05310",
+    "name": "Gómez Plata"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05315",
+    "name": "Guadalupe"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05361",
+    "name": "Ituango"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05647",
+    "name": "San Andrés"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05658",
+    "name": "José De La Montaña"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05664",
+    "name": "San Pedro"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05686",
+    "name": "Santa Rosa De Osos"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05819",
+    "name": "Toledo"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05854",
+    "name": "Valdivia"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05887",
+    "name": "Yarumal"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05004",
+    "name": "Abriaquí"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05044",
+    "name": "Anza"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05059",
+    "name": "Armenia"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05113",
+    "name": "Buriticá"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05138",
+    "name": "Cañasgordas"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05234",
+    "name": "Dabeiba"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05240",
+    "name": "Ebéjico"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05284",
+    "name": "Frontino"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05306",
+    "name": "Giraldo"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05347",
+    "name": "Heliconia"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05411",
+    "name": "Liborina"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05501",
+    "name": "Olaya"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05543",
+    "name": "Peque"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05628",
+    "name": "Sabanalarga"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05656",
+    "name": "San Jerónimo"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05042",
+    "name": "De Antioquia"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05761",
+    "name": "Sopetran"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05842",
+    "name": "Uramita"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05002",
+    "name": "Abejorral"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05021",
+    "name": "Alejandría"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05055",
+    "name": "Argelia"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05148",
+    "name": "Carmen De Viboral"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05197",
+    "name": "Cocorná"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05206",
+    "name": "Concepción"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05313",
+    "name": "Granada"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05318",
+    "name": "Guarne"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05321",
+    "name": "Guatape"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05376",
+    "name": "La Ceja"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05400",
+    "name": "La Unión"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05440",
+    "name": "Marinilla"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05483",
+    "name": "Nariño"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05541",
+    "name": "Peñol"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05607",
+    "name": "Retiro"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05615",
+    "name": "Rionegro"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05649",
+    "name": "San Carlos"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05652",
+    "name": "San Francisco"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05660",
+    "name": "San Luis"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05667",
+    "name": "San Rafael"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05674",
+    "name": "San Vicente"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05697",
+    "name": "Santuario"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05756",
+    "name": "Sonson"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05030",
+    "name": "Amaga"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05034",
+    "name": "Andes"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05036",
+    "name": "Angelopolis"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05091",
+    "name": "Betania"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05093",
+    "name": "Betulia"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05125",
+    "name": "Caicedo"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05145",
+    "name": "Caramanta"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05101",
+    "name": "Ciudad Bolívar"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05209",
+    "name": "Concordia"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05282",
+    "name": "Fredonia"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05353",
+    "name": "Hispania"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05364",
+    "name": "Jardín"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05368",
+    "name": "Jericó"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05390",
+    "name": "La Pintada"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05467",
+    "name": "Montebello"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05576",
+    "name": "Pueblorrico"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05642",
+    "name": "Salgar"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05679",
+    "name": "Santa Barbara"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05789",
+    "name": "Támesis"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05792",
+    "name": "Tarso"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05809",
+    "name": "Titiribí"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05847",
+    "name": "Urrao"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05856",
+    "name": "Valparaiso"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05861",
+    "name": "Venecia"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05045",
+    "name": "Apartadó"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05051",
+    "name": "Arboletes"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05147",
+    "name": "Carepa"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05172",
+    "name": "Chigorodó"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05475",
+    "name": "Murindó"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05480",
+    "name": "Mutata"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05490",
+    "name": "Necoclí"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05659",
+    "name": "San Juan De Uraba"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05665",
+    "name": "San Pedro De Uraba"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05837",
+    "name": "Turbo"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05873",
+    "name": "Vigía Del Fuerte"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05079",
+    "name": "Barbosa"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05088",
+    "name": "Bello"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05129",
+    "name": "Caldas"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05212",
+    "name": "Copacabana"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05266",
+    "name": "Envigado"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05308",
+    "name": "Girardota"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05360",
+    "name": "Itagui"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05380",
+    "name": "La Estrella"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05001",
+    "name": "Medellín"
+  },
+  {
+    "department_name": "ANTIOQUIA",
+    "code": "05631",
+    "name": "Sabaneta"
+  },
+  {
+    "department_name": "ARAUCA",
+    "code": "81001",
+    "name": "Arauca"
+  },
+  {
+    "department_name": "ARAUCA",
+    "code": "81065",
+    "name": "Arauquita"
+  },
+  {
+    "department_name": "ARAUCA",
+    "code": "81220",
+    "name": "Cravo Norte"
+  },
+  {
+    "department_name": "ARAUCA",
+    "code": "81300",
+    "name": "Fortul"
+  },
+  {
+    "department_name": "ARAUCA",
+    "code": "81591",
+    "name": "Puerto Rondón"
+  },
+  {
+    "department_name": "ARAUCA",
+    "code": "81736",
+    "name": "Saravena"
+  },
+  {
+    "department_name": "ARAUCA",
+    "code": "81794",
+    "name": "Tame"
+  },
+  {
+    "department_name": "ARCHIPIÉLAGO DE SAN ANDRÉS, PROVIDENCIA Y SANTA CATALINA",
+    "code": "88564",
+    "name": "CProvidencia Y Santa Catalina"
+  },
+  {
+    "department_name": "ARCHIPIÉLAGO DE SAN ANDRÉS, PROVIDENCIA Y SANTA CATALINA",
+    "code": "88001",
+    "name": "San Andres"
+  },
+  {
+    "department_name": "ATLÁNTICO",
+    "code": "08001",
+    "name": "Barranquilla"
+  },
+  {
+    "department_name": "ATLÁNTICO",
+    "code": "08296",
+    "name": "Galapa"
+  },
+  {
+    "department_name": "ATLÁNTICO",
+    "code": "08433",
+    "name": "Malambo"
+  },
+  {
+    "department_name": "ATLÁNTICO",
+    "code": "08573",
+    "name": "Puerto Colombia"
+  },
+  {
+    "department_name": "ATLÁNTICO",
+    "code": "08758",
+    "name": "Soledad"
+  },
+  {
+    "department_name": "ATLÁNTICO",
+    "code": "08137",
+    "name": "Campo De La Cruz"
+  },
+  {
+    "department_name": "ATLÁNTICO",
+    "code": "08141",
+    "name": "Candelaria"
+  },
+  {
+    "department_name": "ATLÁNTICO",
+    "code": "08421",
+    "name": "Luruaco"
+  },
+  {
+    "department_name": "ATLÁNTICO",
+    "code": "08436",
+    "name": "Manati"
+  },
+  {
+    "department_name": "ATLÁNTICO",
+    "code": "08606",
+    "name": "Repelon"
+  },
+  {
+    "department_name": "ATLÁNTICO",
+    "code": "08675",
+    "name": "Santa Lucia"
+  },
+  {
+    "department_name": "ATLÁNTICO",
+    "code": "08770",
+    "name": "Suan"
+  },
+  {
+    "department_name": "ATLÁNTICO",
+    "code": "08078",
+    "name": "Baranoa"
+  },
+  {
+    "department_name": "ATLÁNTICO",
+    "code": "08520",
+    "name": "Palmar De Varela"
+  },
+  {
+    "department_name": "ATLÁNTICO",
+    "code": "08558",
+    "name": "Polonuevo"
+  },
+  {
+    "department_name": "ATLÁNTICO",
+    "code": "08560",
+    "name": "Ponedera"
+  },
+  {
+    "department_name": "ATLÁNTICO",
+    "code": "08634",
+    "name": "Sabanagrande"
+  },
+  {
+    "department_name": "ATLÁNTICO",
+    "code": "08638",
+    "name": "Sabanalarga"
+  },
+  {
+    "department_name": "ATLÁNTICO",
+    "code": "08685",
+    "name": "Santo Tomas"
+  },
+  {
+    "department_name": "ATLÁNTICO",
+    "code": "08372",
+    "name": "Juan De Acosta"
+  },
+  {
+    "department_name": "ATLÁNTICO",
+    "code": "08549",
+    "name": "Piojó"
+  },
+  {
+    "department_name": "ATLÁNTICO",
+    "code": "08832",
+    "name": "Tubara"
+  },
+  {
+    "department_name": "ATLÁNTICO",
+    "code": "08849",
+    "name": "Usiacuri"
+  },
+  {
+    "department_name": "BOGOTÁ D.C.",
+    "code": "11001",
+    "name": "Bogota D.C."
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13188",
+    "name": "Cicuco"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13300",
+    "name": "Hatillo De Loba"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13440",
+    "name": "Margarita"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13468",
+    "name": "Mompós"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13650",
+    "name": "San Fernando"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13780",
+    "name": "Talaigua Nuevo"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13052",
+    "name": "Arjona"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13062",
+    "name": "Arroyohondo"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13140",
+    "name": "Calamar"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13001",
+    "name": "Cartagena"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13222",
+    "name": "Clemencia"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13433",
+    "name": "Mahates"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13620",
+    "name": "San Cristobal"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13647",
+    "name": "San Estanislao"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13673",
+    "name": "Santa Catalina"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13683",
+    "name": "Santa Rosa De Lima"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13760",
+    "name": "Soplaviento"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13836",
+    "name": "Turbaco"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13838",
+    "name": "Turbana"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13873",
+    "name": "Villanueva"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13030",
+    "name": "Altos Del Rosario"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13074",
+    "name": "Barranco De Loba"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13268",
+    "name": "El Peñon"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13580",
+    "name": "Regidor"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13600",
+    "name": "Río Viejo"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13667",
+    "name": "San Martin De Loba"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13042",
+    "name": "Arenal"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13160",
+    "name": "Cantagallo"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13473",
+    "name": "Morales"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13670",
+    "name": "San Pablo"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13688",
+    "name": "Santa Rosa Del Sur"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13744",
+    "name": "Simití"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13006",
+    "name": "Achí"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13430",
+    "name": "Magangué"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13458",
+    "name": "Montecristo"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13549",
+    "name": "Pinillos"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13655",
+    "name": "Jacinto Del Cauca"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13810",
+    "name": "Tiquisio"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13244",
+    "name": "Carmen De Bolívar"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13212",
+    "name": "Córdoba"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13248",
+    "name": "El Guamo"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13442",
+    "name": "María La Baja"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13654",
+    "name": "San Jacinto"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13657",
+    "name": "Juan Nepomuceno"
+  },
+  {
+    "department_name": "BOLÍVAR",
+    "code": "13894",
+    "name": "Zambrano"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15232",
+    "name": "Chíquiza"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15187",
+    "name": "Chivatá"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15204",
+    "name": "Cómbita"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15224",
+    "name": "Cucaita"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15476",
+    "name": "Motavita"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15500",
+    "name": "Oicatá"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15646",
+    "name": "Samacá"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15740",
+    "name": "Siachoque"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15762",
+    "name": "Sora"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15764",
+    "name": "Soracá"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15763",
+    "name": "Sotaquirá"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15814",
+    "name": "Toca"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15001",
+    "name": "Tunja"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15837",
+    "name": "Tuta"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15861",
+    "name": "Ventaquemada"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15180",
+    "name": "Chiscas"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15223",
+    "name": "Cubará"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15244",
+    "name": "El Cocuy"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15248",
+    "name": "El Espino"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15317",
+    "name": "Guacamayas"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15332",
+    "name": "Güicán"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15522",
+    "name": "Panqueba"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15377",
+    "name": "Labranzagrande"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15518",
+    "name": "Pajarito"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15533",
+    "name": "Paya"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15550",
+    "name": "Pisba"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15090",
+    "name": "Berbeo"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15135",
+    "name": "Campohermoso"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15455",
+    "name": "Miraflores"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15514",
+    "name": "Páez"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15660",
+    "name": "San Eduardo"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15897",
+    "name": "Zetaquira"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15104",
+    "name": "Boyacá"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15189",
+    "name": "Ciénega"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15367",
+    "name": "Jenesano"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15494",
+    "name": "Nuevo Colón"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15599",
+    "name": "Ramiriquí"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15621",
+    "name": "Rondón"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15804",
+    "name": "Tibaná"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15835",
+    "name": "Turmequé"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15842",
+    "name": "Umbita"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15879",
+    "name": "Viracachá"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15172",
+    "name": "Chinavita"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15299",
+    "name": "Garagoa"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15425",
+    "name": "Macanal"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15511",
+    "name": "Pachavita"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15667",
+    "name": "San Luis De Gaceno"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15690",
+    "name": "Santa María"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15097",
+    "name": "Boavita"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15218",
+    "name": "Covarachía"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15403",
+    "name": "La Uvita"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15673",
+    "name": "San Mateo"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15720",
+    "name": "Sativanorte"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15723",
+    "name": "Sativasur"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15753",
+    "name": "Soatá"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15774",
+    "name": "Susacón"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15810",
+    "name": "Tipacoque"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15106",
+    "name": "Briceño"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15109",
+    "name": "Buenavista"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15131",
+    "name": "Caldas"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15176",
+    "name": "Chiquinquirá"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15212",
+    "name": "Coper"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15401",
+    "name": "La Victoria"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15442",
+    "name": "Maripí"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15480",
+    "name": "Muzo"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15507",
+    "name": "Otanche"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15531",
+    "name": "Pauna"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15572",
+    "name": "Puerto Boyaca"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15580",
+    "name": "Quípama"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15632",
+    "name": "Saboyá"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15676",
+    "name": "San Miguel De Sema"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15681",
+    "name": "San Pablo Borbur"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15832",
+    "name": "Tununguá"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15022",
+    "name": "Almeida"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15236",
+    "name": "Chivor"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15322",
+    "name": "Guateque"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15325",
+    "name": "Guayatá"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15380",
+    "name": "La Capilla"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15761",
+    "name": "Somondoco"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15778",
+    "name": "Sutatenza"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15798",
+    "name": "Tenza"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15051",
+    "name": "Arcabuco"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15185",
+    "name": "Chitaraque"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15293",
+    "name": "Gachantivá"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15469",
+    "name": "Moniquirá"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15600",
+    "name": "Ráquira"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15638",
+    "name": "Sáchica"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15664",
+    "name": "San José De Pare"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15696",
+    "name": "Santa Sofía"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15686",
+    "name": "Santana"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15776",
+    "name": "Sutamarchán"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15808",
+    "name": "Tinjacá"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15816",
+    "name": "Togüí"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15407",
+    "name": "Villa De Leyva"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15047",
+    "name": "Aquitania"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15226",
+    "name": "Cuítiva"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15272",
+    "name": "Firavitoba"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15296",
+    "name": "Gameza"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15362",
+    "name": "Iza"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15464",
+    "name": "Mongua"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15466",
+    "name": "Monguí"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15491",
+    "name": "Nobsa"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15542",
+    "name": "Pesca"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15759",
+    "name": "Sogamoso"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15806",
+    "name": "Tibasosa"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15820",
+    "name": "Tópaga"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15822",
+    "name": "Tota"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15087",
+    "name": "Belén"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15114",
+    "name": "Busbanzá"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15162",
+    "name": "Cerinza"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15215",
+    "name": "Corrales"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15238",
+    "name": "Duitama"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15276",
+    "name": "Floresta"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15516",
+    "name": "Paipa"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15693",
+    "name": "San Rosa Viterbo"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15839",
+    "name": "Tutazá"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15092",
+    "name": "Betéitiva"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15183",
+    "name": "Chita"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15368",
+    "name": "Jericó"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15537",
+    "name": "Paz De Río"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15757",
+    "name": "Socha"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15755",
+    "name": "Socotá"
+  },
+  {
+    "department_name": "BOYACÁ",
+    "code": "15790",
+    "name": "Tasco"
+  },
+  {
+    "department_name": "CALDAS",
+    "code": "17272",
+    "name": "Filadelfia"
+  },
+  {
+    "department_name": "CALDAS",
+    "code": "17388",
+    "name": "La Merced"
+  },
+  {
+    "department_name": "CALDAS",
+    "code": "17442",
+    "name": "Marmato"
+  },
+  {
+    "department_name": "CALDAS",
+    "code": "17614",
+    "name": "Riosucio"
+  },
+  {
+    "department_name": "CALDAS",
+    "code": "17777",
+    "name": "Supía"
+  },
+  {
+    "department_name": "CALDAS",
+    "code": "17433",
+    "name": "Manzanares"
+  },
+  {
+    "department_name": "CALDAS",
+    "code": "17444",
+    "name": "Marquetalia"
+  },
+  {
+    "department_name": "CALDAS",
+    "code": "17446",
+    "name": "Marulanda"
+  },
+  {
+    "department_name": "CALDAS",
+    "code": "17541",
+    "name": "Pensilvania"
+  },
+  {
+    "department_name": "CALDAS",
+    "code": "17042",
+    "name": "Anserma"
+  },
+  {
+    "department_name": "CALDAS",
+    "code": "17088",
+    "name": "Belalcázar"
+  },
+  {
+    "department_name": "CALDAS",
+    "code": "17616",
+    "name": "Risaralda"
+  },
+  {
+    "department_name": "CALDAS",
+    "code": "17665",
+    "name": "San José"
+  },
+  {
+    "department_name": "CALDAS",
+    "code": "17877",
+    "name": "Viterbo"
+  },
+  {
+    "department_name": "CALDAS",
+    "code": "17174",
+    "name": "Chinchina"
+  },
+  {
+    "department_name": "CALDAS",
+    "code": "17001",
+    "name": "Manizales"
+  },
+  {
+    "department_name": "CALDAS",
+    "code": "17486",
+    "name": "Neira"
+  },
+  {
+    "department_name": "CALDAS",
+    "code": "17524",
+    "name": "Palestina"
+  },
+  {
+    "department_name": "CALDAS",
+    "code": "17873",
+    "name": "Villamaria"
+  },
+  {
+    "department_name": "CALDAS",
+    "code": "17013",
+    "name": "Aguadas"
+  },
+  {
+    "department_name": "CALDAS",
+    "code": "17050",
+    "name": "Aranzazu"
+  },
+  {
+    "department_name": "CALDAS",
+    "code": "17513",
+    "name": "Pácora"
+  },
+  {
+    "department_name": "CALDAS",
+    "code": "17653",
+    "name": "Salamina"
+  },
+  {
+    "department_name": "CALDAS",
+    "code": "17380",
+    "name": "La Dorada"
+  },
+  {
+    "department_name": "CALDAS",
+    "code": "17495",
+    "name": "Norcasia"
+  },
+  {
+    "department_name": "CALDAS",
+    "code": "17662",
+    "name": "Samaná"
+  },
+  {
+    "department_name": "CALDAS",
+    "code": "17867",
+    "name": "Victoria"
+  },
+  {
+    "department_name": "CAQUETÁ",
+    "code": "18029",
+    "name": "Albania"
+  },
+  {
+    "department_name": "CAQUETÁ",
+    "code": "18094",
+    "name": "De Los Andaquies"
+  },
+  {
+    "department_name": "CAQUETÁ",
+    "code": "18150",
+    "name": "Del Chairá"
+  },
+  {
+    "department_name": "CAQUETÁ",
+    "code": "18205",
+    "name": "Currillo"
+  },
+  {
+    "department_name": "CAQUETÁ",
+    "code": "18247",
+    "name": "El Doncello"
+  },
+  {
+    "department_name": "CAQUETÁ",
+    "code": "18256",
+    "name": "El Paujil"
+  },
+  {
+    "department_name": "CAQUETÁ",
+    "code": "18001",
+    "name": "Florencia"
+  },
+  {
+    "department_name": "CAQUETÁ",
+    "code": "18410",
+    "name": "La Montañita"
+  },
+  {
+    "department_name": "CAQUETÁ",
+    "code": "18460",
+    "name": "Milan"
+  },
+  {
+    "department_name": "CAQUETÁ",
+    "code": "18479",
+    "name": "Morelia"
+  },
+  {
+    "department_name": "CAQUETÁ",
+    "code": "18592",
+    "name": "Puerto Rico"
+  },
+  {
+    "department_name": "CAQUETÁ",
+    "code": "18610",
+    "name": "San Jose Del Fragua"
+  },
+  {
+    "department_name": "CAQUETÁ",
+    "code": "18753",
+    "name": "Vicente Del Caguán"
+  },
+  {
+    "department_name": "CAQUETÁ",
+    "code": "18756",
+    "name": "Solano"
+  },
+  {
+    "department_name": "CAQUETÁ",
+    "code": "18785",
+    "name": "Solita"
+  },
+  {
+    "department_name": "CAQUETÁ",
+    "code": "18860",
+    "name": "Valparaiso"
+  },
+  {
+    "department_name": "CASANARE",
+    "code": "85010",
+    "name": "Aguazul"
+  },
+  {
+    "department_name": "CASANARE",
+    "code": "85015",
+    "name": "Chameza"
+  },
+  {
+    "department_name": "CASANARE",
+    "code": "85125",
+    "name": "Hato Corozal"
+  },
+  {
+    "department_name": "CASANARE",
+    "code": "85136",
+    "name": "La Salina"
+  },
+  {
+    "department_name": "CASANARE",
+    "code": "85139",
+    "name": "Maní"
+  },
+  {
+    "department_name": "CASANARE",
+    "code": "85162",
+    "name": "Monterrey"
+  },
+  {
+    "department_name": "CASANARE",
+    "code": "85225",
+    "name": "Nunchía"
+  },
+  {
+    "department_name": "CASANARE",
+    "code": "85230",
+    "name": "Orocué"
+  },
+  {
+    "department_name": "CASANARE",
+    "code": "85250",
+    "name": "Paz De Ariporo"
+  },
+  {
+    "department_name": "CASANARE",
+    "code": "85263",
+    "name": "Pore"
+  },
+  {
+    "department_name": "CASANARE",
+    "code": "85279",
+    "name": "Recetor"
+  },
+  {
+    "department_name": "CASANARE",
+    "code": "85300",
+    "name": "Sabanalarga"
+  },
+  {
+    "department_name": "CASANARE",
+    "code": "85315",
+    "name": "Sácama"
+  },
+  {
+    "department_name": "CASANARE",
+    "code": "85325",
+    "name": "Luis De Palenque"
+  },
+  {
+    "department_name": "CASANARE",
+    "code": "85400",
+    "name": "Támara"
+  },
+  {
+    "department_name": "CASANARE",
+    "code": "85410",
+    "name": "Tauramena"
+  },
+  {
+    "department_name": "CASANARE",
+    "code": "85430",
+    "name": "Trinidad"
+  },
+  {
+    "department_name": "CASANARE",
+    "code": "85440",
+    "name": "Villanueva"
+  },
+  {
+    "department_name": "CASANARE",
+    "code": "85001",
+    "name": "Yopal"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19130",
+    "name": "Cajibío"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19256",
+    "name": "El Tambo"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19392",
+    "name": "La Sierra"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19473",
+    "name": "Morales"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19548",
+    "name": "Piendamo"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19001",
+    "name": "Popayán"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19622",
+    "name": "Rosas"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19760",
+    "name": "Sotara"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19807",
+    "name": "Timbio"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19110",
+    "name": "Buenos Aires"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19142",
+    "name": "Caloto"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19212",
+    "name": "Corinto"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19455",
+    "name": "Miranda"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19513",
+    "name": "Padilla"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19573",
+    "name": "Puerto Tejada"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19698",
+    "name": "De Quilichao"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19780",
+    "name": "Suarez"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19845",
+    "name": "Villa Rica"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19318",
+    "name": "Guapi"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19418",
+    "name": "Lopez"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19809",
+    "name": "Timbiqui"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19137",
+    "name": "Caldono"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19355",
+    "name": "Inzá"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19364",
+    "name": "Jambalo"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19517",
+    "name": "Paez"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19585",
+    "name": "Purace"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19743",
+    "name": "Silvia"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19821",
+    "name": "Toribio"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19824",
+    "name": "Totoro"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19022",
+    "name": "Almaguer"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19050",
+    "name": "Argelia"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19075",
+    "name": "Balboa"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19100",
+    "name": "Bolívar"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19290",
+    "name": "Florencia"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19397",
+    "name": "La Vega"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19450",
+    "name": "Mercaderes"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19532",
+    "name": "Patia"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19533",
+    "name": "Piamonte"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19693",
+    "name": "San Sebastian"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19701",
+    "name": "Santa Rosa"
+  },
+  {
+    "department_name": "CAUCA",
+    "code": "19785",
+    "name": "Sucre"
+  },
+  {
+    "department_name": "CESAR",
+    "code": "20045",
+    "name": "Becerril"
+  },
+  {
+    "department_name": "CESAR",
+    "code": "20175",
+    "name": "Chimichagua"
+  },
+  {
+    "department_name": "CESAR",
+    "code": "20178",
+    "name": "Chiriguana"
+  },
+  {
+    "department_name": "CESAR",
+    "code": "20228",
+    "name": "Curumaní"
+  },
+  {
+    "department_name": "CESAR",
+    "code": "20400",
+    "name": "La Jagua De Ibirico"
+  },
+  {
+    "department_name": "CESAR",
+    "code": "20517",
+    "name": "Pailitas"
+  },
+  {
+    "department_name": "CESAR",
+    "code": "20787",
+    "name": "Tamalameque"
+  },
+  {
+    "department_name": "CESAR",
+    "code": "20032",
+    "name": "Astrea"
+  },
+  {
+    "department_name": "CESAR",
+    "code": "20060",
+    "name": "Bosconia"
+  },
+  {
+    "department_name": "CESAR",
+    "code": "20238",
+    "name": "El Copey"
+  },
+  {
+    "department_name": "CESAR",
+    "code": "20250",
+    "name": "El Paso"
+  },
+  {
+    "department_name": "CESAR",
+    "code": "20013",
+    "name": "Agustín Codazzi"
+  },
+  {
+    "department_name": "CESAR",
+    "code": "20621",
+    "name": "La Paz"
+  },
+  {
+    "department_name": "CESAR",
+    "code": "20443",
+    "name": "Manaure"
+  },
+  {
+    "department_name": "CESAR",
+    "code": "20570",
+    "name": "Pueblo Bello"
+  },
+  {
+    "department_name": "CESAR",
+    "code": "20750",
+    "name": "San Diego"
+  },
+  {
+    "department_name": "CESAR",
+    "code": "20001",
+    "name": "Valledupar"
+  },
+  {
+    "department_name": "CESAR",
+    "code": "20011",
+    "name": "Aguachica"
+  },
+  {
+    "department_name": "CESAR",
+    "code": "20295",
+    "name": "Gamarra"
+  },
+  {
+    "department_name": "CESAR",
+    "code": "20310",
+    "name": "González"
+  },
+  {
+    "department_name": "CESAR",
+    "code": "20383",
+    "name": "La Gloria"
+  },
+  {
+    "department_name": "CESAR",
+    "code": "20550",
+    "name": "Pelaya"
+  },
+  {
+    "department_name": "CESAR",
+    "code": "20614",
+    "name": "Río De Oro"
+  },
+  {
+    "department_name": "CESAR",
+    "code": "20710",
+    "name": "San Alberto"
+  },
+  {
+    "department_name": "CESAR",
+    "code": "20770",
+    "name": "San Martín"
+  },
+  {
+    "department_name": "CHOCÓ",
+    "code": "27050",
+    "name": "Atrato"
+  },
+  {
+    "department_name": "CHOCÓ",
+    "code": "27073",
+    "name": "Bagadó"
+  },
+  {
+    "department_name": "CHOCÓ",
+    "code": "27099",
+    "name": "Bojaya"
+  },
+  {
+    "department_name": "CHOCÓ",
+    "code": "27245",
+    "name": "Carmen De Atrato"
+  },
+  {
+    "department_name": "CHOCÓ",
+    "code": "27413",
+    "name": "Lloró"
+  },
+  {
+    "department_name": "CHOCÓ",
+    "code": "27425",
+    "name": "Medio Atrato"
+  },
+  {
+    "department_name": "CHOCÓ",
+    "code": "27001",
+    "name": "Quibdó"
+  },
+  {
+    "department_name": "CHOCÓ",
+    "code": "27600",
+    "name": "Rio Quito"
+  },
+  {
+    "department_name": "CHOCÓ",
+    "code": "27006",
+    "name": "Acandí"
+  },
+  {
+    "department_name": "CHOCÓ",
+    "code": "27086",
+    "name": "Belén De Bajira"
+  },
+  {
+    "department_name": "CHOCÓ",
+    "code": "27150",
+    "name": "Carmén Del Darién"
+  },
+  {
+    "department_name": "CHOCÓ",
+    "code": "27615",
+    "name": "Riosucio"
+  },
+  {
+    "department_name": "CHOCÓ",
+    "code": "27800",
+    "name": "Unguía"
+  },
+  {
+    "department_name": "CHOCÓ",
+    "code": "27075",
+    "name": "Bahía Solano"
+  },
+  {
+    "department_name": "CHOCÓ",
+    "code": "27372",
+    "name": "Juradó"
+  },
+  {
+    "department_name": "CHOCÓ",
+    "code": "27495",
+    "name": "Nuquí"
+  },
+  {
+    "department_name": "CHOCÓ",
+    "code": "27025",
+    "name": "Alto Baudó"
+  },
+  {
+    "department_name": "CHOCÓ",
+    "code": "27077",
+    "name": "Bajo Baudó"
+  },
+  {
+    "department_name": "CHOCÓ",
+    "code": "27250",
+    "name": "El Litoral Del San Juan"
+  },
+  {
+    "department_name": "CHOCÓ",
+    "code": "27430",
+    "name": "Medio Baudó"
+  },
+  {
+    "department_name": "CHOCÓ",
+    "code": "27135",
+    "name": "De San Pablo"
+  },
+  {
+    "department_name": "CHOCÓ",
+    "code": "27160",
+    "name": "Certegui"
+  },
+  {
+    "department_name": "CHOCÓ",
+    "code": "27205",
+    "name": "Condoto"
+  },
+  {
+    "department_name": "CHOCÓ",
+    "code": "27361",
+    "name": "Itsmina"
+  },
+  {
+    "department_name": "CHOCÓ",
+    "code": "27450",
+    "name": "Medio San Juan"
+  },
+  {
+    "department_name": "CHOCÓ",
+    "code": "27491",
+    "name": "Nóvita"
+  },
+  {
+    "department_name": "CHOCÓ",
+    "code": "27580",
+    "name": "Río Frío"
+  },
+  {
+    "department_name": "CHOCÓ",
+    "code": "27660",
+    "name": "San José Del Palmar"
+  },
+  {
+    "department_name": "CHOCÓ",
+    "code": "27745",
+    "name": "Sipí"
+  },
+  {
+    "department_name": "CHOCÓ",
+    "code": "27787",
+    "name": "Tadó"
+  },
+  {
+    "department_name": "CHOCÓ",
+    "code": "27810",
+    "name": "Union Panamericana"
+  },
+  {
+    "department_name": "CÓRDOBA",
+    "code": "23807",
+    "name": "Tierralta"
+  },
+  {
+    "department_name": "CÓRDOBA",
+    "code": "23855",
+    "name": "Valencia"
+  },
+  {
+    "department_name": "CÓRDOBA",
+    "code": "23168",
+    "name": "Chimá"
+  },
+  {
+    "department_name": "CÓRDOBA",
+    "code": "23300",
+    "name": "Cotorra"
+  },
+  {
+    "department_name": "CÓRDOBA",
+    "code": "23417",
+    "name": "Lorica"
+  },
+  {
+    "department_name": "CÓRDOBA",
+    "code": "23464",
+    "name": "Momil"
+  },
+  {
+    "department_name": "CÓRDOBA",
+    "code": "23586",
+    "name": "Purísima"
+  },
+  {
+    "department_name": "CÓRDOBA",
+    "code": "23001",
+    "name": "Montería"
+  },
+  {
+    "department_name": "CÓRDOBA",
+    "code": "23090",
+    "name": "Canalete"
+  },
+  {
+    "department_name": "CÓRDOBA",
+    "code": "23419",
+    "name": "Los Córdobas"
+  },
+  {
+    "department_name": "CÓRDOBA",
+    "code": "23500",
+    "name": "Moñitos"
+  },
+  {
+    "department_name": "CÓRDOBA",
+    "code": "23574",
+    "name": "Puerto Escondido"
+  },
+  {
+    "department_name": "CÓRDOBA",
+    "code": "23672",
+    "name": "San Antero"
+  },
+  {
+    "department_name": "CÓRDOBA",
+    "code": "23675",
+    "name": "Bernardo Del Viento"
+  },
+  {
+    "department_name": "CÓRDOBA",
+    "code": "23182",
+    "name": "Chinú"
+  },
+  {
+    "department_name": "CÓRDOBA",
+    "code": "23660",
+    "name": "Sahagún"
+  },
+  {
+    "department_name": "CÓRDOBA",
+    "code": "23670",
+    "name": "Andrés Sotavento"
+  },
+  {
+    "department_name": "CÓRDOBA",
+    "code": "23068",
+    "name": "Ayapel"
+  },
+  {
+    "department_name": "CÓRDOBA",
+    "code": "23079",
+    "name": "Buenavista"
+  },
+  {
+    "department_name": "CÓRDOBA",
+    "code": "23350",
+    "name": "La Apartada"
+  },
+  {
+    "department_name": "CÓRDOBA",
+    "code": "23466",
+    "name": "Montelíbano"
+  },
+  {
+    "department_name": "CÓRDOBA",
+    "code": "23555",
+    "name": "Planeta Rica"
+  },
+  {
+    "department_name": "CÓRDOBA",
+    "code": "23570",
+    "name": "Pueblo Nuevo"
+  },
+  {
+    "department_name": "CÓRDOBA",
+    "code": "23580",
+    "name": "Puerto Libertador"
+  },
+  {
+    "department_name": "CÓRDOBA",
+    "code": "23162",
+    "name": "Cereté"
+  },
+  {
+    "department_name": "CÓRDOBA",
+    "code": "23189",
+    "name": "Ciénaga De Oro"
+  },
+  {
+    "department_name": "CÓRDOBA",
+    "code": "23678",
+    "name": "San Carlos"
+  },
+  {
+    "department_name": "CÓRDOBA",
+    "code": "23686",
+    "name": "San Pelayo"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25183",
+    "name": "Chocontá"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25426",
+    "name": "Macheta"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25436",
+    "name": "Manta"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25736",
+    "name": "Sesquilé"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25772",
+    "name": "Suesca"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25807",
+    "name": "Tibirita"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25873",
+    "name": "Villapinzón"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25001",
+    "name": "Agua De Dios"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25307",
+    "name": "Girardot"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25324",
+    "name": "Guataquí"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25368",
+    "name": "Jerusalén"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25483",
+    "name": "Nariño"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25488",
+    "name": "Nilo"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25612",
+    "name": "Ricaurte"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25815",
+    "name": "Tocaima"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25148",
+    "name": "Caparrapí"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25320",
+    "name": "Guaduas"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25572",
+    "name": "Puerto Salgar"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25019",
+    "name": "Albán"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25398",
+    "name": "La Peña"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25402",
+    "name": "La Vega"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25489",
+    "name": "Nimaima"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25491",
+    "name": "Nocaima"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25592",
+    "name": "Quebradanegra"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25658",
+    "name": "San Francisco"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25718",
+    "name": "Sasaima"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25777",
+    "name": "Supatá"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25851",
+    "name": "Útica"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25862",
+    "name": "Vergara"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25875",
+    "name": "Villeta"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25293",
+    "name": "Gachala"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25297",
+    "name": "Gacheta"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25299",
+    "name": "Gama"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25322",
+    "name": "Guasca"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25326",
+    "name": "Guatavita"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25372",
+    "name": "Junín"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25377",
+    "name": "La Calera"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25839",
+    "name": "Ubalá"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25086",
+    "name": "Beltrán"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25095",
+    "name": "Bituima"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25168",
+    "name": "Chaguaní"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25328",
+    "name": "Guayabal De Siquima"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25580",
+    "name": "Puli"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25662",
+    "name": "Juan De Río Seco"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25867",
+    "name": "Vianí"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25438",
+    "name": "Medina"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25530",
+    "name": "Paratebueno"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25151",
+    "name": "Caqueza"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25178",
+    "name": "Chipaque"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25181",
+    "name": "Choachí"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25279",
+    "name": "Fomeque"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25281",
+    "name": "Fosca"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25335",
+    "name": "Guayabetal"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25339",
+    "name": "Gutiérrez"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25594",
+    "name": "Quetame"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25841",
+    "name": "Ubaque"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25845",
+    "name": "Une"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25258",
+    "name": "El Peñón"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25394",
+    "name": "La Palma"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25513",
+    "name": "Pacho"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25518",
+    "name": "Paime"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25653",
+    "name": "San Cayetano"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25823",
+    "name": "Topaipi"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25871",
+    "name": "Villagomez"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25885",
+    "name": "Yacopí"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25126",
+    "name": "Cajicá"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25175",
+    "name": "Chía"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25200",
+    "name": "Cogua"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25295",
+    "name": "Gachancipá"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25486",
+    "name": "Nemocon"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25758",
+    "name": "Sopó"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25785",
+    "name": "Tabio"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25817",
+    "name": "Tocancipá"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25899",
+    "name": "Zipaquirá"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25099",
+    "name": "Bojacá"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25214",
+    "name": "Cota"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25260",
+    "name": "El Rosal"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25269",
+    "name": "Facatativá"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25286",
+    "name": "Funza"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25430",
+    "name": "Madrid"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25473",
+    "name": "Mosquera"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25769",
+    "name": "Subachoque"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25799",
+    "name": "Tenjo"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25898",
+    "name": "Zipacon"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25740",
+    "name": "Sibaté"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25754",
+    "name": "Soacha"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25053",
+    "name": "Arbeláez"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25120",
+    "name": "Cabrera"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25290",
+    "name": "Fusagasugá"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25312",
+    "name": "Granada"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25524",
+    "name": "Pandi"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25535",
+    "name": "Pasca"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25649",
+    "name": "San Bernardo"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25743",
+    "name": "Silvania"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25805",
+    "name": "Tibacuy"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25506",
+    "name": "Venecia"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25035",
+    "name": "Anapoima"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25040",
+    "name": "Anolaima"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25599",
+    "name": "Apulo"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25123",
+    "name": "Cachipay"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25245",
+    "name": "El Colegio"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25386",
+    "name": "La Mesa"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25596",
+    "name": "Quipile"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25645",
+    "name": "Antonio De Tequendama"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25797",
+    "name": "Tena"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25878",
+    "name": "Viotá"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25154",
+    "name": "Carmen De Carupa"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25224",
+    "name": "Cucunubá"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25288",
+    "name": "Fúquene"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25317",
+    "name": "Guachetá"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25407",
+    "name": "Lenguazaque"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25745",
+    "name": "Simijaca"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25779",
+    "name": "Susa"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25781",
+    "name": "Sutatausa"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25793",
+    "name": "Tausa"
+  },
+  {
+    "department_name": "CUNDINAMARCA",
+    "code": "25843",
+    "name": "Ubate"
+  },
+  {
+    "department_name": "GUAINÍA",
+    "code": "94343",
+    "name": "Barranco Mina"
+  },
+  {
+    "department_name": "GUAINÍA",
+    "code": "94886",
+    "name": "Cacahual"
+  },
+  {
+    "department_name": "GUAINÍA",
+    "code": "94001",
+    "name": "Inírida"
+  },
+  {
+    "department_name": "GUAINÍA",
+    "code": "94885",
+    "name": "La Guadalupe"
+  },
+  {
+    "department_name": "GUAINÍA",
+    "code": "94663",
+    "name": "Mapiripan"
+  },
+  {
+    "department_name": "GUAINÍA",
+    "code": "94888",
+    "name": "Morichal"
+  },
+  {
+    "department_name": "GUAINÍA",
+    "code": "94887",
+    "name": "Pana Pana"
+  },
+  {
+    "department_name": "GUAINÍA",
+    "code": "94884",
+    "name": "Puerto Colombia"
+  },
+  {
+    "department_name": "GUAINÍA",
+    "code": "94883",
+    "name": "San Felipe"
+  },
+  {
+    "department_name": "GUAVIARE",
+    "code": "95015",
+    "name": "Calamar"
+  },
+  {
+    "department_name": "GUAVIARE",
+    "code": "95025",
+    "name": "El Retorno"
+  },
+  {
+    "department_name": "GUAVIARE",
+    "code": "95200",
+    "name": "Miraflores"
+  },
+  {
+    "department_name": "GUAVIARE",
+    "code": "95001",
+    "name": "José Del Guaviare"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41013",
+    "name": "Agrado"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41026",
+    "name": "Altamira"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41298",
+    "name": "Garzón"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41306",
+    "name": "Gigante"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41319",
+    "name": "Guadalupe"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41548",
+    "name": "Pital"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41770",
+    "name": "Suaza"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41791",
+    "name": "Tarqui"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41016",
+    "name": "Aipe"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41020",
+    "name": "Algeciras"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41078",
+    "name": "Baraya"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41132",
+    "name": "Campoalegre"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41206",
+    "name": "Colombia"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41349",
+    "name": "Hobo"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41357",
+    "name": "Iquira"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41001",
+    "name": "Neiva"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41524",
+    "name": "Palermo"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41615",
+    "name": "Rivera"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41676",
+    "name": "Santa María"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41799",
+    "name": "Tello"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41801",
+    "name": "Teruel"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41872",
+    "name": "Villavieja"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41885",
+    "name": "Yaguará"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41378",
+    "name": "La Argentina"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41396",
+    "name": "La Plata"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41483",
+    "name": "Nátaga"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41518",
+    "name": "Paicol"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41797",
+    "name": "Tesalia"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41006",
+    "name": "Acevedo"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41244",
+    "name": "Elías"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41359",
+    "name": "Isnos"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41503",
+    "name": "Oporapa"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41530",
+    "name": "Palestina"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41551",
+    "name": "Pitalito"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41660",
+    "name": "Saladoblanco"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41668",
+    "name": "San Agustín"
+  },
+  {
+    "department_name": "HUILA",
+    "code": "41807",
+    "name": "Timaná"
+  },
+  {
+    "department_name": "LA GUAJIRA",
+    "code": "44035",
+    "name": "Albania"
+  },
+  {
+    "department_name": "LA GUAJIRA",
+    "code": "44090",
+    "name": "Dibulla"
+  },
+  {
+    "department_name": "LA GUAJIRA",
+    "code": "44430",
+    "name": "Maicao"
+  },
+  {
+    "department_name": "LA GUAJIRA",
+    "code": "44560",
+    "name": "Manaure"
+  },
+  {
+    "department_name": "LA GUAJIRA",
+    "code": "44001",
+    "name": "Riohacha"
+  },
+  {
+    "department_name": "LA GUAJIRA",
+    "code": "44847",
+    "name": "Uribia"
+  },
+  {
+    "department_name": "LA GUAJIRA",
+    "code": "44078",
+    "name": "Barrancas"
+  },
+  {
+    "department_name": "LA GUAJIRA",
+    "code": "44098",
+    "name": "Distraccion"
+  },
+  {
+    "department_name": "LA GUAJIRA",
+    "code": "44110",
+    "name": "El Molino"
+  },
+  {
+    "department_name": "LA GUAJIRA",
+    "code": "44279",
+    "name": "Fonseca"
+  },
+  {
+    "department_name": "LA GUAJIRA",
+    "code": "44378",
+    "name": "Hatonuevo"
+  },
+  {
+    "department_name": "LA GUAJIRA",
+    "code": "44420",
+    "name": "La Jagua Del Pilar"
+  },
+  {
+    "department_name": "LA GUAJIRA",
+    "code": "44650",
+    "name": "San Juan Del Cesar"
+  },
+  {
+    "department_name": "LA GUAJIRA",
+    "code": "44855",
+    "name": "Urumita"
+  },
+  {
+    "department_name": "LA GUAJIRA",
+    "code": "44874",
+    "name": "Villanueva"
+  },
+  {
+    "department_name": "MAGDALENA",
+    "code": "47058",
+    "name": "Ariguaní"
+  },
+  {
+    "department_name": "MAGDALENA",
+    "code": "47170",
+    "name": "Chibolo"
+  },
+  {
+    "department_name": "MAGDALENA",
+    "code": "47460",
+    "name": "Nueva Granada"
+  },
+  {
+    "department_name": "MAGDALENA",
+    "code": "47555",
+    "name": "Plato"
+  },
+  {
+    "department_name": "MAGDALENA",
+    "code": "47660",
+    "name": "De San Angel"
+  },
+  {
+    "department_name": "MAGDALENA",
+    "code": "47798",
+    "name": "Tenerife"
+  },
+  {
+    "department_name": "MAGDALENA",
+    "code": "47030",
+    "name": "Algarrobo"
+  },
+  {
+    "department_name": "MAGDALENA",
+    "code": "47053",
+    "name": "Aracataca"
+  },
+  {
+    "department_name": "MAGDALENA",
+    "code": "47189",
+    "name": "Ciénaga"
+  },
+  {
+    "department_name": "MAGDALENA",
+    "code": "47268",
+    "name": "El Reten"
+  },
+  {
+    "department_name": "MAGDALENA",
+    "code": "47288",
+    "name": "Fundacion"
+  },
+  {
+    "department_name": "MAGDALENA",
+    "code": "47570",
+    "name": "Pueblo Viejo"
+  },
+  {
+    "department_name": "MAGDALENA",
+    "code": "47980",
+    "name": "Zona Bananera"
+  },
+  {
+    "department_name": "MAGDALENA",
+    "code": "47161",
+    "name": "Cerro San Antonio"
+  },
+  {
+    "department_name": "MAGDALENA",
+    "code": "47205",
+    "name": "Concordia"
+  },
+  {
+    "department_name": "MAGDALENA",
+    "code": "47258",
+    "name": "El Piñon"
+  },
+  {
+    "department_name": "MAGDALENA",
+    "code": "47541",
+    "name": "Pedraza"
+  },
+  {
+    "department_name": "MAGDALENA",
+    "code": "47551",
+    "name": "Pivijay"
+  },
+  {
+    "department_name": "MAGDALENA",
+    "code": "47605",
+    "name": "Remolino"
+  },
+  {
+    "department_name": "MAGDALENA",
+    "code": "47675",
+    "name": "Salamina"
+  },
+  {
+    "department_name": "MAGDALENA",
+    "code": "47745",
+    "name": "Sitionuevo"
+  },
+  {
+    "department_name": "MAGDALENA",
+    "code": "47960",
+    "name": "Zapayan"
+  },
+  {
+    "department_name": "MAGDALENA",
+    "code": "47001",
+    "name": "Santa Marta"
+  },
+  {
+    "department_name": "MAGDALENA",
+    "code": "47245",
+    "name": "El Banco"
+  },
+  {
+    "department_name": "MAGDALENA",
+    "code": "47318",
+    "name": "Guamal"
+  },
+  {
+    "department_name": "MAGDALENA",
+    "code": "47545",
+    "name": "Pijiño Del Carmen"
+  },
+  {
+    "department_name": "MAGDALENA",
+    "code": "47692",
+    "name": "Sebastian De Buenavista"
+  },
+  {
+    "department_name": "MAGDALENA",
+    "code": "47703",
+    "name": "San Zenon"
+  },
+  {
+    "department_name": "MAGDALENA",
+    "code": "47707",
+    "name": "Santa Ana"
+  },
+  {
+    "department_name": "MAGDALENA",
+    "code": "47720",
+    "name": "Barbara De Pinto"
+  },
+  {
+    "department_name": "META",
+    "code": "50251",
+    "name": "El Castillo"
+  },
+  {
+    "department_name": "META",
+    "code": "50270",
+    "name": "El Dorado"
+  },
+  {
+    "department_name": "META",
+    "code": "50287",
+    "name": "Fuente De Oro"
+  },
+  {
+    "department_name": "META",
+    "code": "50313",
+    "name": "Granada"
+  },
+  {
+    "department_name": "META",
+    "code": "50350",
+    "name": "La Macarena"
+  },
+  {
+    "department_name": "META",
+    "code": "50370",
+    "name": "La Uribe"
+  },
+  {
+    "department_name": "META",
+    "code": "50400",
+    "name": "Lejanías"
+  },
+  {
+    "department_name": "META",
+    "code": "50325",
+    "name": "Mapiripan"
+  },
+  {
+    "department_name": "META",
+    "code": "50330",
+    "name": "Mesetas"
+  },
+  {
+    "department_name": "META",
+    "code": "50450",
+    "name": "Puerto Concordia"
+  },
+  {
+    "department_name": "META",
+    "code": "50577",
+    "name": "Puerto Lleras"
+  },
+  {
+    "department_name": "META",
+    "code": "50590",
+    "name": "Puerto Rico"
+  },
+  {
+    "department_name": "META",
+    "code": "50683",
+    "name": "San Juan De Arama"
+  },
+  {
+    "department_name": "META",
+    "code": "50711",
+    "name": "Vista Hermosa"
+  },
+  {
+    "department_name": "META",
+    "code": "50001",
+    "name": "Villavicencio"
+  },
+  {
+    "department_name": "META",
+    "code": "50006",
+    "name": "Acacias"
+  },
+  {
+    "department_name": "META",
+    "code": "50110",
+    "name": "Barranca De Upia"
+  },
+  {
+    "department_name": "META",
+    "code": "50150",
+    "name": "Castilla La Nueva"
+  },
+  {
+    "department_name": "META",
+    "code": "50226",
+    "name": "Cumaral"
+  },
+  {
+    "department_name": "META",
+    "code": "50245",
+    "name": "El Calvario"
+  },
+  {
+    "department_name": "META",
+    "code": "50318",
+    "name": "Guamal"
+  },
+  {
+    "department_name": "META",
+    "code": "50606",
+    "name": "Restrepo"
+  },
+  {
+    "department_name": "META",
+    "code": "50680",
+    "name": "San Carlos Guaroa"
+  },
+  {
+    "department_name": "META",
+    "code": "50686",
+    "name": "San Juanito"
+  },
+  {
+    "department_name": "META",
+    "code": "50223",
+    "name": "Luis De Cubarral"
+  },
+  {
+    "department_name": "META",
+    "code": "50689",
+    "name": "San Martín"
+  },
+  {
+    "department_name": "META",
+    "code": "50124",
+    "name": "Cabuyaro"
+  },
+  {
+    "department_name": "META",
+    "code": "50568",
+    "name": "Puerto Gaitán"
+  },
+  {
+    "department_name": "META",
+    "code": "50573",
+    "name": "Puerto Lopez"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52240",
+    "name": "Chachagui"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52207",
+    "name": "Consaca"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52254",
+    "name": "El Peñol"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52260",
+    "name": "El Tambo"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52381",
+    "name": "La Florida"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52480",
+    "name": "Nariño"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52001",
+    "name": "Pasto"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52683",
+    "name": "Sandoná"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52788",
+    "name": "Tangua"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52885",
+    "name": "Yacuanquer"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52036",
+    "name": "Ancuya"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52320",
+    "name": "Guaitarilla"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52385",
+    "name": "La Llanada"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52411",
+    "name": "Linares"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52418",
+    "name": "Los Andes"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52435",
+    "name": "Mallama"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52506",
+    "name": "Ospina"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52565",
+    "name": "Providencia"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52612",
+    "name": "Ricaurte"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52678",
+    "name": "Samaniego"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52699",
+    "name": "Santa Cruz"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52720",
+    "name": "Sapuyes"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52838",
+    "name": "Tuquerres"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52079",
+    "name": "Barbacoas"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52250",
+    "name": "El Charco"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52520",
+    "name": "Francisco Pizarro"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52390",
+    "name": "La Tola"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52427",
+    "name": "Magui"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52473",
+    "name": "Mosquera"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52490",
+    "name": "Olaya Herrera"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52621",
+    "name": "Roberto Payan"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52696",
+    "name": "Santa Barbara"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52835",
+    "name": "Tumaco"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52019",
+    "name": "Alban"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52051",
+    "name": "Arboleda"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52083",
+    "name": "Belen"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52110",
+    "name": "Buesaco"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52203",
+    "name": "Colon"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52233",
+    "name": "Cumbitara"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52256",
+    "name": "El Rosario"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52258",
+    "name": "El Tablon De Gomez"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52378",
+    "name": "La Cruz"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52399",
+    "name": "La Union"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52405",
+    "name": "Leiva"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52540",
+    "name": "Policarpa"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52685",
+    "name": "San Bernardo"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52687",
+    "name": "San Lorenzo"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52693",
+    "name": "San Pablo"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52694",
+    "name": "Pedro De Cartago"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52786",
+    "name": "Taminango"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52022",
+    "name": "Aldana"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52210",
+    "name": "Contadero"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52215",
+    "name": "Córdoba"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52224",
+    "name": "Cuaspud"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52227",
+    "name": "Cumbal"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52287",
+    "name": "Funes"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52317",
+    "name": "Guachucal"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52323",
+    "name": "Gualmatan"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52352",
+    "name": "Iles"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52354",
+    "name": "Imues"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52356",
+    "name": "Ipiales"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52560",
+    "name": "Potosí"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52573",
+    "name": "Puerres"
+  },
+  {
+    "department_name": "NARIÑO",
+    "code": "52585",
+    "name": "Pupiales"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54051",
+    "name": "Arboledas"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54223",
+    "name": "Cucutilla"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54313",
+    "name": "Gramalote"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54418",
+    "name": "Lourdes"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54660",
+    "name": "Salazar"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54680",
+    "name": "Santiago"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54871",
+    "name": "Villa Caro"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54109",
+    "name": "Bucarasica"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54250",
+    "name": "El Tarra"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54720",
+    "name": "Sardinata"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54810",
+    "name": "Tibú"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54003",
+    "name": "Abrego"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54128",
+    "name": "Cachirá"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54206",
+    "name": "Convención"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54245",
+    "name": "El Carmen"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54344",
+    "name": "Hacarí"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54385",
+    "name": "La Esperanza"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54398",
+    "name": "La Playa"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54498",
+    "name": "Ocaña"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54670",
+    "name": "San Calixto"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54800",
+    "name": "Teorama"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54001",
+    "name": "Cúcuta"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54261",
+    "name": "El Zulia"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54405",
+    "name": "Los Patios"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54553",
+    "name": "Puerto Santander"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54673",
+    "name": "San Cayetano"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54874",
+    "name": "Villa Del Rosario"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54125",
+    "name": "Cácota"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54174",
+    "name": "Chitagá"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54480",
+    "name": "Mutiscua"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54518",
+    "name": "Pamplona"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54520",
+    "name": "Pamplonita"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54743",
+    "name": "Silos"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54099",
+    "name": "Bochalema"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54172",
+    "name": "Chinácota"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54239",
+    "name": "Durania"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54347",
+    "name": "Herrán"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54377",
+    "name": "Labateca"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54599",
+    "name": "Ragonvalia"
+  },
+  {
+    "department_name": "NORTE DE SANTANDER",
+    "code": "54820",
+    "name": "Toledo"
+  },
+  {
+    "department_name": "PUTUMAYO",
+    "code": "86219",
+    "name": "Colón"
+  },
+  {
+    "department_name": "PUTUMAYO",
+    "code": "86001",
+    "name": "Mocoa"
+  },
+  {
+    "department_name": "PUTUMAYO",
+    "code": "86320",
+    "name": "Orito"
+  },
+  {
+    "department_name": "PUTUMAYO",
+    "code": "86568",
+    "name": "Puerto Asis"
+  },
+  {
+    "department_name": "PUTUMAYO",
+    "code": "86569",
+    "name": "Puerto Caicedo"
+  },
+  {
+    "department_name": "PUTUMAYO",
+    "code": "86571",
+    "name": "Puerto Guzman"
+  },
+  {
+    "department_name": "PUTUMAYO",
+    "code": "86573",
+    "name": "Puerto Leguizamo"
+  },
+  {
+    "department_name": "PUTUMAYO",
+    "code": "86755",
+    "name": "San Francisco"
+  },
+  {
+    "department_name": "PUTUMAYO",
+    "code": "86757",
+    "name": "San Miguel"
+  },
+  {
+    "department_name": "PUTUMAYO",
+    "code": "86760",
+    "name": "Santiago"
+  },
+  {
+    "department_name": "PUTUMAYO",
+    "code": "86749",
+    "name": "Sibundoy"
+  },
+  {
+    "department_name": "PUTUMAYO",
+    "code": "86865",
+    "name": "Valle Del Guamuez"
+  },
+  {
+    "department_name": "PUTUMAYO",
+    "code": "86885",
+    "name": "Villa Garzon"
+  },
+  {
+    "department_name": "QUINDÍO",
+    "code": "63001",
+    "name": "Armenia"
+  },
+  {
+    "department_name": "QUINDÍO",
+    "code": "63111",
+    "name": "Buenavista"
+  },
+  {
+    "department_name": "QUINDÍO",
+    "code": "63130",
+    "name": "Calarca"
+  },
+  {
+    "department_name": "QUINDÍO",
+    "code": "63212",
+    "name": "Cordoba"
+  },
+  {
+    "department_name": "QUINDÍO",
+    "code": "63302",
+    "name": "Genova"
+  },
+  {
+    "department_name": "QUINDÍO",
+    "code": "63548",
+    "name": "Pijao"
+  },
+  {
+    "department_name": "QUINDÍO",
+    "code": "63272",
+    "name": "Filandia"
+  },
+  {
+    "department_name": "QUINDÍO",
+    "code": "63690",
+    "name": "Salento"
+  },
+  {
+    "department_name": "QUINDÍO",
+    "code": "63190",
+    "name": "Circasia"
+  },
+  {
+    "department_name": "QUINDÍO",
+    "code": "63401",
+    "name": "La Tebaida"
+  },
+  {
+    "department_name": "QUINDÍO",
+    "code": "63470",
+    "name": "Montengro"
+  },
+  {
+    "department_name": "QUINDÍO",
+    "code": "63594",
+    "name": "Quimbaya"
+  },
+  {
+    "department_name": "RISARALDA",
+    "code": "66170",
+    "name": "Dosquebradas"
+  },
+  {
+    "department_name": "RISARALDA",
+    "code": "66400",
+    "name": "La Virginia"
+  },
+  {
+    "department_name": "RISARALDA",
+    "code": "66440",
+    "name": "Marsella"
+  },
+  {
+    "department_name": "RISARALDA",
+    "code": "66001",
+    "name": "Pereira"
+  },
+  {
+    "department_name": "RISARALDA",
+    "code": "66682",
+    "name": "Santa Rosa De Cabal"
+  },
+  {
+    "department_name": "RISARALDA",
+    "code": "66045",
+    "name": "Apía"
+  },
+  {
+    "department_name": "RISARALDA",
+    "code": "66075",
+    "name": "Balboa"
+  },
+  {
+    "department_name": "RISARALDA",
+    "code": "66088",
+    "name": "Belén De Umbría"
+  },
+  {
+    "department_name": "RISARALDA",
+    "code": "66318",
+    "name": "Guática"
+  },
+  {
+    "department_name": "RISARALDA",
+    "code": "66383",
+    "name": "La Celia"
+  },
+  {
+    "department_name": "RISARALDA",
+    "code": "66594",
+    "name": "Quinchia"
+  },
+  {
+    "department_name": "RISARALDA",
+    "code": "66687",
+    "name": "Santuario"
+  },
+  {
+    "department_name": "RISARALDA",
+    "code": "66456",
+    "name": "Mistrató"
+  },
+  {
+    "department_name": "RISARALDA",
+    "code": "66572",
+    "name": "Pueblo Rico"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68176",
+    "name": "Chima"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68209",
+    "name": "Confines"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68211",
+    "name": "Contratación"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68245",
+    "name": "El Guacamayo"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68296",
+    "name": "Galán"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68298",
+    "name": "Gambita"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68320",
+    "name": "Guadalupe"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68322",
+    "name": "Guapotá"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68344",
+    "name": "Hato"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68500",
+    "name": "Oiba"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68522",
+    "name": "Palmar"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68524",
+    "name": "Del Socorro"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68720",
+    "name": "Helena Del Opón"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68745",
+    "name": "Simacota"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68755",
+    "name": "Socorro"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68770",
+    "name": "Suaita"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68147",
+    "name": "Capitanejo"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68152",
+    "name": "Carcasí"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68160",
+    "name": "Cepitá"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68162",
+    "name": "Cerrito"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68207",
+    "name": "Concepción"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68266",
+    "name": "Enciso"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68318",
+    "name": "Guaca"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68425",
+    "name": "Macaravita"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68432",
+    "name": "Málaga"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68468",
+    "name": "Molagavita"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68669",
+    "name": "San Andrés"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68684",
+    "name": "San José De Miranda"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68686",
+    "name": "San Miguel"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68051",
+    "name": "Aratoca"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68079",
+    "name": "Barichara"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68121",
+    "name": "Cabrera"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68167",
+    "name": "Charalá"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68217",
+    "name": "Coromoro"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68229",
+    "name": "Curití"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68264",
+    "name": "Encino"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68370",
+    "name": "Jordán"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68464",
+    "name": "Mogotes"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68498",
+    "name": "Ocamonte"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68502",
+    "name": "Onzaga"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68533",
+    "name": "Páramo"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68549",
+    "name": "Pinchote"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68679",
+    "name": "San Gil"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68682",
+    "name": "San Joaquín"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68855",
+    "name": "Valle De San José"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68872",
+    "name": "Villanueva"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68081",
+    "name": "Barrancabermeja"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68092",
+    "name": "Betulia"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68235",
+    "name": "Carmen De Chucurí"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68575",
+    "name": "Puerto Wilches"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68655",
+    "name": "Sabana De Torres"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68689",
+    "name": "Vicente De Chucurí"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68895",
+    "name": "Zapatoca"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68001",
+    "name": "Bucaramanga"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68132",
+    "name": "California"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68169",
+    "name": "Charta"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68255",
+    "name": "El Playón"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68276",
+    "name": "Floridablanca"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68307",
+    "name": "Girón"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68406",
+    "name": "Lebríja"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68418",
+    "name": "Los Santos"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68444",
+    "name": "Matanza"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68547",
+    "name": "Piedecuesta"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68615",
+    "name": "Rionegro"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68705",
+    "name": "Santa Bárbara"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68780",
+    "name": "Surata"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68820",
+    "name": "Tona"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68867",
+    "name": "Vetas"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68013",
+    "name": "Aguada"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68020",
+    "name": "Albania"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68077",
+    "name": "Barbosa"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68101",
+    "name": "Bolívar"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68179",
+    "name": "Chipatá"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68190",
+    "name": "Cimitarra"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68250",
+    "name": "El Peñón"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68271",
+    "name": "Florián"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68324",
+    "name": "Guavatá"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68327",
+    "name": "Guepsa"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68368",
+    "name": "Jesús María"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68377",
+    "name": "La Belleza"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68397",
+    "name": "La Paz"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68385",
+    "name": "Landázuri"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68572",
+    "name": "Puente Nacional"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68573",
+    "name": "Puerto Parra"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68673",
+    "name": "San Benito"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68773",
+    "name": "Sucre"
+  },
+  {
+    "department_name": "SANTANDER",
+    "code": "68861",
+    "name": "Vélez"
+  },
+  {
+    "department_name": "SUCRE",
+    "code": "70265",
+    "name": "Guaranda"
+  },
+  {
+    "department_name": "SUCRE",
+    "code": "70429",
+    "name": "Majagual"
+  },
+  {
+    "department_name": "SUCRE",
+    "code": "70771",
+    "name": "Sucre"
+  },
+  {
+    "department_name": "SUCRE",
+    "code": "70230",
+    "name": "Chalán"
+  },
+  {
+    "department_name": "SUCRE",
+    "code": "70204",
+    "name": "Coloso"
+  },
+  {
+    "department_name": "SUCRE",
+    "code": "70473",
+    "name": "Morroa"
+  },
+  {
+    "department_name": "SUCRE",
+    "code": "70508",
+    "name": "Ovejas"
+  },
+  {
+    "department_name": "SUCRE",
+    "code": "70001",
+    "name": "Sincelejo"
+  },
+  {
+    "department_name": "SUCRE",
+    "code": "70221",
+    "name": "Coveñas"
+  },
+  {
+    "department_name": "SUCRE",
+    "code": "70523",
+    "name": "Palmito"
+  },
+  {
+    "department_name": "SUCRE",
+    "code": "70713",
+    "name": "San Onofre"
+  },
+  {
+    "department_name": "SUCRE",
+    "code": "70820",
+    "name": "Santiago De Tolú"
+  },
+  {
+    "department_name": "SUCRE",
+    "code": "70823",
+    "name": "Tolú Viejo"
+  },
+  {
+    "department_name": "SUCRE",
+    "code": "70110",
+    "name": "Buenavista"
+  },
+  {
+    "department_name": "SUCRE",
+    "code": "70215",
+    "name": "Corozal"
+  },
+  {
+    "department_name": "SUCRE",
+    "code": "70233",
+    "name": "El Roble"
+  },
+  {
+    "department_name": "SUCRE",
+    "code": "70235",
+    "name": "Galeras"
+  },
+  {
+    "department_name": "SUCRE",
+    "code": "70418",
+    "name": "Los Palmitos"
+  },
+  {
+    "department_name": "SUCRE",
+    "code": "70670",
+    "name": "Sampués"
+  },
+  {
+    "department_name": "SUCRE",
+    "code": "70702",
+    "name": "San Juan Betulia"
+  },
+  {
+    "department_name": "SUCRE",
+    "code": "70717",
+    "name": "San Pedro"
+  },
+  {
+    "department_name": "SUCRE",
+    "code": "70742",
+    "name": "Sincé"
+  },
+  {
+    "department_name": "SUCRE",
+    "code": "70124",
+    "name": "Caimito"
+  },
+  {
+    "department_name": "SUCRE",
+    "code": "70400",
+    "name": "La Unión"
+  },
+  {
+    "department_name": "SUCRE",
+    "code": "70678",
+    "name": "San Benito Abad"
+  },
+  {
+    "department_name": "SUCRE",
+    "code": "70708",
+    "name": "San Marcos"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73030",
+    "name": "Ambalema"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73055",
+    "name": "Armero"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73270",
+    "name": "Falan"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73283",
+    "name": "Fresno"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73349",
+    "name": "Honda"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73443",
+    "name": "Mariquita"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73520",
+    "name": "Palocabildo"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73148",
+    "name": "Carmen De Apicalá"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73226",
+    "name": "Cunday"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73352",
+    "name": "Icononzo"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73449",
+    "name": "Melgar"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73873",
+    "name": "Villarrica"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73067",
+    "name": "Ataco"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73168",
+    "name": "Chaparral"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73217",
+    "name": "Coyaima"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73483",
+    "name": "Natagaima"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73504",
+    "name": "Ortega"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73555",
+    "name": "Planadas"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73616",
+    "name": "Rioblanco"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73622",
+    "name": "Roncesvalles"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73675",
+    "name": "San Antonio"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73026",
+    "name": "Alvarado"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73043",
+    "name": "Anzoátegui"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73124",
+    "name": "Cajamarca"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73200",
+    "name": "Coello"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73268",
+    "name": "Espinal"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73275",
+    "name": "Flandes"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73001",
+    "name": "Ibague"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73547",
+    "name": "Piedras"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73624",
+    "name": "Rovira"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73678",
+    "name": "San Luis"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73854",
+    "name": "Valle De San Juan"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73024",
+    "name": "Alpujarra"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73236",
+    "name": "Dolores"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73319",
+    "name": "Guamo"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73563",
+    "name": "Prado"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73585",
+    "name": "Purificación"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73671",
+    "name": "Saldaña"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73770",
+    "name": "Suárez"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73152",
+    "name": "Casabianca"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73347",
+    "name": "Herveo"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73408",
+    "name": "Lerida"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73411",
+    "name": "Libano"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73461",
+    "name": "Murillo"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73686",
+    "name": "Santa Isabel"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73861",
+    "name": "Venadillo"
+  },
+  {
+    "department_name": "TOLIMA",
+    "code": "73870",
+    "name": "Villahermosa"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76036",
+    "name": "Andalucía"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76111",
+    "name": "Buga"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76113",
+    "name": "Bugalagrande"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76126",
+    "name": "Calima"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76248",
+    "name": "El Cerrito"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76306",
+    "name": "Ginebra"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76318",
+    "name": "Guacarí"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76606",
+    "name": "Restrepo"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76616",
+    "name": "Riofrio"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76670",
+    "name": "San Pedro"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76828",
+    "name": "Trujillo"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76834",
+    "name": "Tuluá"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76890",
+    "name": "Yotoco"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76020",
+    "name": "Alcala"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76041",
+    "name": "Ansermanuevo"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76054",
+    "name": "Argelia"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76100",
+    "name": "Bolívar"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76147",
+    "name": "Cartago"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76243",
+    "name": "El Águila"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76246",
+    "name": "El Cairo"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76250",
+    "name": "El Dovio"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76400",
+    "name": "La Unión"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76403",
+    "name": "La Victoria"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76497",
+    "name": "Obando"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76622",
+    "name": "Roldanillo"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76823",
+    "name": "Toro"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76845",
+    "name": "Ulloa"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76863",
+    "name": "Versalles"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76895",
+    "name": "Zarzal"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76109",
+    "name": "Buenaventura"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76122",
+    "name": "Caicedonia"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76736",
+    "name": "Sevilla"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76001",
+    "name": "Cali"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76130",
+    "name": "Candelaria"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76233",
+    "name": "Dagua"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76275",
+    "name": "Florida"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76364",
+    "name": "Jamundí"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76377",
+    "name": "La Cumbre"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76520",
+    "name": "Palmira"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76563",
+    "name": "Pradera"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76869",
+    "name": "Vijes"
+  },
+  {
+    "department_name": "VALLE DEL CAUCA",
+    "code": "76892",
+    "name": "Yumbo"
+  },
+  {
+    "department_name": "VAUPÉS",
+    "code": "97161",
+    "name": "Caruru"
+  },
+  {
+    "department_name": "VAUPÉS",
+    "code": "97001",
+    "name": "Mitú"
+  },
+  {
+    "department_name": "VAUPÉS",
+    "code": "97511",
+    "name": "Pacoa"
+  },
+  {
+    "department_name": "VAUPÉS",
+    "code": "97777",
+    "name": "Papunahua"
+  },
+  {
+    "department_name": "VAUPÉS",
+    "code": "97666",
+    "name": "Taraira"
+  },
+  {
+    "department_name": "VAUPÉS",
+    "code": "97889",
+    "name": "Yavaraté"
+  },
+  {
+    "department_name": "VICHADA",
+    "code": "99773",
+    "name": "Cumaribo"
+  },
+  {
+    "department_name": "VICHADA",
+    "code": "99524",
+    "name": "La Primavera"
+  },
+  {
+    "department_name": "VICHADA",
+    "code": "99001",
+    "name": "Puerto Carreño"
+  },
+  {
+    "department_name": "VICHADA",
+    "code": "99624",
+    "name": "Santa Rosalía"
+  }
+]

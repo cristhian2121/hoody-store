@@ -61,9 +61,11 @@ export class MercadoPagoService {
       preferenceItems.push({
         id: `shipping-${orderId}`,
         title: "Costo de envío",
+        description: "Costo de envío",
         quantity: 1,
         currency_id: "COP" as const,
         unit_price: this.sanitizeUnitPrice(shippingCost),
+        picture_url: undefined,
         category_id: "shipping",
       });
     }

@@ -115,21 +115,27 @@ const translations = {
     "shipping.deliveryTime": "Envío en",
     "shipping.businessDays": "días hábiles",
     "shipping.cost": "Costo de envío",
-    "shipping.selectCityHint": "Selecciona una ciudad para ver el tiempo y costo de envío",
+    "shipping.selectCityHint":
+      "Selecciona una ciudad para ver el tiempo y costo de envío",
     "shipping.pending": "Pendiente",
     "checkout.payWithMercadoPago": "Pagar con Mercado Pago",
     "checkout.secure": "Pago seguro con Mercado Pago",
-    "checkout.paymentInfo": "Te redirigimos a Mercado Pago para procesar el pago.",
+    "checkout.paymentInfo":
+      "Te redirigimos a Mercado Pago para procesar el pago.",
     "checkout.selectCity": "Selecciona una ciudad",
     "checkout.retry": "Volver a intentar",
-    "checkout.paymentError": "No pudimos conectar con Mercado Pago. Intenta de nuevo.",
+    "checkout.paymentError":
+      "No pudimos conectar con Mercado Pago. Intenta de nuevo.",
     "checkout.success.title": "Pedido confirmado",
     "checkout.success.message": "Tu pedido ha sido procesado exitosamente",
     "checkout.cancel.title": "Pago cancelado",
-    "checkout.cancel.message": "El pago fue cancelado. Puedes intentar de nuevo.",
+    "checkout.cancel.message":
+      "El pago fue cancelado. Puedes intentar de nuevo.",
     "checkout.pending.title": "Pago pendiente",
-    "checkout.pending.message": "Tu pago está siendo procesado. Te notificaremos cuando se complete.",
-    "checkout.pending.instructions": "Si elegiste un método de pago offline (efectivo), completa el pago en el punto de venta indicado.",
+    "checkout.pending.message":
+      "Tu pago está siendo procesado. Te notificaremos cuando se complete.",
+    "checkout.pending.instructions":
+      "Si elegiste un método de pago offline (efectivo), completa el pago en el punto de venta indicado.",
     // Category
     "category.hoodies": "Hoodies",
     "category.camisetas": "Camisetas",
@@ -252,7 +258,8 @@ const translations = {
     "checkout.processing": "Processing...",
     "checkout.payWithMercadoPago": "Pay with Mercado Pago",
     "checkout.secure": "Secure checkout with Mercado Pago",
-    "checkout.paymentInfo": "We redirect you to Mercado Pago to complete the payment.",
+    "checkout.paymentInfo":
+      "We redirect you to Mercado Pago to complete the payment.",
     "checkout.selectCity": "Select a city",
     "checkout.retry": "Try again",
     "checkout.paymentError": "Unable to reach Mercado Pago. Please try again.",
@@ -261,8 +268,10 @@ const translations = {
     "checkout.cancel.title": "Payment canceled",
     "checkout.cancel.message": "The payment was canceled. You can try again.",
     "checkout.pending.title": "Payment pending",
-    "checkout.pending.message": "Your payment is being processed. We'll notify you when it's completed.",
-    "checkout.pending.instructions": "If you chose an offline payment method (cash), complete the payment at the indicated point of sale.",
+    "checkout.pending.message":
+      "Your payment is being processed. We'll notify you when it's completed.",
+    "checkout.pending.instructions":
+      "If you chose an offline payment method (cash), complete the payment at the indicated point of sale.",
     "shipping.selectCity": "Select your city",
     "shipping.deliveryTime": "Shipping in",
     "shipping.businessDays": "business days",

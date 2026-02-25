@@ -24,7 +24,9 @@ const ProductDetail = () => {
   const [personalization, setPersonalization] = useState<
     PersonalizationData | undefined
   >();
-  const [livePreview, setLivePreview] = useState<PersonalizationData | undefined>();
+  const [livePreview, setLivePreview] = useState<
+    PersonalizationData | undefined
+  >();
 
   const productSelection = product
     ? useProductSelection({
@@ -34,7 +36,9 @@ const ProductDetail = () => {
       })
     : null;
 
-  const previewData = showEditor ? livePreview ?? personalization : personalization;
+  const previewData = showEditor
+    ? (livePreview ?? personalization)
+    : personalization;
 
   if (!product || !productSelection) {
     return (
@@ -181,7 +185,10 @@ const ProductDetail = () => {
               <label className="text-sm font-semibold uppercase tracking-wide">
                 {t("product.size")}
               </label>
-              <SizeGuideDialog category={product.category} gender={selectedGender} />
+              <SizeGuideDialog
+                category={product.category}
+                gender={selectedGender}
+              />
             </div>
             <div className="flex flex-wrap gap-2">
               {sizes.map((s) => (

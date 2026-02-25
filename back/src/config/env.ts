@@ -1,5 +1,5 @@
 import { existsSync, readFileSync } from "node:fs";
-import path from "node:path";
+import * as path from "node:path";
 
 export const loadDotEnv = () => {
   const envPath = path.resolve(process.cwd(), ".env");
@@ -12,7 +12,10 @@ export const loadDotEnv = () => {
     const idx = trimmed.indexOf("=");
     if (idx === -1) continue;
     const key = trimmed.slice(0, idx).trim();
-    const value = trimmed.slice(idx + 1).trim().replace(/^['"]|['"]$/g, "");
+    const value = trimmed
+      .slice(idx + 1)
+      .trim()
+      .replace(/^['"]|['"]$/g, "");
     if (!process.env[key]) {
       process.env[key] = value;
     }

@@ -47,7 +47,7 @@ export class OrdersService {
         currency: "COP",
       } as any,
       items: items as any,
-      payment: null,
+      payment: Prisma.JsonNull,
     };
 
     const order = await this.orderRepository.create(orderData);
@@ -63,7 +63,7 @@ export class OrdersService {
     // Update order with payment info
     const updatedOrder = await this.orderRepository.update(order.id, (current) => ({
       ...current,
-      updatedAt: new Date().toISOString(),
+      updatedAt: new Date(),
       payment: {
         provider: "mercadopago",
         preferenceId: preference.id,

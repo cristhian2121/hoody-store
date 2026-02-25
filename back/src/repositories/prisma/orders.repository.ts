@@ -56,11 +56,11 @@ export class OrdersRepository implements OrderRepository {
         updatedAt: updated.updatedAt ? new Date(updated.updatedAt) : undefined,
         status: updated.status,
         paymentProvider: updated.paymentProvider ?? current.paymentProvider,
-        customer: updated.customer ?? current.customer,
-        shipping: updated.shipping ?? current.shipping,
-        totals: updated.totals ?? current.totals,
-        items: updated.items ?? current.items,
-        payment: updated.payment ?? current.payment,
+        customer: (updated.customer ?? current.customer) as Prisma.InputJsonValue,
+        shipping: (updated.shipping ?? current.shipping) as Prisma.InputJsonValue,
+        totals: (updated.totals ?? current.totals) as Prisma.InputJsonValue,
+        items: (updated.items ?? current.items) as Prisma.InputJsonValue,
+        payment: (updated.payment ?? current.payment) as Prisma.NullableJsonNullValueInput | Prisma.InputJsonValue | undefined,
       },
     });
   }

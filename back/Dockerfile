@@ -1,16 +1,13 @@
-FROM node:20-alpine
+FROM node:24-slim
 
 WORKDIR /app
 
-# Install pnpm
+# Install procps for ps command (needed by ts-node-dev/nodemon)
+RUN apt-get update && apt-get install -y procps openssl && rm -rf /var/lib/apt/lists/*
+
 RUN npm install -g pnpm
-
-# Copy package files
 COPY package.json pnpm-lock.yaml* ./
-
-# Install dependencies
 RUN pnpm install --frozen-lockfile || npm install
-
 # Copy Prisma schema
 COPY prisma ./prisma
 
