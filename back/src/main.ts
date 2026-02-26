@@ -1,57 +1,11 @@
 import { NestFactory } from "@nestjs/core";
 import { ValidationPipe } from "@nestjs/common";
 import { AppModule } from "./app.module";
-import { execSync } from "node:child_process";
 import { PrismaService } from "./prisma/prisma.service";
 import { setupSwagger } from "./config/swagger";
 
-/**
- * Run Prisma migrations
- */
-const runMigrations = async () => {
-  const nodeEnv = process.env.NODE_ENV || "development";
-  try {
-    console.log("[Migration] Running Prisma migrations...");
-    execSync("npx prisma migrate deploy", { stdio: "inherit" });
-    console.log("[Migration] Migrations completed successfully");
-  } catch (error: any) {
-    console.error("[Migration] Failed to run migrations:", error.message);
-    // In development, try migrate dev instead
-    if (nodeEnv === "development") {
-      try {
-        console.log("[Migration] Trying migrate dev...");
-        execSync("npx prisma migrate dev --name init", { stdio: "inherit" });
-        console.log("[Migration] Migrations completed successfully");
-      } catch (devError: any) {
-        console.error("[Migration] Failed to run migrate dev:", devError.message);
-        // Continue anyway - migrations might already be applied
-      }
-    }
-  }
-};
-
-/**
- * Generate Prisma Client
- */
-const generatePrismaClient = async () => {
-  try {
-    console.log("[Prisma] Generating Prisma Client...");
-    execSync("npx prisma generate", { stdio: "inherit" });
-    console.log("[Prisma] Client generated successfully");
-  } catch (error: any) {
-    console.error("[Prisma] Failed to generate client:", error.message);
-    throw error;
-  }
-};
-
 async function bootstrap() {
   try {
-    // Generate Prisma Client first
-    await generatePrismaClient();
-
-    // Run migrations
-    await runMigrations();
-
     const app = await NestFactory.create(AppModule);
 
     // Enable CORS

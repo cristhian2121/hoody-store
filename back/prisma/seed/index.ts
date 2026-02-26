@@ -1,7 +1,8 @@
 import { PrismaClient } from "@prisma/client";
-import departmentsJson from "./departments.json";
-import citiesJson from "./cities.json";
-import { Department, City } from "@prisma/client";
+import departmentsJson = require("./departments.json");
+import citiesJson = require("./cities.json");
+import countriesJson = require("./countries.json");
+import { Department, City, Country } from "@prisma/client";
 
 const prisma = new PrismaClient();
 const departments = departmentsJson.map((dept) => ({
@@ -10,10 +11,13 @@ const departments = departmentsJson.map((dept) => ({
 })) as Department[];
 const cities = citiesJson.map((city) => ({
   ...city,
-  departmentName: city.department_name,
+  departmentName: city.departmentName,
+  departmentCode: city.departmentCode,
 })) as City[];
 
-const countries = [{ code: "CO", name: "Colombia" }];
+const countries = countriesJson.map((country) => ({
+  ...country,
+})) as Country[];
 
 async function main() {
   console.log("Seeding countries...");
@@ -49,7 +53,7 @@ async function main() {
     await prisma.city.upsert({
       where: {
         departmentCode_code: {
-          departmentCode: city.deparment_name,
+          departmentCode: city.departmentCode,
           code: city.code,
         },
       },
