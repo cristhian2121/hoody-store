@@ -1,17 +1,25 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 import { useLanguage, formatPrice } from "@/lib/i18n";
 import { useCart } from "@/lib/cart";
-import { useCitySearch } from "@/hooks/useCitySearch";
+import { useCheckoutLocations } from "@/hooks/useCheckoutLocations";
+import { useShippingQuote } from "@/hooks/useShippingQuote";
+import { SHIPPING_DAYS } from "@/lib/shipping";
+import { COLOMBIA_COUNTRY_CODE, COLOMBIA_COUNTRY_NAME } from "@/lib/locations";
+import { createCheckoutSession } from "@/lib/mercadopago";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { toast } from "sonner";
-import { COLOMBIA_CITIES, SHIPPING_DAYS } from "@/lib/shipping";
-import { createCheckoutSession } from "@/lib/mercadopago";
-import { CitySearchInput } from "@/components/checkout/CitySearchInput";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { OrderSummary } from "@/components/checkout/OrderSummary";
+import { toast } from "sonner";
 
 const Checkout = () => {
   const { t, language } = useLanguage();
@@ -21,32 +29,65 @@ const Checkout = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [zip, setZip] = useState("");
-
-  const defaultCity = COLOMBIA_CITIES[0];
-  const citySearch = useCitySearch(defaultCity);
+  const [address, setAddress] = useState("");
+  const [postalCode, setPostalCode] = useState("");
 
   const {
+    departments,
+    cities,
+    selectedDepartmentCode,
+    setSelectedDepartmentCode,
+    selectedCityCode,
+    setSelectedCityCode,
+    selectedDepartment,
     selectedCity,
-    cityQuery,
-    showCityOptions,
-    filteredCities,
-    handleCityInput,
-    handleCitySelect,
-    handleFocus,
-    handleBlur,
-  } = citySearch;
+    loadingDepartments,
+    loadingCities,
+    error: locationError,
+  } = useCheckoutLocations();
 
-  const shippingCost = selectedCity ? selectedCity.shippingCost : 0;
+  const {
+    quote,
+    shippingCost,
+    loading: shippingLoading,
+    error: shippingError,
+  } = useShippingQuote({
+    countryCode: COLOMBIA_COUNTRY_CODE,
+    departmentCode: selectedDepartmentCode,
+    cityCode: selectedCityCode,
+  });
+
   const total = subtotal + shippingCost;
+  const shippingReady = Boolean(quote && selectedDepartment && selectedCity);
+
+  useEffect(() => {
+    if (locationError) {
+      toast.error(locationError);
+    }
+  }, [locationError]);
+
+  useEffect(() => {
+    if (shippingError) {
+      toast.error(shippingError);
+    }
+  }, [shippingError]);
 
   const handleCheckout = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!selectedCity) {
+
+    if (!selectedDepartment || !selectedCity) {
       toast.error(t("checkout.selectCity"));
       return;
     }
-    if (items.length === 0) return;
+
+    if (!shippingReady) {
+      toast.error(t("shipping.pending"));
+      return;
+    }
+
+    if (items.length === 0) {
+      return;
+    }
 
     setProcessing(true);
     try {
@@ -70,11 +111,12 @@ const Checkout = () => {
           email,
           phone,
         },
-        shippingCost,
         shipping: {
-          city: selectedCity.name,
-          department: selectedCity.department,
-          zip,
+          countryCode: COLOMBIA_COUNTRY_CODE,
+          departmentCode: selectedDepartment.code,
+          cityCode: selectedCity.code,
+          address,
+          postalCode: postalCode || undefined,
         },
       });
     } catch (error) {
@@ -166,42 +208,107 @@ const Checkout = () => {
 
             <section className="space-y-4">
               <h2 className="text-lg font-semibold">{t("checkout.shipping")}</h2>
-              <CitySearchInput
-                cityQuery={cityQuery}
-                selectedCity={selectedCity}
-                showCityOptions={showCityOptions}
-                filteredCities={filteredCities}
-                onCityInput={handleCityInput}
-                onCitySelect={handleCitySelect}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-              />
+              <div className="space-y-1">
+                <Label htmlFor="country" className="text-sm">
+                  {t("checkout.country")}
+                </Label>
+                <Input
+                  id="country"
+                  value={COLOMBIA_COUNTRY_NAME}
+                  readOnly
+                />
+              </div>
+
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1">
                   <Label className="text-sm">{t("checkout.state")}</Label>
+                  <Select
+                    value={selectedDepartmentCode}
+                    onValueChange={setSelectedDepartmentCode}
+                    disabled={loadingDepartments}
+                  >
+                    <SelectTrigger>
+                      <SelectValue
+                        placeholder={
+                          loadingDepartments
+                            ? "Cargando departamentos..."
+                            : t("checkout.state")
+                        }
+                      />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {departments.map((department) => (
+                        <SelectItem key={department.id} value={department.code}>
+                          {department.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-sm">{t("checkout.city")}</Label>
+                  <Select
+                    value={selectedCityCode}
+                    onValueChange={setSelectedCityCode}
+                    disabled={!selectedDepartmentCode || loadingCities}
+                  >
+                    <SelectTrigger>
+                      <SelectValue
+                        placeholder={
+                          !selectedDepartmentCode
+                            ? t("checkout.selectCity")
+                            : loadingCities
+                              ? "Cargando ciudades..."
+                              : t("checkout.city")
+                        }
+                      />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {cities.map((city) => (
+                        <SelectItem key={city.id} value={city.code}>
+                          {city.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <Label htmlFor="address" className="text-sm">
+                    {t("checkout.address")}
+                  </Label>
                   <Input
-                    value={selectedCity?.department ?? ""}
-                    readOnly
-                    placeholder="Departamento"
+                    id="address"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    required
                   />
                 </div>
                 <div className="space-y-1">
-                  <Label htmlFor="zip" className="text-sm">
+                  <Label htmlFor="postalCode" className="text-sm">
                     {t("checkout.zip")}
                   </Label>
-                  <Input id="zip" value={zip} onChange={(e) => setZip(e.target.value)} />
+                  <Input
+                    id="postalCode"
+                    value={postalCode}
+                    onChange={(e) => setPostalCode(e.target.value)}
+                  />
                 </div>
               </div>
+
               <p className="rounded-2xl border border-primary/30 bg-primary/5 px-4 py-2 text-sm text-primary">
-                {selectedCity
+                {shippingReady && selectedCity
                   ? `${t("shipping.deliveryTime")} · ${SHIPPING_DAYS} ${t(
                       "shipping.businessDays",
                     )} · ${selectedCity.name}`
                   : t("shipping.selectCityHint")}
               </p>
+
               <p className="text-sm text-muted-foreground">
                 {t("shipping.cost")}:{" "}
-                {selectedCity ? formatPrice(shippingCost) : t("shipping.pending")}
+                {shippingReady ? formatPrice(shippingCost) : shippingLoading ? "..." : t("shipping.pending")}
               </p>
             </section>
 
@@ -218,10 +325,12 @@ const Checkout = () => {
 
           <div className="lg:col-span-1">
             <OrderSummary
-              selectedCity={selectedCity}
+              shippingReady={shippingReady}
+              shippingLoading={shippingLoading}
               shippingCost={shippingCost}
               total={total}
               processing={processing}
+              checkoutDisabled={shippingLoading || !shippingReady}
             />
           </div>
         </div>

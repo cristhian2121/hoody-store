@@ -2,18 +2,20 @@ import {
   Controller,
   Post,
   Get,
-  Query,
   Body,
   Headers,
   HttpCode,
   HttpStatus,
   Req,
   Res,
+  UsePipes,
+  ValidationPipe,
 } from "@nestjs/common";
 import { Request, Response } from "express";
-import { createHmac } from "node:crypto";
+import { createHmac, timingSafeEqual } from "node:crypto";
 import { PaymentsService } from "../services/payments.service";
 import { ConfigService } from "@nestjs/config";
+import { ConfirmPaymentDto } from "./dto/confirm-payment.dto";
 
 @Controller("api/payments/mercadopago")
 export class PaymentsController {
@@ -22,31 +24,49 @@ export class PaymentsController {
     private readonly configService: ConfigService,
   ) {}
 
+  @Post("confirm")
+  @HttpCode(HttpStatus.OK)
+  @UsePipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }))
+  async confirmPayment(@Body() body: ConfirmPaymentDto) {
+    const order = await this.paymentsService.processWebhook(body.paymentId);
+    return {
+      ok: true,
+      orderId: order.id,
+      status: order.status,
+    };
+  }
+
   @Post("webhook")
   @Get("webhook")
   @HttpCode(HttpStatus.OK)
   async webhook(
     @Req() req: Request,
     @Res() res: Response,
-    @Query("topic") topic?: string,
-    @Query("data.id") dataId?: string,
-    @Query("id") id?: string,
     @Body() body?: any,
     @Headers("x-signature") signature?: string,
     @Headers("x-request-id") requestId?: string,
   ) {
-    const queryString = new URL(req.url, `http://${req.headers.host}`).searchParams.toString();
+    const host = req.headers.host || "localhost";
+    const requestUrl = new URL(req.originalUrl || req.url, `http://${host}`);
+    const topic = requestUrl.searchParams.get("topic") || requestUrl.searchParams.get("type") || body?.type;
+    const paymentIdFromQuery =
+      requestUrl.searchParams.get("data.id") || requestUrl.searchParams.get("id");
+    const paymentId = paymentIdFromQuery || body?.data?.id;
 
     // Verify webhook signature for POST requests
-    if (req.method === "POST" && !this.verifyWebhookSignature(req, body, queryString, signature, requestId)) {
+    if (
+      req.method === "POST" &&
+      !this.verifyWebhookSignature({
+        signature,
+        requestId,
+        dataId: paymentId,
+      })
+    ) {
       console.error("[Webhook] Invalid signature, rejecting request");
       return res.status(401).json({ message: "Invalid webhook signature" });
     }
 
-    const paymentTopic = topic || body?.type;
-    const paymentId = dataId || body?.data?.id || id;
-
-    if (paymentTopic !== "payment" || !paymentId) {
+    if (topic !== "payment" || !paymentId) {
       return res.json({ ok: true });
     }
 
@@ -64,48 +84,75 @@ export class PaymentsController {
   }
 
   private verifyWebhookSignature(
-    req: Request,
-    body: any,
-    queryString: string,
-    signature?: string,
-    requestId?: string,
+    params: {
+      signature?: string;
+      requestId?: string;
+      dataId?: string;
+    },
   ): boolean {
     const webhookSecret = this.configService.get<string>("MERCADOPAGO_WEBHOOK_SECRET");
-    if (!webhookSecret || webhookSecret.startsWith("/")) {
+    if (!webhookSecret || webhookSecret.includes("your_webhook_secret_here")) {
       console.warn(
         "[Webhook] MERCADOPAGO_WEBHOOK_SECRET not configured properly. Webhook signature validation skipped.",
       );
       return true;
     }
 
-    if (!signature) {
+    if (!params.signature) {
       console.warn("[Webhook] Missing x-signature header");
       return false;
     }
 
-    // Mercado Pago sends signature as: sha256=hash
-    const parts = signature.split("=");
-    if (parts.length !== 2 || parts[0] !== "sha256") {
+    const signatureParts = params.signature.split(",").reduce<Record<string, string>>(
+      (acc, rawPart) => {
+        const [key, value] = rawPart.trim().split("=");
+        if (key && value) {
+          acc[key.trim()] = value.trim();
+        }
+        return acc;
+      },
+      {},
+    );
+
+    const timestamp = signatureParts.ts;
+    const receivedHash = signatureParts.v1;
+
+    if (!timestamp || !receivedHash) {
       console.warn("[Webhook] Invalid signature format");
       return false;
     }
 
-    const receivedHash = parts[1];
-
-    // Build the data string: request_id + query_string + body
-    const dataToSign = `${requestId || ""}${queryString}${JSON.stringify(body)}`;
+    // Manifest according to Mercado Pago docs:
+    // id:<data.id>;request-id:<x-request-id>;ts:<ts>;
+    // If a value is missing, it must be omitted from the manifest.
+    const manifestParts = [
+      params.dataId ? `id:${params.dataId}` : null,
+      params.requestId ? `request-id:${params.requestId}` : null,
+      `ts:${timestamp}`,
+    ].filter(Boolean);
+    const manifest = `${manifestParts.join(";")};`;
 
     // Compute HMAC-SHA256
     const computedHash = createHmac("sha256", webhookSecret)
-      .update(dataToSign)
+      .update(manifest)
       .digest("hex");
 
-    const isValid = computedHash === receivedHash;
+    let isValid = false;
+    try {
+      const receivedBuffer = Buffer.from(receivedHash, "hex");
+      const computedBuffer = Buffer.from(computedHash, "hex");
+      isValid =
+        receivedBuffer.length === computedBuffer.length &&
+        timingSafeEqual(receivedBuffer, computedBuffer);
+    } catch {
+      return false;
+    }
+
     if (!isValid) {
       console.error("[Webhook] Signature validation failed", {
         receivedHash: receivedHash.substring(0, 16) + "...",
         computedHash: computedHash.substring(0, 16) + "...",
-        requestId,
+        requestId: params.requestId,
       });
     }
 

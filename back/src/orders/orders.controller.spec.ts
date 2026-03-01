@@ -49,8 +49,10 @@ describe("OrdersController", () => {
           phone: "1234567890",
         },
         shipping: {
-          city: "Bogotá",
-          department: "Cundinamarca",
+          countryCode: "CO",
+          departmentCode: "11",
+          cityCode: "11001",
+          address: "Calle 123 #45-67",
         },
       };
 

@@ -128,6 +128,11 @@ const translations = {
       "No pudimos conectar con Mercado Pago. Intenta de nuevo.",
     "checkout.success.title": "Pedido confirmado",
     "checkout.success.message": "Tu pedido ha sido procesado exitosamente",
+    "checkout.success.verifying": "Estamos confirmando tu pago con Mercado Pago...",
+    "checkout.success.verifyFailed":
+      "Recibimos tu retorno, pero aún no pudimos confirmar el pago. Si ya pagaste, la confirmación puede tardar unos minutos.",
+    "checkout.success.noPaymentId":
+      "No recibimos el identificador del pago para validarlo automáticamente.",
     "checkout.cancel.title": "Pago cancelado",
     "checkout.cancel.message":
       "El pago fue cancelado. Puedes intentar de nuevo.",
@@ -265,6 +270,11 @@ const translations = {
     "checkout.paymentError": "Unable to reach Mercado Pago. Please try again.",
     "checkout.success.title": "Order confirmed",
     "checkout.success.message": "Your order has been successfully processed",
+    "checkout.success.verifying": "We are confirming your payment with Mercado Pago...",
+    "checkout.success.verifyFailed":
+      "We received your return, but we could not confirm the payment yet. If you already paid, confirmation may take a few minutes.",
+    "checkout.success.noPaymentId":
+      "We did not receive the payment identifier to validate it automatically.",
     "checkout.cancel.title": "Payment canceled",
     "checkout.cancel.message": "The payment was canceled. You can try again.",
     "checkout.pending.title": "Payment pending",

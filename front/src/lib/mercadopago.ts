@@ -1,6 +1,5 @@
 import type { PersonalizationData, ProductCategory, ProductColor, Gender } from "./types";
-
-const API_URL = import.meta.env.VITE_API_URL || "";
+import { ensureApiUrl } from "./api";
 
 export interface CheckoutItem {
   productId: string;
@@ -24,33 +23,28 @@ interface CreateCheckoutSessionParams {
     email: string;
     phone: string;
   };
-  shippingCost: number;
   shipping: {
-    city: string;
-    department: string;
-    zip?: string;
+    countryCode: string;
+    departmentCode: string;
+    cityCode: string;
+    address: string;
+    postalCode?: string;
   };
 }
 
 export const createCheckoutSession = async ({
   items,
   customer,
-  shippingCost,
   shipping,
 }: CreateCheckoutSessionParams): Promise<void> => {
-  if (!API_URL) {
-    throw new Error(
-      "Configura VITE_API_URL con la URL de tu backend para procesar pagos con Mercado Pago.",
-    );
-  }
+  const apiUrl = ensureApiUrl();
 
-  const res = await fetch(`${API_URL}/api/orders/checkout`, {
+  const res = await fetch(`${apiUrl}/api/orders/checkout`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       items,
       customer,
-      shippingCost,
       shipping,
     }),
   });
@@ -66,4 +60,20 @@ export const createCheckoutSession = async ({
   }
 
   window.location.href = checkoutUrl;
+};
+
+export const confirmCheckoutPayment = async (paymentId: string) => {
+  const apiUrl = ensureApiUrl();
+  const res = await fetch(`${apiUrl}/api/payments/mercadopago/confirm`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ paymentId }),
+  });
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.message || "No pudimos confirmar el pago.");
+  }
+
+  return res.json() as Promise<{ ok: boolean; orderId: string; status: string }>;
 };

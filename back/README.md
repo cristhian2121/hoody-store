@@ -9,6 +9,8 @@ API HTTP para crear pedidos y cobrar con Mercado Pago.
 - `GET /api/orders`
 - `GET /api/orders/:id`
 - `POST /api/payments/mercadopago/webhook`
+- `POST /api/payments/mercadopago/confirm`
+- `GET /api/shipping/quote`
 
 ## Variables de entorno
 
@@ -19,6 +21,10 @@ Copiar `.env.example` a `.env` y completar:
 - `BACKEND_URL`
 - `MERCADOPAGO_ACCESS_TOKEN`
 - `MERCADOPAGO_WEBHOOK_SECRET` (reservado para validación futura)
+- `SHIPPING_DEFAULT_COST_COP` (default sugerido: `20000`)
+- `WHATSAPP_CLOUD_API_TOKEN` (placeholder hasta tener credenciales reales)
+- `WHATSAPP_CLOUD_PHONE_NUMBER_ID` (placeholder)
+- `WHATSAPP_CLOUD_TO_NUMBER` (placeholder)
 
 ## Desarrollo
 

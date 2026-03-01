@@ -1,19 +1,50 @@
-export interface City {
-  id: string;
-  name: string;
-  department: string;
-  shippingCost: number; // en COP
-}
-
-export const COLOMBIA_CITIES: City[] = [
-  { id: "bog", name: "Bogotá", department: "Cundinamarca", shippingCost: 0 },
-  { id: "med", name: "Medellín", department: "Antioquia", shippingCost: 4000 },
-  { id: "cal", name: "Cali", department: "Valle del Cauca", shippingCost: 5000 },
-  { id: "bqa", name: "Barranquilla", department: "Atlántico", shippingCost: 5500 },
-  { id: "ctg", name: "Cartagena", department: "Bolívar", shippingCost: 6000 },
-  { id: "buc", name: "Bucaramanga", department: "Santander", shippingCost: 5200 },
-  { id: "pei", name: "Pereira", department: "Risaralda", shippingCost: 4800 },
-  { id: "man", name: "Manizales", department: "Caldas", shippingCost: 4700 },
-];
+import { ensureApiUrl } from "./api";
 
 export const SHIPPING_DAYS = 8;
+
+export interface ShippingQuote {
+  country: {
+    code: string;
+    name: string;
+  };
+  department: {
+    code: string;
+    name: string;
+  };
+  city: {
+    code: string;
+    name: string;
+  };
+  amount: number;
+  currency: string;
+  provider: string;
+  calculatedAt: string;
+}
+
+export const getShippingQuote = async ({
+  countryCode,
+  departmentCode,
+  cityCode,
+}: {
+  countryCode: string;
+  departmentCode: string;
+  cityCode: string;
+}): Promise<ShippingQuote> => {
+  const apiUrl = ensureApiUrl();
+
+  const response = await fetch(
+    `${apiUrl}/api/shipping/quote?countryCode=${encodeURIComponent(
+      countryCode,
+    )}&departmentCode=${encodeURIComponent(
+      departmentCode,
+    )}&cityCode=${encodeURIComponent(cityCode)}`,
+  );
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.message || "No pudimos calcular el costo de envío.");
+  }
+
+  const data = await response.json();
+  return data.quote;
+};

@@ -31,15 +31,19 @@ class CustomerDto {
 class ShippingDto {
   @IsString()
   @IsNotEmpty()
-  city: string;
+  countryCode: string;
 
   @IsString()
   @IsNotEmpty()
-  department: string;
+  departmentCode: string;
 
-  @IsOptional()
   @IsString()
-  address?: string;
+  @IsNotEmpty()
+  cityCode: string;
+
+  @IsString()
+  @IsNotEmpty()
+  address: string;
 
   @IsOptional()
   @IsString()
@@ -102,9 +106,4 @@ export class CheckoutDto {
   @Type(() => ShippingDto)
   @IsNotEmpty()
   shipping: ShippingDto;
-
-  @IsOptional()
-  @IsNumber()
-  @Min(0)
-  shippingCost?: number;
 }

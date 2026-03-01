@@ -4,6 +4,7 @@ import { PrismaModule } from "./prisma/prisma.module";
 import { OrdersModule } from "./orders/orders.module";
 import { PaymentsModule } from "./payments/payments.module";
 import { LocationsModule } from "./locations/locations.module";
+import { ShippingModule } from "./shipping/shipping.module";
 import { AppController } from "./app.controller";
 import { loadDotEnv } from "./config/env";
 
@@ -20,6 +21,7 @@ loadDotEnv();
     OrdersModule,
     PaymentsModule,
     LocationsModule,
+    ShippingModule,
   ],
   controllers: [AppController],
 })

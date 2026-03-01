@@ -4,20 +4,23 @@ import { useCart } from "@/lib/cart";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import type { City } from "@/lib/shipping";
 
 interface OrderSummaryProps {
-  selectedCity: City | null;
+  shippingReady: boolean;
+  shippingLoading: boolean;
   shippingCost: number;
   total: number;
   processing: boolean;
+  checkoutDisabled: boolean;
 }
 
 export const OrderSummary = ({
-  selectedCity,
+  shippingReady,
+  shippingLoading,
   shippingCost,
   total,
   processing,
+  checkoutDisabled,
 }: OrderSummaryProps) => {
   const { t, language } = useLanguage();
   const { items, subtotal } = useCart();
@@ -63,7 +66,7 @@ export const OrderSummary = ({
         <div className="flex justify-between">
           <span className="text-muted-foreground">{t("shipping.cost")}</span>
           <span>
-            {selectedCity ? formatPrice(shippingCost) : t("shipping.pending")}
+            {shippingReady ? formatPrice(shippingCost) : shippingLoading ? "..." : t("shipping.pending")}
           </span>
         </div>
       </div>
@@ -72,7 +75,12 @@ export const OrderSummary = ({
         <span>{t("cart.total")}</span>
         <span>{formatPrice(total)}</span>
       </div>
-      <Button type="submit" size="lg" className="w-full" disabled={processing}>
+      <Button
+        type="submit"
+        size="lg"
+        className="w-full"
+        disabled={processing || checkoutDisabled}
+      >
         <ShieldCheck className="h-4 w-4 mr-2" />
         {processing ? t("checkout.processing") : t("checkout.payWithMercadoPago")}
       </Button>

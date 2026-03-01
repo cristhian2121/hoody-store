@@ -4,18 +4,19 @@ import { OrderRepository } from "../repositories/interfaces/orders.repository.in
 import { PaymentsService } from "./payments.service";
 import { CheckoutDto } from "../api/dto/checkout.dto";
 import { Prisma } from "@prisma/client";
+import { ShippingService } from "../shipping/shipping.service";
 
 @Injectable()
 export class OrdersService {
   constructor(
     @Inject("OrderRepository") private readonly orderRepository: OrderRepository,
     private readonly paymentsService: PaymentsService,
+    private readonly shippingService: ShippingService,
   ) {}
 
   async createOrderWithCheckout(checkoutData: CheckoutDto) {
     const orderId = randomUUID();
     const createdAt = new Date().toISOString();
-    const shippingCost = Number(checkoutData.shippingCost || 0);
 
     // Validate and normalize items
     const items = checkoutData.items.map((item) => ({
@@ -26,6 +27,12 @@ export class OrdersService {
 
     // Calculate totals
     const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const shippingQuote = await this.shippingService.calculateQuote({
+      countryCode: checkoutData.shipping.countryCode,
+      departmentCode: checkoutData.shipping.departmentCode,
+      cityCode: checkoutData.shipping.cityCode,
+    });
+    const shippingCost = shippingQuote.amount;
     const total = subtotal + shippingCost;
 
     // Create order
@@ -37,8 +44,17 @@ export class OrdersService {
       paymentProvider: "mercadopago",
       customer: checkoutData.customer as any,
       shipping: {
-        ...checkoutData.shipping,
+        countryCode: shippingQuote.country.code,
+        country: shippingQuote.country.name,
+        departmentCode: shippingQuote.department.code,
+        department: shippingQuote.department.name,
+        cityCode: shippingQuote.city.code,
+        city: shippingQuote.city.name,
+        address: checkoutData.shipping.address,
+        postalCode: checkoutData.shipping.postalCode ?? null,
         cost: shippingCost,
+        currency: shippingQuote.currency,
+        pricingProvider: shippingQuote.provider,
       } as any,
       totals: {
         subtotal,
@@ -61,7 +77,7 @@ export class OrdersService {
     });
 
     // Update order with payment info
-    const updatedOrder = await this.orderRepository.update(order.id, (current) => ({
+    const updatedOrder = await this.orderRepository.update(order.id, (current: any) => ({
       ...current,
       updatedAt: new Date(),
       payment: {

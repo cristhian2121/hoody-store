@@ -2,6 +2,7 @@ import { Injectable, Inject } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { OrderRepository } from "../repositories/interfaces/orders.repository.interface";
 import { MercadoPagoService } from "./mercadopago.service";
+import { NotificationsService } from "../notifications/notifications.service";
 
 @Injectable()
 export class PaymentsService {
@@ -9,6 +10,7 @@ export class PaymentsService {
     @Inject("OrderRepository") private readonly orderRepository: OrderRepository,
     private readonly mercadoPagoService: MercadoPagoService,
     private readonly configService: ConfigService,
+    private readonly notificationsService: NotificationsService,
   ) {}
 
   async createPreference({
@@ -68,24 +70,47 @@ export class PaymentsService {
       throw new Error("Payment missing status");
     }
     const status = this.mapMercadoPagoStatus(payment.status);
+    const wasPaid = order.status === "paid";
 
     // Update order
-    const updatedOrder = await this.orderRepository.update(order.id, (current) => ({
-      ...current,
-      updatedAt: new Date(),
-      status,
-      payment: {
-        ...((current.payment as Record<string, unknown>) || {}),
-        provider: "mercadopago",
-        paymentId: String(payment.id),
-        status: payment.status,
-        statusDetail: payment.status_detail,
-        paidAt: payment.date_approved || null,
-      } as any,
-    }));
+    const updatedOrder = await this.orderRepository.update(order.id, (current: any) => {
+      const currentTotals = (current.totals as Record<string, unknown>) || {};
+      const approvedAmount = Number(payment.transaction_amount);
+      const paidAmount =
+        Number.isFinite(approvedAmount) && approvedAmount >= 0
+          ? approvedAmount
+          : Number(currentTotals.total || 0);
+
+      return {
+        ...current,
+        updatedAt: new Date(),
+        status,
+        totals: {
+          ...currentTotals,
+          ...(status === "paid" && {
+            totalPaid: paidAmount,
+            currency: payment.currency_id || currentTotals.currency || "COP",
+          }),
+        } as any,
+        payment: {
+          ...((current.payment as Record<string, unknown>) || {}),
+          provider: "mercadopago",
+          paymentId: String(payment.id),
+          status: payment.status,
+          statusDetail: payment.status_detail,
+          paidAt: payment.date_approved || null,
+          transactionAmount: paidAmount,
+          currency: payment.currency_id || "COP",
+        } as any,
+      };
+    });
 
     if (!updatedOrder) {
       throw new Error("Failed to update order");
+    }
+
+    if (status === "paid" && !wasPaid) {
+      await this.notificationsService.notifyPaidOrder(updatedOrder);
     }
 
     return updatedOrder;
