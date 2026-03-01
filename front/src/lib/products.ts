@@ -1,6 +1,8 @@
 import type { Product } from "./types";
-import hoodieBlack from "@/assets/hoodie-black.jpg";
+// import hoodieBlack from "@/assets/hoodie-black.jpg";
+import hoodieBlack from "@/assets/hoodie_sh1.png";
 import hoodieGray from "@/assets/hoodie-gray.jpg";
+import hoodieBase from "@/assets/hoodie_base.png";
 import tshirtWhite from "@/assets/tshirt-white.jpg";
 import tshirtBlack from "@/assets/tshirt-black.jpg";
 
@@ -16,6 +18,7 @@ export const products: Product[] = [
     },
     price: 89900,
     images: [hoodieBlack, hoodieGray],
+    garmentBase: hoodieBase,
     colors: [
       { id: "negro", name: { es: "Negro", en: "Black" }, hex: "#1a1a1a" },
       { id: "gris", name: { es: "Gris", en: "Gray" }, hex: "#9ca3af" },
@@ -37,6 +40,7 @@ export const products: Product[] = [
     },
     price: 119900,
     images: [hoodieGray, hoodieBlack],
+    garmentBase: hoodieBase,
     colors: [
       { id: "gris", name: { es: "Gris", en: "Gray" }, hex: "#9ca3af" },
       { id: "negro", name: { es: "Negro", en: "Black" }, hex: "#1a1a1a" },

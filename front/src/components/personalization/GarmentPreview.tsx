@@ -4,22 +4,43 @@ interface GarmentPreviewProps {
   category: ProductCategory;
   garmentColor: string;
   garmentImage?: string;
+  garmentBase?: string;
 }
 
 export const GarmentPreview = ({
   category,
   garmentColor,
   garmentImage,
+  garmentBase,
 }: GarmentPreviewProps) => {
   const isHoodie = category === "hoodies";
 
   if (garmentImage) {
     return (
-      <img
-        src={garmentImage}
-        alt="Garment preview"
-        className="absolute inset-0 h-full w-full object-cover"
-      />
+      <div className="relative w-96 aspect-[3/4]">
+        {/* Base gris */}
+        <img
+          src={garmentBase}
+          className="absolute inset-0 w-full h-full object-contain"
+          alt="hoodie base"
+        />
+
+        {/* Color dinámico */}
+        <div
+          className="absolute inset-0 w-full h-full"
+          style={{
+            backgroundColor: garmentColor,
+            mixBlendMode: "color",
+          }}
+        />
+
+        {/* Sombras */}
+        <img
+          src={garmentImage}
+          className="absolute inset-0 w-full h-full object-contain pointer-events-none"
+          alt="hoodie shadow"
+        />
+      </div>
     );
   }
 

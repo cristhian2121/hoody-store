@@ -10,6 +10,7 @@ interface DesignCanvasProps {
   category: ProductCategory;
   garmentColor: string;
   garmentImage?: string;
+  garmentBase?: string;
   activeSide: PrintSide;
   currentLayer: DesignLayer;
   selectedTextId: string | null;
@@ -24,6 +25,7 @@ export const DesignCanvas = ({
   category,
   garmentColor,
   garmentImage,
+  garmentBase,
   activeSide,
   currentLayer,
   selectedTextId,
@@ -48,6 +50,7 @@ export const DesignCanvas = ({
         category={category}
         garmentColor={garmentColor}
         garmentImage={garmentImage}
+        garmentBase={garmentBase}
       />
 
       <div

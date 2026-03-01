@@ -64,6 +64,7 @@ const translations = {
     "editor.generateAI": "Generar con IA",
     "editor.aiPrompt": "Describe tu diseño...",
     "editor.generating": "Generando...",
+    "editor.garmentColor": "Color de la prenda",
     "editor.removeImage": "Quitar imagen",
     "editor.removeText": "Quitar texto",
     "editor.thumbnail.hasDesign": "Diseño aplicado",

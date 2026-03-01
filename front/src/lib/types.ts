@@ -17,6 +17,7 @@ export interface Product {
   description: { es: string; en: string };
   price: number;
   images: string[];
+  garmentBase?: string;
   colors: ProductColor[];
   sizes: Record<Gender, string[]>;
 }

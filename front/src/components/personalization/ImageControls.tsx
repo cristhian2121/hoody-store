@@ -1,9 +1,8 @@
-import { Upload, Trash2, Sparkles, Loader2, AlignCenter } from "lucide-react";
+import { Upload, Trash2, AlignCenter } from "lucide-react";
 import { useLanguage } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import { Textarea } from "@/components/ui/textarea";
 import type { ImageElement } from "@/lib/types";
 import type { RefObject } from "react";
 
@@ -65,33 +64,6 @@ export const ImageControls = ({
             </Button>
           )}
         </div>
-      </div>
-
-      {/* AI Generate */}
-      <div className="space-y-2">
-        <Label className="text-sm font-medium">{t("editor.generateAI")}</Label>
-        <div className="flex gap-2">
-          <Textarea
-            value={aiPrompt}
-            onChange={(e) => onAiPromptChange(e.target.value)}
-            placeholder={t("editor.aiPrompt")}
-            className="text-sm min-h-[60px]"
-          />
-        </div>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={onAiGenerate}
-          disabled={aiLoading || !aiPrompt.trim()}
-          className="w-full"
-        >
-          {aiLoading ? (
-            <Loader2 className="h-4 w-4 mr-1 animate-spin" />
-          ) : (
-            <Sparkles className="h-4 w-4 mr-1" />
-          )}
-          {aiLoading ? t("editor.generating") : t("editor.generateAI")}
-        </Button>
       </div>
 
       {/* Image controls */}

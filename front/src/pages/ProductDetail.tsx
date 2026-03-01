@@ -256,6 +256,7 @@ const ProductDetail = () => {
         category={product.category}
         garmentColor={selectedColor.hex}
         garmentImage={product.images[activeImage]}
+        garmentBase={product.garmentBase}
         onSave={handleSavePersonalization}
         onChange={setLivePreview}
         initialData={personalization}

@@ -9,6 +9,7 @@ interface Props {
   category: ProductCategory;
   garmentColor: string;
   garmentImage?: string;
+  garmentBase?: string;
   onSave: (data: PersonalizationData) => void;
   onChange?: (data: PersonalizationData) => void;
   initialData?: PersonalizationData;
@@ -20,6 +21,7 @@ const PersonalizationEditorModal = ({
   category,
   garmentColor,
   garmentImage,
+  garmentBase,
   onSave,
   onChange,
   initialData,
@@ -31,6 +33,7 @@ const PersonalizationEditorModal = ({
           category={category}
           garmentColor={garmentColor}
           garmentImage={garmentImage}
+          garmentBase={garmentBase}
           onSave={onSave}
           onChange={onChange}
           initialData={initialData}

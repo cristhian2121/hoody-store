@@ -17,7 +17,7 @@ export const HORIZONTAL_POSITIONS: HorizontalPosition[] = [
   "right",
 ];
 
-export const VERTICAL_POSITIONS: VerticalPosition[] = ["top", "middle", "bottom"];
+export const VERTICAL_POSITIONS: VerticalPosition[] = ["middle"]; // ["top", "middle", "bottom"];
 
 export const PRINT_AREAS: Record<
   ProductCategory,
@@ -113,3 +113,25 @@ export const DEFAULT_ROTATION = 0;
 export const DEFAULT_FONT_SIZE = 24;
 
 export const DEFAULT_TEXT_COLOR = "#ffffff";
+
+export const GARMENT_COLORS: Record<
+  ProductCategory,
+  { id: string; name: { es: string; en: string }; hex: string }[]
+> = {
+  hoodies: [
+    { id: "negro", name: { es: "Negro", en: "Black" }, hex: "#1a1a1a" },
+    { id: "gris", name: { es: "Gris", en: "Gray" }, hex: "#9ca3af" },
+    {
+      id: "verde",
+      name: { es: "Verde oscuro", en: "Dark Green" },
+      hex: "#166534",
+    },
+    { id: "rojo", name: { es: "Rojo", en: "Red" }, hex: "#ff0000" },
+    { id: "azul", name: { es: "Azul", en: "Blue" }, hex: "#0000ff" },
+  ],
+  camisetas: [
+    { id: "negro", name: { es: "Negro", en: "Black" }, hex: "#1a1a1a" },
+    { id: "gris", name: { es: "Gris", en: "Gray" }, hex: "#9ca3af" },
+    { id: "oliva", name: { es: "Oliva", en: "Olive" }, hex: "#6b7c3e" },
+  ],
+};

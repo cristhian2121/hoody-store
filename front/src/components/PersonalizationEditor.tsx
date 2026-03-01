@@ -1,7 +1,11 @@
 import * as React from "react";
 import { Type, RotateCcw, Sparkles } from "lucide-react";
 import { useLanguage } from "@/lib/i18n";
-import type { PersonalizationData, PrintSide, ProductCategory } from "@/lib/types";
+import type {
+  PersonalizationData,
+  PrintSide,
+  ProductCategory,
+} from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -14,11 +18,14 @@ import { DesignCanvas } from "./personalization/DesignCanvas";
 import { ImageControls } from "./personalization/ImageControls";
 import { TextControls } from "./personalization/TextControls";
 import { PositionPresets } from "./personalization/PositionPresets";
+import { ColorSelector } from "@/components/ui/color-selector";
+import { GARMENT_COLORS } from "@/lib/constants";
 
 interface Props {
   category: ProductCategory;
   garmentColor: string;
   garmentImage?: string;
+  garmentBase?: string;
   onSave: (data: PersonalizationData) => void;
   onChange?: (data: PersonalizationData) => void;
   initialData?: PersonalizationData;
@@ -28,6 +35,7 @@ const PersonalizationEditor = ({
   category,
   garmentColor,
   garmentImage,
+  garmentBase,
   onSave,
   onChange,
   initialData,
@@ -38,6 +46,9 @@ const PersonalizationEditor = ({
     initialData,
     onChange,
   });
+
+  const [selectedGarmentColor, setSelectedGarmentColor] =
+    React.useState(garmentColor);
 
   const {
     data,
@@ -140,78 +151,36 @@ const PersonalizationEditor = ({
   const activeElement = selectedText ?? currentLayer.image;
 
   return (
-    <div className="space-y-4">
+    <div className="h-full flex flex-col space-y-4">
       <h3 className="font-semibold text-lg flex items-center gap-2">
         <Sparkles className="h-5 w-5 text-primary" />
         {t("editor.title")}
       </h3>
-
       {/* Side tabs */}
-      <Tabs
-        value={activeSide}
-        onValueChange={(v) => {
-          setActiveSide(v as PrintSide);
-          setSelectedTextId(null);
-        }}
-      >
-        <TabsList className="w-full">
-          <TabsTrigger value="front" className="flex-1">
-            {t("editor.front")}
-          </TabsTrigger>
-          <TabsTrigger value="back" className="flex-1">
-            {t("editor.back")}
-          </TabsTrigger>
-        </TabsList>
-      </Tabs>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <div className="space-y-3">
-          <DesignCanvas
-            category={category}
-            garmentColor={garmentColor}
-            garmentImage={garmentImage}
-            activeSide={activeSide}
-            currentLayer={currentLayer}
-            selectedTextId={selectedTextId}
-            containerRef={dragAndDrop.containerRef}
-            onPointerMove={dragAndDrop.handlePointerMove}
-            onPointerUp={dragAndDrop.handlePointerUp}
-            onImagePointerDown={handleImagePointerDown}
-            onTextPointerDown={handleTextPointerDown}
-          />
-
-          <div className="grid grid-cols-2 gap-3">
-            {(["front", "back"] as PrintSide[]).map((side) => {
-              const layerHasDesign =
-                data[side].image || data[side].texts.length > 0;
-              return (
-                <button
-                  key={side}
-                  type="button"
-                  onClick={() => {
-                    setActiveSide(side);
-                    setSelectedTextId(null);
-                  }}
-                  className={`rounded-2xl border p-3 text-left transition ${
-                    activeSide === side
-                      ? "border-primary bg-primary/10"
-                      : "border-border hover:border-muted-foreground/60"
-                  }`}
-                >
-                  <p className="text-sm font-semibold">{t(`editor.${side}`)}</p>
-                  <p className="text-[11px] text-muted-foreground">
-                    {layerHasDesign
-                      ? t("editor.thumbnail.hasDesign")
-                      : t("editor.thumbnail.empty")}
-                  </p>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-[40%_60%] gap-4 min-h-0 ">
         {/* Controls */}
-        <div className="space-y-4">
+        <div className="space-y-3 lg:pr-2 overflow-x-hidden">
+          <Tabs
+            value={activeSide}
+            onValueChange={(v) => {
+              setActiveSide(v as PrintSide);
+              setSelectedTextId(null);
+            }}
+          >
+            <TabsList className="w-full">
+              <TabsTrigger value="front" className="flex-1">
+                {t("editor.front")}
+              </TabsTrigger>
+              <TabsTrigger value="back" className="flex-1">
+                {t("editor.back")}
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+          <ColorSelector
+            colors={GARMENT_COLORS[category]}
+            value={selectedGarmentColor}
+            onChange={setSelectedGarmentColor}
+          />
           <ImageControls
             image={currentLayer.image}
             fileInputRef={imageUpload.fileInputRef}
@@ -250,7 +219,9 @@ const PersonalizationEditor = ({
           {selectedText && (
             <TextControls
               text={selectedText}
-              onContentChange={(content) => updateText(selectedText.id, { content })}
+              onContentChange={(content) =>
+                updateText(selectedText.id, { content })
+              }
               onFontFamilyChange={(fontFamily) =>
                 updateText(selectedText.id, { fontFamily })
               }
@@ -287,6 +258,23 @@ const PersonalizationEditor = ({
               {t("editor.save")}
             </Button>
           </div>
+        </div>
+        {/* Canvas */}
+        <div className="space-y-4 lg:pl-2 overflow-x-hidden">
+          <DesignCanvas
+            category={category}
+            garmentColor={selectedGarmentColor}
+            garmentImage={garmentImage}
+            garmentBase={garmentBase}
+            activeSide={activeSide}
+            currentLayer={currentLayer}
+            selectedTextId={selectedTextId}
+            containerRef={dragAndDrop.containerRef}
+            onPointerMove={dragAndDrop.handlePointerMove}
+            onPointerUp={dragAndDrop.handlePointerUp}
+            onImagePointerDown={handleImagePointerDown}
+            onTextPointerDown={handleTextPointerDown}
+          />
         </div>
       </div>
     </div>
