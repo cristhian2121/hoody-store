@@ -39,7 +39,7 @@ export const DesignCanvas = ({
   return (
     <div
       ref={containerRef}
-      className="relative aspect-[3/4] rounded-xl overflow-hidden border-2 border-dashed border-border bg-muted/30 select-none"
+      className="relative aspect-[8/6] rounded-xl overflow-x-hidden border-2 border-dashed border-border bg-muted/30 select-none"
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       style={{ touchAction: "none" }}

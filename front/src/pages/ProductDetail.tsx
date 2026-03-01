@@ -7,7 +7,7 @@ import { getProduct } from "@/lib/products";
 import { useCart } from "@/lib/cart";
 import { useProductSelection } from "@/hooks/useProductSelection";
 import type { PersonalizationData } from "@/lib/types";
-import PersonalizationEditor from "@/components/PersonalizationEditor";
+import PersonalizationEditorModal from "@/components/PersonalizationEditorModal";
 import { DesignLayerPreview } from "@/components/product/DesignLayerPreview";
 import { SizeGuideDialog } from "@/components/product/SizeGuideDialog";
 import { Button } from "@/components/ui/button";
@@ -24,7 +24,9 @@ const ProductDetail = () => {
   const [personalization, setPersonalization] = useState<
     PersonalizationData | undefined
   >();
-  const [livePreview, setLivePreview] = useState<PersonalizationData | undefined>();
+  const [livePreview, setLivePreview] = useState<
+    PersonalizationData | undefined
+  >();
 
   const productSelection = product
     ? useProductSelection({
@@ -34,7 +36,9 @@ const ProductDetail = () => {
       })
     : null;
 
-  const previewData = showEditor ? livePreview ?? personalization : personalization;
+  const previewData = showEditor
+    ? (livePreview ?? personalization)
+    : personalization;
 
   if (!product || !productSelection) {
     return (
@@ -95,7 +99,6 @@ const ProductDetail = () => {
         <ChevronLeft className="h-4 w-4" />
         {product.category === "hoodies" ? t("nav.hoodies") : t("nav.tshirts")}
       </Link>
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
         {/* Images */}
         <motion.div
@@ -181,7 +184,10 @@ const ProductDetail = () => {
               <label className="text-sm font-semibold uppercase tracking-wide">
                 {t("product.size")}
               </label>
-              <SizeGuideDialog category={product.category} gender={selectedGender} />
+              <SizeGuideDialog
+                category={product.category}
+                gender={selectedGender}
+              />
             </div>
             <div className="flex flex-wrap gap-2">
               {sizes.map((s) => (
@@ -243,24 +249,17 @@ const ProductDetail = () => {
           </Button>
         </motion.div>
       </div>
-
       {/* Editor */}
-      {showEditor && (
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto" }}
-          className="mt-10 p-6 rounded-2xl border bg-card"
-        >
-          <PersonalizationEditor
-            category={product.category}
-            garmentColor={selectedColor.hex}
-            garmentImage={product.images[activeImage]}
-            onSave={handleSavePersonalization}
-            onChange={setLivePreview}
-            initialData={personalization}
-          />
-        </motion.div>
-      )}
+      <PersonalizationEditorModal
+        open={showEditor}
+        onOpenChange={setShowEditor}
+        category={product.category}
+        garmentColor={selectedColor.hex}
+        garmentImage={product.images[activeImage]}
+        onSave={handleSavePersonalization}
+        onChange={setLivePreview}
+        initialData={personalization}
+      />
     </div>
   );
 };
