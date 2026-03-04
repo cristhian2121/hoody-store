@@ -1,51 +1,52 @@
-import type { ProductCategory } from "@/lib/types";
+import type { ProductCategory, ProductView } from "@/lib/types";
 
 interface GarmentPreviewProps {
   category: ProductCategory;
   garmentColor: string;
-  garmentImage?: string;
-  garmentBase?: string;
+  view: ProductView;
 }
 
 export const GarmentPreview = ({
   category,
   garmentColor,
-  garmentImage,
-  garmentBase,
+  view,
 }: GarmentPreviewProps) => {
   const isHoodie = category === "hoodies";
 
-  if (garmentImage) {
+  if (view.shadow) {
     return (
-      <div className="relative w-96 aspect-[3/4]">
-        {/* Base gris */}
-        <img
-          src={garmentBase}
-          className="absolute inset-0 w-full h-full object-contain"
-          alt="hoodie base"
-        />
+      <div className="relative w-full h-full flex items-center justify-center p-2">
+        <div className="relative w-full h-full aspect-square">
+          {/* Color con máscara */}
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundColor: garmentColor,
+              WebkitMaskImage: `url(${view.base})`,
+              maskImage: `url(${view.base})`,
+              WebkitMaskRepeat: "no-repeat",
+              maskRepeat: "no-repeat",
+              WebkitMaskSize: "contain",
+              maskSize: "contain",
+              WebkitMaskPosition: "center",
+              maskPosition: "center",
+            }}
+          />
 
-        {/* Color dinámico */}
-        <div
-          className="absolute inset-0 w-full h-full"
-          style={{
-            backgroundColor: garmentColor,
-            mixBlendMode: "color",
-          }}
-        />
-
-        {/* Sombras */}
-        <img
-          src={garmentImage}
-          className="absolute inset-0 w-full h-full object-contain pointer-events-none"
-          alt="hoodie shadow"
-        />
+          {/* Sombras */}
+          <img
+            src={view.shadow}
+            className="absolute inset-0 w-full h-full object-contain pointer-events-none"
+            alt="hoodie shadow"
+          />
+        </div>
       </div>
     );
   }
 
+  // SVG fallback para vistas sin sombra
   return (
-    <svg viewBox="1 0 300 400" className="absolute inset-0 w-full h-full">
+    <svg viewBox="1 0 300 400" className="w-full h-full p-2">
       {isHoodie ? (
         <>
           <path

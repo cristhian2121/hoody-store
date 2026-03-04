@@ -20,6 +20,7 @@ export interface Product {
   garmentBase?: string;
   colors: ProductColor[];
   sizes: Record<Gender, string[]>;
+  views: Record<PrintSide, { base: string; shadow: string }>;
 }
 
 export interface TextElement {

@@ -254,9 +254,8 @@ const ProductDetail = () => {
         open={showEditor}
         onOpenChange={setShowEditor}
         category={product.category}
+        product={product}
         garmentColor={selectedColor.hex}
-        garmentImage={product.images[activeImage]}
-        garmentBase={product.garmentBase}
         onSave={handleSavePersonalization}
         onChange={setLivePreview}
         initialData={personalization}

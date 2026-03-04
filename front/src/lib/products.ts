@@ -1,8 +1,9 @@
 import type { Product } from "./types";
-// import hoodieBlack from "@/assets/hoodie-black.jpg";
-import hoodieBlack from "@/assets/hoodie_sh1.png";
+import hoodieBase from "@/assets/hoodie_base2.png";
+import hoodieShadow from "@/assets/hoodie_sh1_.png";
+import hoodieBaseBk from "@/assets/hoodie_base_bk.png";
+import hoodieShadowBk from "@/assets/hoodie_sh_bk.png";
 import hoodieGray from "@/assets/hoodie-gray.jpg";
-import hoodieBase from "@/assets/hoodie_base.png";
 import tshirtWhite from "@/assets/tshirt-white.jpg";
 import tshirtBlack from "@/assets/tshirt-black.jpg";
 
@@ -17,8 +18,11 @@ export const products: Product[] = [
       en: "Premium cotton hoodie with soft finish. Perfect for customizing with your favorite design. Adjustable hood, kangaroo pocket, and reinforced stitching.",
     },
     price: 89900,
-    images: [hoodieBlack, hoodieGray],
-    garmentBase: hoodieBase,
+    images: [hoodieShadow, hoodieGray],
+    views: {
+      front: { base: hoodieBase, shadow: hoodieShadow },
+      back: { base: hoodieBaseBk, shadow: hoodieShadowBk },
+    },
     colors: [
       { id: "negro", name: { es: "Negro", en: "Black" }, hex: "#1a1a1a" },
       { id: "gris", name: { es: "Gris", en: "Gray" }, hex: "#9ca3af" },
@@ -39,8 +43,11 @@ export const products: Product[] = [
       en: "High-end hoodie with 380g organic fabric. Fleece interior, YKK zipper, and exclusive design details. Ideal for high-definition sublimation.",
     },
     price: 119900,
-    images: [hoodieGray, hoodieBlack],
-    garmentBase: hoodieBase,
+    images: [hoodieGray, hoodieShadow],
+    views: {
+      front: { base: hoodieBase, shadow: hoodieShadow },
+      back: { base: hoodieBaseBk, shadow: hoodieShadowBk },
+    },
     colors: [
       { id: "gris", name: { es: "Gris", en: "Gray" }, hex: "#9ca3af" },
       { id: "negro", name: { es: "Negro", en: "Black" }, hex: "#1a1a1a" },
@@ -66,6 +73,10 @@ export const products: Product[] = [
     },
     price: 49900,
     images: [tshirtWhite, tshirtBlack],
+    views: {
+      front: { base: tshirtWhite, shadow: "" },
+      back: { base: "", shadow: "" },
+    },
     colors: [
       { id: "blanco", name: { es: "Blanco", en: "White" }, hex: "#f5f5f5" },
       { id: "negro", name: { es: "Negro", en: "Black" }, hex: "#1a1a1a" },
@@ -87,6 +98,10 @@ export const products: Product[] = [
     },
     price: 64900,
     images: [tshirtBlack, tshirtWhite],
+    views: {
+      front: { base: tshirtBlack, shadow: "" },
+      back: { base: "", shadow: "" },
+    },
     colors: [
       { id: "negro", name: { es: "Negro", en: "Black" }, hex: "#1a1a1a" },
       { id: "blanco", name: { es: "Blanco", en: "White" }, hex: "#f5f5f5" },

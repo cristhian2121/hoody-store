@@ -3,12 +3,11 @@ import { Type, RotateCcw, Sparkles } from "lucide-react";
 import { useLanguage } from "@/lib/i18n";
 import type {
   PersonalizationData,
-  PrintSide,
   ProductCategory,
+  Product,
+  ProductViewSide,
 } from "@/lib/types";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { usePersonalization } from "@/hooks/usePersonalization";
 import { useDragAndDrop } from "@/hooks/useDragAndDrop";
 import { useImageUpload } from "@/hooks/useImageUpload";
@@ -19,13 +18,13 @@ import { ImageControls } from "./personalization/ImageControls";
 import { TextControls } from "./personalization/TextControls";
 import { PositionPresets } from "./personalization/PositionPresets";
 import { ColorSelector } from "@/components/ui/color-selector";
+import { ViewSelector } from "@/components/ui/view-selector";
 import { GARMENT_COLORS } from "@/lib/constants";
 
 interface Props {
   category: ProductCategory;
+  product: Product;
   garmentColor: string;
-  garmentImage?: string;
-  garmentBase?: string;
   onSave: (data: PersonalizationData) => void;
   onChange?: (data: PersonalizationData) => void;
   initialData?: PersonalizationData;
@@ -33,9 +32,8 @@ interface Props {
 
 const PersonalizationEditor = ({
   category,
+  product,
   garmentColor,
-  garmentImage,
-  garmentBase,
   onSave,
   onChange,
   initialData,
@@ -49,6 +47,23 @@ const PersonalizationEditor = ({
 
   const [selectedGarmentColor, setSelectedGarmentColor] =
     React.useState(garmentColor);
+
+  // Obtener vistas disponibles del producto
+  const availableViews = (
+    Object.keys(product.views) as ProductViewSide[]
+  ).filter((view) => product.views[view as ProductViewSide]);
+
+  const [selectedProductView, setSelectedProductView] =
+    React.useState<ProductViewSide>("front");
+
+  // Asegurar que la vista seleccionada sea válida
+  React.useEffect(() => {
+    if (!availableViews.includes(selectedProductView)) {
+      setSelectedProductView(availableViews[0] as ProductViewSide);
+    }
+  }, [product]);
+
+  const activeView = product.views[selectedProductView];
 
   const {
     data,
@@ -67,6 +82,11 @@ const PersonalizationEditor = ({
     reset,
     updateLayer,
   } = personalization;
+
+  // Sincronizar selectedProductView con activeSide para que las imágenes se asocien correctamente
+  React.useEffect(() => {
+    setActiveSide(selectedProductView as PrintSide);
+  }, [selectedProductView, setActiveSide]);
 
   const handleDragMove = React.useCallback(
     (type: "image" | "text", id: string | undefined, x: number, y: number) => {
@@ -160,22 +180,12 @@ const PersonalizationEditor = ({
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-[40%_60%] gap-4 min-h-0 ">
         {/* Controls */}
         <div className="space-y-3 lg:pr-2 overflow-x-hidden">
-          <Tabs
-            value={activeSide}
-            onValueChange={(v) => {
-              setActiveSide(v as PrintSide);
-              setSelectedTextId(null);
-            }}
-          >
-            <TabsList className="w-full">
-              <TabsTrigger value="front" className="flex-1">
-                {t("editor.front")}
-              </TabsTrigger>
-              <TabsTrigger value="back" className="flex-1">
-                {t("editor.back")}
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
+          <ViewSelector
+            supportedViews={availableViews}
+            activeView={selectedProductView}
+            onViewChange={setSelectedProductView}
+          />
+
           <ColorSelector
             colors={GARMENT_COLORS[category]}
             value={selectedGarmentColor}
@@ -264,8 +274,7 @@ const PersonalizationEditor = ({
           <DesignCanvas
             category={category}
             garmentColor={selectedGarmentColor}
-            garmentImage={garmentImage}
-            garmentBase={garmentBase}
+            activeView={activeView}
             activeSide={activeSide}
             currentLayer={currentLayer}
             selectedTextId={selectedTextId}

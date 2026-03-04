@@ -27,7 +27,7 @@ export const PRINT_AREAS: Record<
   >
 > = {
   hoodies: {
-    front: { top: "41%", bottom: "30%", left: "32%", right: "32%" },
+    front: { top: "41%", bottom: "40%", left: "42%", right: "42%" },
     back: { top: "30%", bottom: "41%", left: "32%", right: "32%" },
   },
   camisetas: {
@@ -121,15 +121,17 @@ export const GARMENT_COLORS: Record<
   hoodies: [
     { id: "negro", name: { es: "Negro", en: "Black" }, hex: "#1a1a1a" },
     { id: "gris", name: { es: "Gris", en: "Gray" }, hex: "#9ca3af" },
+    { id: "blanco", name: { es: "Blanco", en: "White" }, hex: "#f5f5f5" },
     {
       id: "verde",
       name: { es: "Verde oscuro", en: "Dark Green" },
       hex: "#166534",
     },
     { id: "rojo", name: { es: "Rojo", en: "Red" }, hex: "#ff0000" },
-    { id: "azul", name: { es: "Azul", en: "Blue" }, hex: "#0000ff" },
+    { id: "azul", name: { es: "Azul", en: "Blue" }, hex: "#1e40af" },
   ],
   camisetas: [
+    { id: "blanco", name: { es: "Blanco", en: "White" }, hex: "#f5f5f5" },
     { id: "negro", name: { es: "Negro", en: "Black" }, hex: "#1a1a1a" },
     { id: "gris", name: { es: "Gris", en: "Gray" }, hex: "#9ca3af" },
     { id: "oliva", name: { es: "Oliva", en: "Olive" }, hex: "#6b7c3e" },

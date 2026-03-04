@@ -1,5 +1,5 @@
 import { Upload } from "lucide-react";
-import type { DesignLayer, ImageElement, TextElement } from "@/lib/types";
+import type { DesignLayer, ProductView } from "@/lib/types";
 import type { ProductCategory, PrintSide } from "@/lib/types";
 import { useLanguage } from "@/lib/i18n";
 import { PRINT_AREAS } from "@/lib/constants";
@@ -9,8 +9,7 @@ import type { RefObject } from "react";
 interface DesignCanvasProps {
   category: ProductCategory;
   garmentColor: string;
-  garmentImage?: string;
-  garmentBase?: string;
+  activeView: ProductView;
   activeSide: PrintSide;
   currentLayer: DesignLayer;
   selectedTextId: string | null;
@@ -24,8 +23,7 @@ interface DesignCanvasProps {
 export const DesignCanvas = ({
   category,
   garmentColor,
-  garmentImage,
-  garmentBase,
+  activeView,
   activeSide,
   currentLayer,
   selectedTextId,
@@ -41,7 +39,7 @@ export const DesignCanvas = ({
   return (
     <div
       ref={containerRef}
-      className="relative aspect-[8/6] rounded-xl overflow-x-hidden border-2 border-dashed border-border bg-muted/30 select-none"
+      className="relative aspect-[9/6] rounded-xl overflow-x-hidden border-2 border-dashed border-border bg-muted/30 select-none flex items-center justify-center"
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       style={{ touchAction: "none" }}
@@ -49,12 +47,11 @@ export const DesignCanvas = ({
       <GarmentPreview
         category={category}
         garmentColor={garmentColor}
-        garmentImage={garmentImage}
-        garmentBase={garmentBase}
+        view={activeView}
       />
 
       <div
-        className="absolute border-2 border-dashed border-primary/20 rounded-lg flex items-center justify-center transition-colors"
+        className="absolute inset-0 border-2 border-dashed border-primary/20 rounded-lg flex items-center justify-center transition-colors"
         style={{
           ...canvasPrintArea,
           background:

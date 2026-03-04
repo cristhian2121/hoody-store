@@ -1,5 +1,5 @@
 import * as React from "react";
-import type { PersonalizationData, ProductCategory } from "@/lib/types";
+import type { PersonalizationData, ProductCategory, Product } from "@/lib/types";
 import PersonalizationEditor from "@/components/PersonalizationEditor";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 
@@ -7,9 +7,8 @@ interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   category: ProductCategory;
+  product: Product;
   garmentColor: string;
-  garmentImage?: string;
-  garmentBase?: string;
   onSave: (data: PersonalizationData) => void;
   onChange?: (data: PersonalizationData) => void;
   initialData?: PersonalizationData;
@@ -19,9 +18,8 @@ const PersonalizationEditorModal = ({
   open,
   onOpenChange,
   category,
+  product,
   garmentColor,
-  garmentImage,
-  garmentBase,
   onSave,
   onChange,
   initialData,
@@ -31,9 +29,8 @@ const PersonalizationEditorModal = ({
       <div className="h-full w-full overflow-auto p-6">
         <PersonalizationEditor
           category={category}
+          product={product}
           garmentColor={garmentColor}
-          garmentImage={garmentImage}
-          garmentBase={garmentBase}
           onSave={onSave}
           onChange={onChange}
           initialData={initialData}
