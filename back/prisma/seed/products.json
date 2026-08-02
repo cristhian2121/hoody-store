@@ -1,0 +1,66 @@
+[
+  {
+    "slug": "hoodie-clasico",
+    "category": "hoodies",
+    "nameEs": "Hoodie Clásico",
+    "nameEn": "Classic Hoodie",
+    "descriptionEs": "Hoodie de algodón premium con acabado suave. Perfecto para personalizar con tu diseño favorito. Capucha ajustable, bolsillo canguro y costuras reforzadas.",
+    "descriptionEn": "Premium cotton hoodie with soft finish. Perfect for customizing with your favorite design. Adjustable hood, kangaroo pocket, and reinforced stitching.",
+    "priceCop": 89900,
+    "sortOrder": 0,
+    "images": ["products/hoodie-black.jpg", "products/hoodie-gray.jpg"],
+    "colors": ["negro", "gris", "blanco"],
+    "sizes": {
+      "hombre": ["S", "M", "L", "XL", "XXL"],
+      "mujer": ["XS", "S", "M", "L", "XL"]
+    }
+  },
+  {
+    "slug": "hoodie-premium",
+    "category": "hoodies",
+    "nameEs": "Hoodie Premium",
+    "nameEn": "Premium Hoodie",
+    "descriptionEs": "Hoodie de alta gama con tejido orgánico de 380g. Interior afelpado, cremallera YKK y detalles de diseño exclusivo. Ideal para sublimación de alta definición.",
+    "descriptionEn": "High-end hoodie with 380g organic fabric. Fleece interior, YKK zipper, and exclusive design details. Ideal for high-definition sublimation.",
+    "priceCop": 119900,
+    "sortOrder": 1,
+    "images": ["products/hoodie-gray.jpg", "products/hoodie-black.jpg"],
+    "colors": ["gris", "negro", "verde"],
+    "sizes": {
+      "hombre": ["S", "M", "L", "XL", "XXL"],
+      "mujer": ["XS", "S", "M", "L", "XL"]
+    }
+  },
+  {
+    "slug": "camiseta-esencial",
+    "category": "camisetas",
+    "nameEs": "Camiseta Esencial",
+    "nameEn": "Essential T-Shirt",
+    "descriptionEs": "Camiseta de algodón 100% peinado con corte regular. Tela suave de 180g, cuello redondo reforzado. Superficie óptima para estampado por sublimación.",
+    "descriptionEn": "100% combed cotton t-shirt with regular fit. Soft 180g fabric, reinforced crew neck. Optimal surface for sublimation printing.",
+    "priceCop": 49900,
+    "sortOrder": 2,
+    "images": ["products/tshirt-white.jpg", "products/tshirt-black.jpg"],
+    "colors": ["blanco", "negro", "gris"],
+    "sizes": {
+      "hombre": ["S", "M", "L", "XL", "XXL"],
+      "mujer": ["XS", "S", "M", "L", "XL"]
+    }
+  },
+  {
+    "slug": "camiseta-urban",
+    "category": "camisetas",
+    "nameEs": "Camiseta Urban",
+    "nameEn": "Urban T-Shirt",
+    "descriptionEs": "Camiseta de corte oversized con tejido premium de 220g. Hombros caídos, costuras flatlock y acabado enzyme wash. Perfecta para diseños grandes.",
+    "descriptionEn": "Oversized t-shirt with 220g premium fabric. Drop shoulders, flatlock stitching, and enzyme wash finish. Perfect for large designs.",
+    "priceCop": 64900,
+    "sortOrder": 3,
+    "images": ["products/tshirt-black.jpg", "products/tshirt-white.jpg"],
+    "colors": ["negro", "blanco", "oliva"],
+    "sizes": {
+      "hombre": ["S", "M", "L", "XL", "XXL"],
+      "mujer": ["XS", "S", "M", "L", "XL"]
+    }
+  }
+]

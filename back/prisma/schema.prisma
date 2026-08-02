@@ -10,19 +10,107 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// Los enums usan a proposito los literales lowercase que ya circulan por la API
+// y por el frontend (status de orden, genero, categoria). Asi la migracion es un
+// cast puro sin reescribir datos, el contrato JSON queda byte-identico y
+// CheckoutSuccess.tsx / mapMercadoPagoStatus siguen funcionando sin tocarse.
+
+enum OrderStatus {
+  checkout_created
+  paid
+  payment_pending
+  payment_failed
+  payment_unknown
+  // El pago fue aprobado por Mercado Pago pero el monto o la moneda no coinciden
+  // con el total de la orden. No se marca como pagada ni se notifica: lo resuelve
+  // una persona desde el admin.
+  payment_review
+}
+
+enum Gender {
+  hombre
+  mujer
+}
+
+enum ProductCategory {
+  hoodies
+  camisetas
+}
+
+enum PrintSide {
+  front
+  back
+}
+
+enum PrintAssetStatus {
+  pending
+  rendering
+  ready
+  failed
+}
+
 model Order {
-  id              String   @id @default(uuid())
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  status          String
+  id              String      @id @default(uuid())
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  status          OrderStatus
   paymentProvider String?
   customer        Json
   shipping        Json
   totals          Json
+  // Columna heredada. Se conserva mientras existan ordenes anteriores a la
+  // normalizacion; la fuente de verdad es la relacion orderItems.
   items           Json
   payment         Json?
 
+  orderItems OrderItem[]
+
+  @@index([status, createdAt])
   @@map("orders")
+}
+
+/// Linea de una orden.
+///
+/// Las columnas snapshot NO son redundantes con variantId: son el registro legal
+/// de que se vendio y a que precio. variantId es solo un join de conveniencia y
+/// es nullable con onDelete: SetNull, porque retocar el catalogo jamas debe
+/// destruir el historial de ventas.
+model OrderItem {
+  id      String @id @default(uuid())
+  orderId String @map("order_id")
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  // Identificador de la linea en el carrito del frontend. Une esta fila con su
+  // entrada correspondiente dentro del Json heredado Order.items.
+  cartItemId String @map("cart_item_id")
+
+  variantId String?         @map("variant_id")
+  variant   ProductVariant? @relation(fields: [variantId], references: [id], onDelete: SetNull)
+
+  // Snapshot al momento de la compra
+  productSlug   String          @map("product_slug")
+  productNameEs String          @map("product_name_es")
+  productNameEn String          @map("product_name_en")
+  category      ProductCategory
+  gender        Gender
+  size          String
+  colorId       String          @map("color_id")
+  colorNameEs   String          @map("color_name_es")
+  colorNameEn   String          @map("color_name_en")
+  colorHex      String          @map("color_hex")
+  imageUrl      String?         @map("image_url")
+  unitPriceCop  Int             @map("unit_price_cop")
+  quantity      Int
+  lineTotalCop  Int             @map("line_total_cop")
+
+  designs OrderItemDesign[]
+
+  createdAt DateTime @default(now())
+
+  @@unique([orderId, cartItemId])
+  @@index([orderId])
+  @@index([variantId])
+  @@map("order_items")
 }
 
 model Country {
@@ -63,4 +151,233 @@ model City {
   @@index([name])
   @@index([departmentCode])
   @@map("cities")
+}
+
+// ---------------------------------------------------------------------------
+// Catalogo
+// ---------------------------------------------------------------------------
+
+/// El bilingue va en dos columnas escalares en vez de Json: Json pierde el
+/// tipado de Prisma y obliga a coercionar en cada lectura. Una tabla de
+/// traducciones seria ceremonia para dos idiomas fijos y cuatro SKUs. El mapper
+/// del repositorio reensambla la forma { es, en } que ya espera el frontend.
+model Product {
+  id            String          @id @default(uuid())
+  slug          String          @unique
+  category      ProductCategory
+  nameEs        String          @map("name_es")
+  nameEn        String          @map("name_en")
+  descriptionEs String          @map("description_es")
+  descriptionEn String          @map("description_en")
+  // Solo para el "desde $X" de las tarjetas. El precio que se cobra sale
+  // siempre de ProductVariant.priceCop.
+  basePriceCop  Int             @map("base_price_cop")
+  isActive      Boolean         @default(true) @map("is_active")
+  sortOrder     Int             @default(0) @map("sort_order")
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  images       ProductImage[]
+  variants     ProductVariant[]
+  colorOptions ProductColorOption[]
+
+  @@index([category, isActive])
+  @@map("products")
+}
+
+/// Orden en que se muestran los colores de un producto.
+///
+/// El orden es dato de merchandising y es distinto por producto
+/// (hoodie-clasico abre en negro, camiseta-esencial abre en blanco), asi que no
+/// puede vivir ni en ProductColor (es global) ni derivarse de las variantes.
+/// El primer color es ademas el que queda seleccionado por defecto en la ficha.
+///
+/// Esta tabla define el ORDEN; la lista efectiva sigue saliendo de las variantes
+/// activas, asi que un color sin variante comprable nunca se anuncia.
+model ProductColorOption {
+  productId String       @map("product_id")
+  product   Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
+  colorId   String       @map("color_id")
+  color     ProductColor @relation(fields: [colorId], references: [id], onDelete: Cascade)
+  position  Int
+
+  @@id([productId, colorId])
+  @@unique([productId, position])
+  @@index([productId])
+  @@map("product_color_options")
+}
+
+/// Colores globales, sin tabla puente producto-color: los mismos slugs se
+/// reutilizan entre SKUs con el mismo hex. La lista de colores de un producto
+/// se deriva de sus variantes activas, lo que hace estructuralmente imposible
+/// mostrar un color que no tiene variante comprable.
+model ProductColor {
+  id     String @id
+  nameEs String @map("name_es")
+  nameEn String @map("name_en")
+  hex    String
+
+  images       ProductImage[]
+  variants     ProductVariant[]
+  colorOptions ProductColorOption[]
+
+  @@map("product_colors")
+}
+
+model ProductImage {
+  id        String  @id @default(uuid())
+  productId String  @map("product_id")
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  // Clave relativa al almacenamiento (ej: "products/hoodie-black.jpg"), nunca
+  // una URL absoluta: sobrevive cambios de dominio entre dev, staging y prod.
+  // toPublicUrl() la vuelve absoluta en el borde de la API.
+  storageKey String  @map("storage_key")
+  alt        String?
+  position   Int     @default(0)
+
+  colorId String?       @map("color_id")
+  color   ProductColor? @relation(fields: [colorId], references: [id], onDelete: SetNull)
+
+  @@unique([productId, position])
+  @@index([productId])
+  @@map("product_images")
+}
+
+model ProductVariant {
+  id        String  @id @default(uuid())
+  sku       String  @unique
+  productId String  @map("product_id")
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  colorId String       @map("color_id")
+  color   ProductColor @relation(fields: [colorId], references: [id])
+
+  gender Gender
+  size   String
+
+  priceCop Int @map("price_cop")
+
+  // El stock se guarda pero NO se aplica en el MVP: son prendas de impresion
+  // bajo demanda, y reservar inventario contra un redirect a Mercado Pago
+  // exigiria TTL, liberacion por abandono y liberacion por pago fallido.
+  // La palanca real de disponibilidad es isActive.
+  stock    Int     @default(0)
+  isActive Boolean @default(true) @map("is_active")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  orderItems OrderItem[]
+
+  @@unique([productId, colorId, gender, size])
+  @@index([productId, isActive])
+  @@map("product_variants")
+}
+
+model SizeGuideEntry {
+  id         String          @id @default(uuid())
+  category   ProductCategory
+  gender     Gender
+  size       String
+  chestCm    Int             @map("chest_cm")
+  lengthCm   Int             @map("length_cm")
+  shoulderCm Int             @map("shoulder_cm")
+
+  @@unique([category, gender, size])
+  @@map("size_guide_entries")
+}
+
+// ---------------------------------------------------------------------------
+// Personalizacion e impresion
+// ---------------------------------------------------------------------------
+
+/// Imagen que subio el cliente. master = original re-codificado sin degradar,
+/// con alfa y a resolucion completa (es lo unico que no se puede regenerar).
+/// preview = version liviana para el editor y el carrito.
+model DesignAsset {
+  id             String   @id @default(uuid())
+  storageKey     String   @map("storage_key")
+  previewKey     String   @map("preview_key")
+  mimeType       String   @map("mime_type")
+  bytes          Int
+  width          Int
+  height         Int
+  hasAlpha       Boolean  @map("has_alpha")
+  checksumSha256 String   @map("checksum_sha256")
+  createdAt      DateTime @default(now())
+
+  designs OrderItemDesign[]
+
+  @@index([createdAt])
+  @@map("design_assets")
+}
+
+/// Un lado estampado de una linea de la orden. Guarda el area de impresion en
+/// milimetros reales y el DPI usados al comprar, para que el archivo se pueda
+/// regenerar identico aunque las constantes del catalogo cambien despues.
+model OrderItemDesign {
+  id          String    @id @default(uuid())
+  orderItemId String    @map("order_item_id")
+  orderItem   OrderItem @relation(fields: [orderItemId], references: [id], onDelete: Cascade)
+
+  side     PrintSide
+  category ProductCategory
+
+  printAreaWidthMm  Decimal @map("print_area_width_mm") @db.Decimal(6, 2)
+  printAreaHeightMm Decimal @map("print_area_height_mm") @db.Decimal(6, 2)
+  dpi               Int     @default(300)
+
+  // Version del formato de `layer`, para poder migrar disenos viejos.
+  schemaVersion Int @default(1) @map("schema_version")
+
+  // DesignLayer normalizado: posiciones, escalas, rotaciones y textos.
+  // Nunca contiene base64: la imagen se referencia por imageAssetId.
+  layer Json
+
+  imageAssetId String?      @map("image_asset_id")
+  imageAsset   DesignAsset? @relation(fields: [imageAssetId], references: [id])
+
+  printAssets PrintAsset[]
+
+  createdAt DateTime @default(now())
+
+  @@unique([orderItemId, side])
+  @@index([orderItemId])
+  @@map("order_item_designs")
+}
+
+/// Archivo listo para imprimir. La fila ES el job de la cola: se reclama con
+/// SELECT ... FOR UPDATE SKIP LOCKED, sin Redis ni BullMQ.
+model PrintAsset {
+  id       String          @id @default(uuid())
+  designId String          @map("design_id")
+  design   OrderItemDesign @relation(fields: [designId], references: [id], onDelete: Cascade)
+
+  status    PrintAssetStatus @default(pending)
+  attempts  Int              @default(0)
+  lastError String?          @map("last_error")
+
+  format   String @default("png")
+  dpi      Int    @default(300)
+  widthPx  Int?   @map("width_px")
+  heightPx Int?   @map("height_px")
+  bytes    Int?
+
+  storageKey     String? @map("storage_key")
+  proofKey       String? @map("proof_key")
+  checksumSha256 String? @map("checksum_sha256")
+
+  // Permite identificar despues todos los archivos producidos por una version
+  // del renderer con bug. No es opcional en la practica.
+  rendererVersion String? @map("renderer_version")
+
+  startedAt   DateTime? @map("started_at")
+  completedAt DateTime? @map("completed_at")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([status, createdAt])
+  @@index([designId])
+  @@map("print_assets")
 }

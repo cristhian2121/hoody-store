@@ -10,6 +10,7 @@ import { useDragAndDrop } from "@/hooks/useDragAndDrop";
 import { useImageUpload } from "@/hooks/useImageUpload";
 import { getPositionPreset } from "@/lib/utils/position";
 import type { HorizontalPosition, VerticalPosition } from "@/lib/constants";
+import { PRINT_AREAS, getFontOption } from "@/lib/constants";
 import { DesignCanvas } from "./personalization/DesignCanvas";
 import { ImageControls } from "./personalization/ImageControls";
 import { TextControls } from "./personalization/TextControls";
@@ -80,6 +81,7 @@ const PersonalizationEditor = ({
   const dragAndDrop = useDragAndDrop({
     onDragMove: handleDragMove,
     onDragStart: handleDragStart,
+    area: PRINT_AREAS[category][activeSide],
   });
 
   const handleImageUploaded = React.useCallback(
@@ -251,9 +253,17 @@ const PersonalizationEditor = ({
             <TextControls
               text={selectedText}
               onContentChange={(content) => updateText(selectedText.id, { content })}
-              onFontFamilyChange={(fontFamily) =>
-                updateText(selectedText.id, { fontFamily })
-              }
+              onFontFamilyChange={(fontFamily) => {
+                // Cambiar a una familia sin negrita o sin italica debe apagar
+                // esas banderas: si quedaran encendidas, el navegador las
+                // falsificaria y el estampado no coincidiria con el preview.
+                const font = getFontOption(fontFamily);
+                updateText(selectedText.id, {
+                  fontFamily,
+                  bold: selectedText.bold && (font?.hasBold ?? true),
+                  italic: selectedText.italic && (font?.hasItalic ?? true),
+                });
+              }}
               onFontSizeChange={(fontSize) =>
                 updateText(selectedText.id, { fontSize })
               }

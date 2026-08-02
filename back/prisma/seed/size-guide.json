@@ -1,0 +1,22 @@
+[
+  { "category": "hoodies", "gender": "hombre", "size": "S", "chestCm": 96, "lengthCm": 68, "shoulderCm": 44 },
+  { "category": "hoodies", "gender": "hombre", "size": "M", "chestCm": 102, "lengthCm": 70, "shoulderCm": 46 },
+  { "category": "hoodies", "gender": "hombre", "size": "L", "chestCm": 108, "lengthCm": 72, "shoulderCm": 48 },
+  { "category": "hoodies", "gender": "hombre", "size": "XL", "chestCm": 114, "lengthCm": 74, "shoulderCm": 50 },
+  { "category": "hoodies", "gender": "hombre", "size": "XXL", "chestCm": 120, "lengthCm": 76, "shoulderCm": 52 },
+  { "category": "hoodies", "gender": "mujer", "size": "XS", "chestCm": 84, "lengthCm": 60, "shoulderCm": 38 },
+  { "category": "hoodies", "gender": "mujer", "size": "S", "chestCm": 90, "lengthCm": 62, "shoulderCm": 40 },
+  { "category": "hoodies", "gender": "mujer", "size": "M", "chestCm": 96, "lengthCm": 64, "shoulderCm": 42 },
+  { "category": "hoodies", "gender": "mujer", "size": "L", "chestCm": 102, "lengthCm": 66, "shoulderCm": 44 },
+  { "category": "hoodies", "gender": "mujer", "size": "XL", "chestCm": 108, "lengthCm": 68, "shoulderCm": 46 },
+  { "category": "camisetas", "gender": "hombre", "size": "S", "chestCm": 92, "lengthCm": 70, "shoulderCm": 43 },
+  { "category": "camisetas", "gender": "hombre", "size": "M", "chestCm": 98, "lengthCm": 72, "shoulderCm": 45 },
+  { "category": "camisetas", "gender": "hombre", "size": "L", "chestCm": 104, "lengthCm": 74, "shoulderCm": 47 },
+  { "category": "camisetas", "gender": "hombre", "size": "XL", "chestCm": 110, "lengthCm": 76, "shoulderCm": 49 },
+  { "category": "camisetas", "gender": "hombre", "size": "XXL", "chestCm": 116, "lengthCm": 78, "shoulderCm": 51 },
+  { "category": "camisetas", "gender": "mujer", "size": "XS", "chestCm": 80, "lengthCm": 60, "shoulderCm": 36 },
+  { "category": "camisetas", "gender": "mujer", "size": "S", "chestCm": 86, "lengthCm": 62, "shoulderCm": 38 },
+  { "category": "camisetas", "gender": "mujer", "size": "M", "chestCm": 92, "lengthCm": 64, "shoulderCm": 40 },
+  { "category": "camisetas", "gender": "mujer", "size": "L", "chestCm": 98, "lengthCm": 66, "shoulderCm": 42 },
+  { "category": "camisetas", "gender": "mujer", "size": "XL", "chestCm": 104, "lengthCm": 68, "shoulderCm": 44 }
+]

@@ -3,7 +3,7 @@ import { randomUUID } from "node:crypto";
 import { OrderRepository } from "../repositories/interfaces/orders.repository.interface";
 import { PaymentsService } from "./payments.service";
 import { CheckoutDto } from "../api/dto/checkout.dto";
-import { Prisma } from "@prisma/client";
+import { Prisma, OrderStatus } from "@prisma/client";
 import { ShippingService } from "../shipping/shipping.service";
 
 @Injectable()
@@ -40,7 +40,7 @@ export class OrdersService {
       id: orderId,
       createdAt: new Date(createdAt),
       updatedAt: new Date(createdAt),
-      status: "checkout_created",
+      status: OrderStatus.checkout_created,
       paymentProvider: "mercadopago",
       customer: checkoutData.customer as any,
       shipping: {

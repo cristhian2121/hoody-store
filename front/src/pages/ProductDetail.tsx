@@ -115,7 +115,11 @@ const ProductDetail = () => {
             />
             {previewData?.front && (
               <div className="absolute inset-0">
-                <DesignLayerPreview layer={previewData.front} />
+                <DesignLayerPreview
+                  layer={previewData.front}
+                  category={product.category}
+                  side="front"
+                />
               </div>
             )}
           </div>

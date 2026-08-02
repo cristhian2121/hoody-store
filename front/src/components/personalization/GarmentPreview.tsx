@@ -1,19 +1,25 @@
-import type { ProductCategory } from "@/lib/types";
+import type { ProductCategory, PrintSide } from "@/lib/types";
 
 interface GarmentPreviewProps {
   category: ProductCategory;
   garmentColor: string;
   garmentImage?: string;
+  side?: PrintSide;
 }
 
 export const GarmentPreview = ({
   category,
   garmentColor,
   garmentImage,
+  side = "front",
 }: GarmentPreviewProps) => {
   const isHoodie = category === "hoodies";
 
-  if (garmentImage) {
+  // Las fotos del catalogo son del frente. Usarlas tambien para la espalda
+  // mostraba una prenda de frente mientras el cliente estampaba atras; para ese
+  // lado se cae a la silueta, que si distingue frente de espalda y ademas
+  // respeta el color elegido.
+  if (garmentImage && side === "front") {
     return (
       <img
         src={garmentImage}
@@ -51,17 +57,20 @@ export const GarmentPreview = ({
             strokeWidth="1"
             opacity="0.15"
           />
-          <rect
-            x="120"
-            y="250"
-            width="60"
-            height="35"
-            rx="4"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="0.8"
-            opacity="0.1"
-          />
+          {/* El bolsillo canguro solo existe al frente. */}
+          {side === "front" && (
+            <rect
+              x="120"
+              y="250"
+              width="60"
+              height="35"
+              rx="4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="0.8"
+              opacity="0.1"
+            />
+          )}
         </>
       ) : (
         <>
@@ -77,8 +86,9 @@ export const GarmentPreview = ({
             strokeWidth="1.5"
             opacity="0.2"
           />
+          {/* Cuello: al frente baja, en la espalda es casi recto. */}
           <path
-            d="M125,25 Q150,35 175,25"
+            d={side === "front" ? "M125,25 Q150,35 175,25" : "M125,25 Q150,29 175,25"}
             fill="none"
             stroke="currentColor"
             strokeWidth="1"

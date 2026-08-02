@@ -1,5 +1,6 @@
 import { Injectable, Inject } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
+import { OrderStatus } from "@prisma/client";
 import { OrderRepository } from "../repositories/interfaces/orders.repository.interface";
 import { MercadoPagoService } from "./mercadopago.service";
 import { NotificationsService } from "../notifications/notifications.service";
@@ -116,21 +117,24 @@ export class PaymentsService {
     return updatedOrder;
   }
 
-  private mapMercadoPagoStatus(paymentStatus: string): string {
+  // El tipo de retorno es OrderStatus, no string: la columna es un enum de
+  // Postgres y un valor fuera de el reventaria en runtime al escribir. Asi lo
+  // atrapa el compilador.
+  private mapMercadoPagoStatus(paymentStatus: string): OrderStatus {
     switch (paymentStatus) {
       case "approved":
-        return "paid";
+        return OrderStatus.paid;
       case "in_process":
       case "pending":
       case "authorized":
-        return "payment_pending";
+        return OrderStatus.payment_pending;
       case "cancelled":
       case "rejected":
       case "refunded":
       case "charged_back":
-        return "payment_failed";
+        return OrderStatus.payment_failed;
       default:
-        return "payment_unknown";
+        return OrderStatus.payment_unknown;
     }
   }
 }

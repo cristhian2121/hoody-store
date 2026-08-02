@@ -11,6 +11,13 @@ RUN pnpm install --frozen-lockfile || npm install
 # Copy Prisma schema
 COPY prisma ./prisma
 
+# Copy static assets (product photos served at /static)
+COPY public ./public
+
+# Copy print fonts. La app no arranca si faltan: el render del estampado los
+# necesita y una sustitucion silenciosa imprimiria otra tipografia.
+COPY assets ./assets
+
 # Generate Prisma Client
 RUN npx prisma generate || echo "Prisma generate skipped (will run on startup)"
 

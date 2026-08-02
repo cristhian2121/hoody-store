@@ -1,0 +1,7 @@
+[
+  { "id": "negro", "nameEs": "Negro", "nameEn": "Black", "hex": "#1a1a1a" },
+  { "id": "gris", "nameEs": "Gris", "nameEn": "Gray", "hex": "#9ca3af" },
+  { "id": "blanco", "nameEs": "Blanco", "nameEn": "White", "hex": "#f5f5f5" },
+  { "id": "verde", "nameEs": "Verde oscuro", "nameEn": "Dark Green", "hex": "#166534" },
+  { "id": "oliva", "nameEs": "Oliva", "nameEn": "Olive", "hex": "#6b7c3e" }
+]

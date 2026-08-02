@@ -19,31 +19,98 @@ export const HORIZONTAL_POSITIONS: HorizontalPosition[] = [
 
 export const VERTICAL_POSITIONS: VerticalPosition[] = ["top", "middle", "bottom"];
 
-export const PRINT_AREAS: Record<
-  ProductCategory,
-  Record<
-    PrintSide,
-    { top: string; bottom: string; left: string; right: string }
-  >
-> = {
+/** Resolucion del archivo listo para imprimir. Configurable para poder bajar a 200 dpi. */
+export const PRINT_DPI = 300;
+
+/** Debajo de este dpi efectivo no se permite agregar al carrito. */
+export const MIN_PRINT_DPI = 100;
+
+export interface PrintArea {
+  /** Tamano fisico real del estampado. Es lo autoritativo para el archivo. */
+  widthMm: number;
+  heightMm: number;
+  /**
+   * Ubicacion aproximada de la caja sobre la foto de la prenda. Solo cosmetico:
+   * la altura sale de aspect-ratio (widthMm/heightMm), asi que la caja nunca
+   * puede contradecir al rectangulo en milimetros.
+   */
+  preview: { topPct: number; leftPct: number; widthPct: number };
+}
+
+/**
+ * Un area por categoria y lado, INDEPENDIENTE de la talla: un archivo que sirva
+ * de XS a XXL es todo el punto de automatizar la impresion. Medidas tipicas de
+ * DTF; el frente del hoodie va topado por el bolsillo canguro.
+ */
+export const PRINT_AREAS: Record<ProductCategory, Record<PrintSide, PrintArea>> = {
   hoodies: {
-    front: { top: "41%", bottom: "30%", left: "32%", right: "32%" },
-    back: { top: "30%", bottom: "41%", left: "32%", right: "32%" },
+    front: {
+      widthMm: 260,
+      heightMm: 260,
+      preview: { topPct: 30, leftPct: 32, widthPct: 36 },
+    },
+    back: {
+      widthMm: 280,
+      heightMm: 400,
+      preview: { topPct: 22, leftPct: 31, widthPct: 38 },
+    },
   },
   camisetas: {
-    front: { top: "28%", bottom: "22%", left: "25%", right: "25%" },
-    back: { top: "28%", bottom: "22%", left: "25%", right: "25%" },
+    front: {
+      widthMm: 280,
+      heightMm: 350,
+      preview: { topPct: 25, leftPct: 30, widthPct: 40 },
+    },
+    back: {
+      widthMm: 280,
+      heightMm: 400,
+      preview: { topPct: 22, leftPct: 30, widthPct: 40 },
+    },
   },
 };
 
-export const FONTS = [
-  "Plus Jakarta Sans",
-  "Arial",
-  "Georgia",
-  "Courier New",
-  "Impact",
-  "Comic Sans MS",
-] as const;
+export interface FontOption {
+  /** Debe coincidir exactamente con el font-family de fonts.css y del registro del backend. */
+  family: string;
+  label: string;
+  /** Falso cuando no existe archivo real de ese estilo. Nunca sintetizar. */
+  hasBold: boolean;
+  hasItalic: boolean;
+}
+
+/**
+ * Fuentes disponibles para estampar.
+ *
+ * Todas SIL Open Font License y auto-hospedadas. Las anteriores (Arial,
+ * Georgia, Courier New, Impact, Comic Sans MS) son licenciadas de
+ * Microsoft/Monotype: no se pueden empaquetar en la imagen de Docker, asi que
+ * el servidor nunca habria podido renderizar el estampado con ellas.
+ *
+ * Bebas Neue solo existe en un peso y sin italica; por eso hay banderas por
+ * familia y los botones de negrita/italica se deshabilitan en ese caso, en vez
+ * de dejar que el navegador la falsifique.
+ */
+export const FONT_OPTIONS: FontOption[] = [
+  { family: "Plus Jakarta Sans", label: "Plus Jakarta Sans", hasBold: true, hasItalic: true },
+  { family: "Bebas Neue", label: "Bebas Neue", hasBold: false, hasItalic: false },
+  { family: "Playfair Display", label: "Playfair Display", hasBold: true, hasItalic: true },
+  { family: "Comic Neue", label: "Comic Neue", hasBold: true, hasItalic: true },
+];
+
+export const FONTS = FONT_OPTIONS.map((font) => font.family);
+
+export const getFontOption = (family: string): FontOption | undefined =>
+  FONT_OPTIONS.find((font) => font.family === family);
+
+/**
+ * El texto se estampa en una sola linea.
+ *
+ * En el editor vive en un <div>, que el navegador envolveria; en el render del
+ * servidor va en un <text> de SVG, que no envuelve. Permitir saltos de linea
+ * significaria dos maquetados distintos, asi que por ahora se limita el largo y
+ * se eliminan los saltos.
+ */
+export const MAX_TEXT_LENGTH = 40;
 
 export const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 

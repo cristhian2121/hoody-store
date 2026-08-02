@@ -1,0 +1,187 @@
+{
+  "description": "Fixture dorado de geometria de impresion. Copia byte-identica en back/src/print/geometry/__fixtures__/. Front (Vitest) y back (Jest) lo verifican; una desviacion entre ambas implementaciones aparece como test rojo y no como una prenda mal impresa.",
+  "constants": {
+    "MM_PER_INCH": 25.4,
+    "IMAGE_BASE_WIDTH_PCT": 60,
+    "TEXT_REFERENCE_UNITS": 400
+  },
+  "printAreas": {
+    "hoodies": {
+      "front": { "widthMm": 260, "heightMm": 260 },
+      "back": { "widthMm": 280, "heightMm": 400 }
+    },
+    "camisetas": {
+      "front": { "widthMm": 280, "heightMm": 350 },
+      "back": { "widthMm": 280, "heightMm": 400 }
+    }
+  },
+  "mmToPx": [
+    { "mm": 260, "dpi": 300, "expected": 3071 },
+    { "mm": 280, "dpi": 300, "expected": 3307 },
+    { "mm": 350, "dpi": 300, "expected": 4134 },
+    { "mm": 400, "dpi": 300, "expected": 4724 },
+    { "mm": 280, "dpi": 200, "expected": 2205 },
+    { "mm": 25.4, "dpi": 300, "expected": 300 },
+    { "mm": 0, "dpi": 300, "expected": 0 }
+  ],
+  "imageDrawSizeMm": [
+    {
+      "name": "cuadrada, escala 1, frente de hoodie",
+      "areaWidthMm": 260,
+      "scale": 1,
+      "naturalWidth": 1000,
+      "naturalHeight": 1000,
+      "expected": { "width": 156, "height": 156 }
+    },
+    {
+      "name": "apaisada 2:1, escala 1, espalda",
+      "areaWidthMm": 280,
+      "scale": 1,
+      "naturalWidth": 2000,
+      "naturalHeight": 1000,
+      "expected": { "width": 168, "height": 84 }
+    },
+    {
+      "name": "vertical 1:2, escala 0.5",
+      "areaWidthMm": 280,
+      "scale": 0.5,
+      "naturalWidth": 1000,
+      "naturalHeight": 2000,
+      "expected": { "width": 84, "height": 168 }
+    },
+    {
+      "name": "escala maxima 3 desborda el area",
+      "areaWidthMm": 260,
+      "scale": 3,
+      "naturalWidth": 1000,
+      "naturalHeight": 1000,
+      "expected": { "width": 468, "height": 468 }
+    },
+    {
+      "name": "ancho natural cero cae a relacion 1:1",
+      "areaWidthMm": 260,
+      "scale": 1,
+      "naturalWidth": 0,
+      "naturalHeight": 500,
+      "expected": { "width": 156, "height": 156 }
+    }
+  ],
+  "textFontSizeMm": [
+    { "areaWidthMm": 280, "fontSize": 24, "scale": 1, "expected": 16.8 },
+    { "areaWidthMm": 260, "fontSize": 24, "scale": 1, "expected": 15.6 },
+    { "areaWidthMm": 280, "fontSize": 8, "scale": 0.2, "expected": 1.12 },
+    { "areaWidthMm": 280, "fontSize": 72, "scale": 3, "expected": 151.2 },
+    { "areaWidthMm": 280, "fontSize": 0, "scale": 1, "expected": 0 }
+  ],
+  "rotatedAabb": [
+    { "width": 100, "height": 50, "rotationDeg": 0, "expected": { "width": 100, "height": 50 } },
+    { "width": 100, "height": 50, "rotationDeg": 90, "expected": { "width": 50, "height": 100 } },
+    { "width": 100, "height": 50, "rotationDeg": 180, "expected": { "width": 100, "height": 50 } },
+    { "width": 100, "height": 50, "rotationDeg": -90, "expected": { "width": 50, "height": 100 } },
+    {
+      "name": "45 grados: ambos ejes crecen igual",
+      "width": 100,
+      "height": 100,
+      "rotationDeg": 45,
+      "expected": { "width": 141.4213562373095, "height": 141.4213562373095 }
+    },
+    {
+      "name": "signo de rotacion irrelevante para la caja envolvente",
+      "width": 100,
+      "height": 50,
+      "rotationDeg": -45,
+      "expected": { "width": 106.06601717798213, "height": 106.06601717798213 }
+    }
+  ],
+  "clampElementToPrintArea": [
+    {
+      "name": "centro se queda quieto",
+      "position": { "x": 50, "y": 50 },
+      "elementSizeMm": { "width": 100, "height": 100 },
+      "areaWidthMm": 280,
+      "areaHeightMm": 400,
+      "rotationDeg": 0,
+      "expected": { "x": 50, "y": 50 }
+    },
+    {
+      "name": "no puede irse a la manga por la izquierda",
+      "position": { "x": 0, "y": 50 },
+      "elementSizeMm": { "width": 140, "height": 100 },
+      "areaWidthMm": 280,
+      "areaHeightMm": 400,
+      "rotationDeg": 0,
+      "expected": { "x": 25, "y": 50 }
+    },
+    {
+      "name": "no puede irse por la derecha",
+      "position": { "x": 100, "y": 50 },
+      "elementSizeMm": { "width": 140, "height": 100 },
+      "areaWidthMm": 280,
+      "areaHeightMm": 400,
+      "rotationDeg": 0,
+      "expected": { "x": 75, "y": 50 }
+    },
+    {
+      "name": "no puede salirse por arriba",
+      "position": { "x": 50, "y": 0 },
+      "elementSizeMm": { "width": 100, "height": 200 },
+      "areaWidthMm": 280,
+      "areaHeightMm": 400,
+      "rotationDeg": 0,
+      "expected": { "x": 50, "y": 25 }
+    },
+    {
+      "name": "elemento mas grande que el area colapsa al centro",
+      "position": { "x": 10, "y": 90 },
+      "elementSizeMm": { "width": 400, "height": 600 },
+      "areaWidthMm": 280,
+      "areaHeightMm": 400,
+      "rotationDeg": 0,
+      "expected": { "x": 50, "y": 50 }
+    },
+    {
+      "name": "rotar 90 intercambia los limites",
+      "position": { "x": 0, "y": 0 },
+      "elementSizeMm": { "width": 140, "height": 40 },
+      "areaWidthMm": 280,
+      "areaHeightMm": 400,
+      "rotationDeg": 90,
+      "expected": { "x": 7.142857142857142, "y": 17.5 }
+    },
+    {
+      "name": "elemento chico casi llega al borde",
+      "position": { "x": 0, "y": 100 },
+      "elementSizeMm": { "width": 28, "height": 40 },
+      "areaWidthMm": 280,
+      "areaHeightMm": 400,
+      "rotationDeg": 0,
+      "expected": { "x": 5, "y": 95 }
+    }
+  ],
+  "effectiveDpi": [
+    {
+      "name": "1000px sobre 84.67mm = 300dpi",
+      "naturalWidthPx": 1000,
+      "drawWidthMm": 84.66666666666667,
+      "expected": 300
+    },
+    {
+      "name": "3307px es exactamente el ancho de 280mm a 300dpi",
+      "naturalWidthPx": 3307,
+      "drawWidthMm": 280,
+      "expected": 299.99214285714285
+    },
+    { "naturalWidthPx": 800, "drawWidthMm": 156, "expected": 130.25641025641025 },
+    { "naturalWidthPx": 1000, "drawWidthMm": 0, "expected": 0 }
+  ],
+  "dpiVerdict": [
+    { "dpi": 300, "expected": "ok" },
+    { "dpi": 200, "expected": "ok" },
+    { "dpi": 199, "expected": "warn" },
+    { "dpi": 150, "expected": "warn" },
+    { "dpi": 149, "expected": "poor" },
+    { "dpi": 100, "expected": "poor" },
+    { "dpi": 99, "expected": "block" },
+    { "dpi": 0, "expected": "block" }
+  ]
+}

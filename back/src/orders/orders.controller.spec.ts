@@ -1,6 +1,8 @@
 import { Test, TestingModule } from "@nestjs/testing";
+import { NotFoundException } from "@nestjs/common";
 import { OrdersController } from "./orders.controller";
 import { OrdersService } from "../services/orders.service";
+import { AdminGuard } from "../auth/guards/admin.guard";
 
 describe("OrdersController", () => {
   let controller: OrdersController;
@@ -21,7 +23,10 @@ describe("OrdersController", () => {
           useValue: mockService,
         },
       ],
-    }).compile();
+    })
+      .overrideGuard(AdminGuard)
+      .useValue({ canActivate: jest.fn().mockResolvedValue(true) })
+      .compile();
 
     controller = module.get<OrdersController>(OrdersController);
     service = module.get(OrdersService);
@@ -105,6 +110,21 @@ describe("OrdersController", () => {
       const result = await controller.list();
       expect(result).toEqual({ orders: mockOrders });
       expect(service.listOrders).toHaveBeenCalled();
+    });
+  });
+
+  describe("getById", () => {
+    it("should return the order when it exists", async () => {
+      const mockOrder = { id: "order-123", status: "paid" };
+      service.getOrderById.mockResolvedValue(mockOrder as any);
+
+      await expect(controller.getById("order-123")).resolves.toEqual({ order: mockOrder });
+    });
+
+    it("should throw 404 when the order does not exist", async () => {
+      service.getOrderById.mockResolvedValue(null as any);
+
+      await expect(controller.getById("no-existe")).rejects.toThrow(NotFoundException);
     });
   });
 });
