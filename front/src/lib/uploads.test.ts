@@ -1,6 +1,14 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { uploadDesignImage } from "./uploads";
-import { API_URL } from "./api";
+
+// Se mockea la resolucion de la URL en vez de leer VITE_API_URL del entorno.
+// Sin esto el test depende de que exista un archivo .env, que no se versiona:
+// pasaba en local y fallaba en CI, que es la peor combinacion posible.
+const API_URL = "http://api.test";
+vi.mock("./api", () => ({
+  API_URL: "http://api.test",
+  ensureApiUrl: () => "http://api.test",
+}));
 
 const file = () => new File([new Uint8Array([1, 2, 3])], "logo.png", { type: "image/png" });
 
