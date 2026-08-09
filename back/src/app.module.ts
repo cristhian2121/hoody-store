@@ -10,6 +10,7 @@ import { StorageModule } from "./storage/storage.module";
 import { ProductsModule } from "./products/products.module";
 import { PrintModule } from "./print/print.module";
 import { UploadsModule } from "./uploads/uploads.module";
+import { AdminModule } from "./admin/admin.module";
 import { OrdersModule } from "./orders/orders.module";
 import { PaymentsModule } from "./payments/payments.module";
 import { LocationsModule } from "./locations/locations.module";
@@ -50,6 +51,7 @@ loadDotEnv();
     ProductsModule,
     PrintModule,
     UploadsModule,
+    AdminModule,
     OrdersModule,
     PaymentsModule,
     LocationsModule,

@@ -1,6 +1,7 @@
 import { BadRequestException, Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { createHash, randomUUID } from "node:crypto";
-import * as sharp from "sharp";
+import sharp from "sharp";
+import type { Metadata } from "sharp";
 import {
   DESIGNS_REPOSITORY,
   DesignsRepository,
@@ -133,7 +134,7 @@ export class DesignImageService {
     return { body: await this.storage.get(asset.previewKey), contentType: PREVIEW_CONTENT_TYPE };
   }
 
-  private async readMetadata(buffer: Buffer): Promise<sharp.Metadata> {
+  private async readMetadata(buffer: Buffer): Promise<Metadata> {
     try {
       return await sharp(buffer, { limitInputPixels: MAX_INPUT_PIXELS }).metadata();
     } catch {
@@ -147,7 +148,7 @@ export class DesignImageService {
    * El formato lo decide el contenido decodificado, no `file.mimetype`: ese
    * campo lo escribe el navegador y un cliente hecho a mano pone lo que quiera.
    */
-  private assertUsable(metadata: sharp.Metadata): void {
+  private assertUsable(metadata: Metadata): void {
     const format = metadata.format ?? "";
     if (!(ACCEPTED_INPUT_FORMATS as readonly string[]).includes(format)) {
       throw new BadRequestException(
@@ -202,20 +203,22 @@ export class DesignImageService {
   }
 
   private async encodeMaster(buffer: Buffer) {
-    return sharp(buffer, { limitInputPixels: MAX_INPUT_PIXELS })
-      // Sin esto, una foto tomada con el telefono en vertical llega acostada:
-      // el sensor la guarda apaisada y deja la orientacion en el EXIF, que el
-      // navegador respeta y el rasterizador de impresion no.
-      .rotate()
-      // Convierte desde el perfil de origen (Display P3, Adobe RGB) a sRGB. Sin
-      // esto los valores crudos se reinterpretan como sRGB y los colores se
-      // desplazan entre lo que el cliente aprobo y lo que se imprime.
-      .withIccProfile("srgb")
-      // Master siempre RGBA, tenga o no transparencia real: el compositor de
-      // impresion trabaja sobre un unico formato en vez de ramificar.
-      .ensureAlpha()
-      .png({ compressionLevel: 9 })
-      .toBuffer({ resolveWithObject: true });
+    return (
+      sharp(buffer, { limitInputPixels: MAX_INPUT_PIXELS })
+        // Sin esto, una foto tomada con el telefono en vertical llega acostada:
+        // el sensor la guarda apaisada y deja la orientacion en el EXIF, que el
+        // navegador respeta y el rasterizador de impresion no.
+        .rotate()
+        // Convierte desde el perfil de origen (Display P3, Adobe RGB) a sRGB. Sin
+        // esto los valores crudos se reinterpretan como sRGB y los colores se
+        // desplazan entre lo que el cliente aprobo y lo que se imprime.
+        .withIccProfile("srgb")
+        // Master siempre RGBA, tenga o no transparencia real: el compositor de
+        // impresion trabaja sobre un unico formato en vez de ramificar.
+        .ensureAlpha()
+        .png({ compressionLevel: 9 })
+        .toBuffer({ resolveWithObject: true })
+    );
   }
 
   /**

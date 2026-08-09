@@ -8,7 +8,11 @@ import type { DesignLayer } from "@/lib/types";
 
 const layer = (overrides: Partial<DesignLayer> = {}): DesignLayer => ({
   image: {
-    src: "data:image/png;base64,iVBORw0KGgo=",
+    assetId: "6f1c2a90-0000-4000-8000-000000000001",
+    previewUrl: "https://api.test/api/uploads/design-image/6f1c2a90/preview",
+    naturalWidth: 1500,
+    naturalHeight: 900,
+    hasAlpha: true,
     x: 50,
     y: 50,
     scale: 1,
@@ -101,6 +105,19 @@ describe("DesignCanvas: preview determinista", () => {
     const styled = [...container.querySelectorAll("[style]")] as HTMLElement[];
     const blended = styled.filter((el) => el.style.mixBlendMode);
     expect(blended).toHaveLength(0);
+  });
+
+  // El editor muestra el derivado de 600 px, nunca un data URL: el original
+  // vive en el servidor y meterlo en el estado seria volver a la bomba de
+  // localStorage que este cambio elimina.
+  it("pinta el preview servido, no una imagen embebida", () => {
+    const { container } = renderCanvas();
+    const img = container.querySelector("img[alt='Design']") as HTMLImageElement;
+
+    expect(img.getAttribute("src")).toBe(
+      "https://api.test/api/uploads/design-image/6f1c2a90/preview",
+    );
+    expect(img.getAttribute("src")).not.toMatch(/^data:/);
   });
 
   it("el area recorta lo que se salga", () => {

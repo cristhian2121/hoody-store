@@ -21,32 +21,7 @@ const CheckoutCancel = () => {
       <h1 className="text-2xl font-bold">{t("checkout.cancel.title")}</h1>
       <p className="text-muted-foreground">{t("checkout.cancel.message")}</p>
 
-      {/* Display MP return parameters for debugging */}
-      {(paymentId || externalReference || merchantOrderId || status) && (
-        <div className="mt-8 p-4 bg-muted rounded-lg text-left max-w-md mx-auto space-y-2 text-sm">
-          {externalReference && (
-            <div>
-              <span className="font-semibold">Referencia:</span> {externalReference}
-            </div>
-          )}
-          {paymentId && (
-            <div>
-              <span className="font-semibold">ID de pago:</span> {paymentId}
-            </div>
-          )}
-          {merchantOrderId && (
-            <div>
-              <span className="font-semibold">ID de orden:</span> {merchantOrderId}
-            </div>
-          )}
-          {status && (
-            <div>
-              <span className="font-semibold">Estado:</span> {status}
-            </div>
-          )}
-        </div>
-      )}
-
+      
       <div className="flex justify-center gap-3">
         <Button asChild>
           <Link to="/checkout" className="inline-flex items-center gap-1">

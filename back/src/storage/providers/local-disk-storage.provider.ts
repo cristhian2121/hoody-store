@@ -2,10 +2,7 @@ import { Injectable, Logger } from "@nestjs/common";
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { dirname, join, resolve, sep } from "node:path";
-import {
-  assertSafeStorageKey,
-  StorageProvider,
-} from "../interfaces/storage-provider.interface";
+import { assertSafeStorageKey, StorageProvider } from "../interfaces/storage-provider.interface";
 
 /**
  * Almacenamiento en disco local. Es el driver por defecto a proposito: hace que
@@ -36,7 +33,10 @@ export class LocalDiskStorageProvider implements StorageProvider {
     return full;
   }
 
-  async put(key: string, body: Buffer, _contentType: string): Promise<void> {
+  // El content type se omite a proposito: en disco no hay donde guardarlo. Lo
+  // usa el driver de S3, y quien sirve el preview lo deduce de la fila en la
+  // base, no del archivo.
+  async put(key: string, body: Buffer): Promise<void> {
     const path = this.pathFor(key);
     await mkdir(dirname(path), { recursive: true });
     await writeFile(path, body);

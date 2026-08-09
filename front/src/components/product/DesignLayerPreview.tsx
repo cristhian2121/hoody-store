@@ -27,7 +27,7 @@ export const DesignLayerPreview = ({
     <PrintAreaBox area={area} className="pointer-events-none">
       {layer.image && (
         <img
-          src={layer.image.src}
+          src={layer.image.previewUrl}
           alt=""
           className="absolute"
           style={{

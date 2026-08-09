@@ -15,6 +15,9 @@ import CheckoutSuccess from "./pages/CheckoutSuccess";
 import CheckoutCancel from "./pages/CheckoutCancel";
 import CheckoutPending from "./pages/CheckoutPending";
 import NotFound from "./pages/NotFound";
+import AdminLogin from "./pages/admin/AdminLogin";
+import AdminOrders from "./pages/admin/AdminOrders";
+import AdminOrderDetail from "./pages/admin/AdminOrderDetail";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +39,9 @@ const App = () => (
                   <Route path="/checkout/success" element={<CheckoutSuccess />} />
                   <Route path="/checkout/cancel" element={<CheckoutCancel />} />
                   <Route path="/checkout/pending" element={<CheckoutPending />} />
+                  <Route path="/admin" element={<AdminLogin />} />
+                  <Route path="/admin/pedidos" element={<AdminOrders />} />
+                  <Route path="/admin/pedidos/:id" element={<AdminOrderDetail />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Layout>

@@ -1,8 +1,8 @@
 import type { ImageElement } from "../types";
+import type { UploadedDesignImage } from "../uploads";
 import {
   MAX_FILE_SIZE,
   ALLOWED_IMAGE_TYPES,
-  IMAGE_MAX_DIMENSION,
   DEFAULT_IMAGE_POSITION,
   DEFAULT_SCALE,
   DEFAULT_ROTATION,
@@ -13,110 +13,44 @@ export interface ImageValidationResult {
   error?: string;
 }
 
+/**
+ * Validacion previa, no la definitiva.
+ *
+ * `file.type` lo deduce el navegador de la extension y se puede falsear
+ * renombrando un archivo. La validacion que cuenta es la del servidor, que
+ * decodifica la imagen; esta solo evita gastar una subida de 25 MB para
+ * enterarse de algo que se sabia de antemano.
+ */
 export const validateImageFile = (file: File): ImageValidationResult => {
-  if (!ALLOWED_IMAGE_TYPES.includes(file.type as any)) {
-    return {
-      valid: false,
-      error: "Solo se permiten PNG, JPG y SVG",
-    };
+  if (!ALLOWED_IMAGE_TYPES.includes(file.type as (typeof ALLOWED_IMAGE_TYPES)[number])) {
+    return { valid: false, error: "Solo se permiten imagenes PNG, JPG o WebP." };
   }
   if (file.size > MAX_FILE_SIZE) {
-    return {
-      valid: false,
-      error: "El archivo es demasiado grande (máx. 5MB)",
-    };
+    const mb = Math.round(MAX_FILE_SIZE / 1024 / 1024);
+    return { valid: false, error: `La imagen supera el maximo de ${mb} MB.` };
   }
   return { valid: true };
 };
 
-export const resizeImage = (
-  width: number,
-  height: number,
-  maxDimension: number = IMAGE_MAX_DIMENSION,
-): { width: number; height: number } => {
-  if (width <= maxDimension && height <= maxDimension) {
-    return { width, height };
-  }
-  const ratio = Math.min(maxDimension / width, maxDimension / height);
-  return {
-    width: width * ratio,
-    height: height * ratio,
-  };
-};
-
-export const processImageFile = (
-  file: File,
-): Promise<{ src: string; width: number; height: number }> => {
-  return new Promise((resolve, reject) => {
-    const validation = validateImageFile(file);
-    if (!validation.valid) {
-      reject(new Error(validation.error));
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      const img = new Image();
-      img.onload = () => {
-        const { width, height } = resizeImage(img.width, img.height);
-        const canvas = document.createElement("canvas");
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext("2d");
-        if (!ctx) {
-          reject(new Error("Could not get canvas context"));
-          return;
-        }
-        ctx.drawImage(img, 0, 0, width, height);
-        const src = canvas.toDataURL("image/jpeg", 0.8);
-        resolve({ src, width, height });
-      };
-      img.onerror = () => reject(new Error("Failed to load image"));
-      img.src = ev.target?.result as string;
-    };
-    reader.onerror = () => reject(new Error("Failed to read file"));
-    reader.readAsDataURL(file);
-  });
-};
-
-export const generateAIImage = async (
-  prompt: string,
-): Promise<string> => {
-  // Simulated AI generation - in production this would call an API
-  await new Promise((r) => setTimeout(r, 2000));
-  
-  // Create a placeholder generated image
-  const canvas = document.createElement("canvas");
-  canvas.width = 400;
-  canvas.height = 400;
-  const ctx = canvas.getContext("2d");
-  if (!ctx) {
-    throw new Error("Could not get canvas context");
-  }
-  
-  const gradient = ctx.createLinearGradient(0, 0, 400, 400);
-  gradient.addColorStop(0, "#22c55e");
-  gradient.addColorStop(1, "#3b82f6");
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0, 0, 400, 400);
-  ctx.fillStyle = "#fff";
-  ctx.font = "bold 20px Plus Jakarta Sans, sans-serif";
-  ctx.textAlign = "center";
-  ctx.fillText("AI Generated", 200, 190);
-  ctx.font = "14px Plus Jakarta Sans, sans-serif";
-  ctx.fillText(prompt.slice(0, 30), 200, 220);
-  
-  return canvas.toDataURL("image/png");
-};
-
+/**
+ * Convierte la respuesta de la subida en la capa que maneja el editor.
+ *
+ * `naturalWidth`/`naturalHeight` son los del master en el servidor, no los del
+ * preview: son la unica cifra con la que se puede calcular el DPI efectivo del
+ * estampado.
+ */
 export const createImageElement = (
-  src: string,
+  uploaded: UploadedDesignImage,
   x: number = DEFAULT_IMAGE_POSITION.x,
   y: number = DEFAULT_IMAGE_POSITION.y,
   scale: number = DEFAULT_SCALE,
   rotation: number = DEFAULT_ROTATION,
 ): ImageElement => ({
-  src,
+  assetId: uploaded.assetId,
+  previewUrl: uploaded.previewUrl,
+  naturalWidth: uploaded.width,
+  naturalHeight: uploaded.height,
+  hasAlpha: uploaded.hasAlpha,
   x,
   y,
   scale,

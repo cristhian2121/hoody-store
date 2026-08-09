@@ -6,10 +6,7 @@ import {
   PutObjectCommand,
   S3Client,
 } from "@aws-sdk/client-s3";
-import {
-  assertSafeStorageKey,
-  StorageProvider,
-} from "../interfaces/storage-provider.interface";
+import { assertSafeStorageKey, StorageProvider } from "../interfaces/storage-provider.interface";
 
 /**
  * Almacenamiento compatible con S3. Pensado para Cloudflare R2 (egress $0), que
@@ -37,9 +34,7 @@ export class S3StorageProvider implements StorageProvider {
     ].filter(Boolean);
 
     if (missing.length > 0) {
-      throw new Error(
-        `STORAGE_DRIVER=s3 pero faltan variables de entorno: ${missing.join(", ")}.`,
-      );
+      throw new Error(`STORAGE_DRIVER=s3 pero faltan variables de entorno: ${missing.join(", ")}.`);
     }
 
     this.bucket = bucket as string;
@@ -71,9 +66,7 @@ export class S3StorageProvider implements StorageProvider {
 
   async get(key: string): Promise<Buffer> {
     assertSafeStorageKey(key);
-    const result = await this.client.send(
-      new GetObjectCommand({ Bucket: this.bucket, Key: key }),
-    );
+    const result = await this.client.send(new GetObjectCommand({ Bucket: this.bucket, Key: key }));
     const bytes = await result.Body?.transformToByteArray();
     if (!bytes) throw new Error(`Objeto vacio o ilegible: ${key}`);
     return Buffer.from(bytes);

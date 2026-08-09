@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Type, RotateCcw, Sparkles } from "lucide-react";
+import { toast } from "sonner";
 import { useLanguage } from "@/lib/i18n";
 import type { PersonalizationData, PrintSide, ProductCategory } from "@/lib/types";
 import { Button } from "@/components/ui/button";
@@ -8,6 +9,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { usePersonalization } from "@/hooks/usePersonalization";
 import { useDragAndDrop } from "@/hooks/useDragAndDrop";
 import { useImageUpload } from "@/hooks/useImageUpload";
+import { useDesignValidation } from "@/hooks/useDesignValidation";
 import { getPositionPreset } from "@/lib/utils/position";
 import type { HorizontalPosition, VerticalPosition } from "@/lib/constants";
 import { PRINT_AREAS, getFontOption } from "@/lib/constants";
@@ -92,13 +94,15 @@ const PersonalizationEditor = ({
   );
 
   const handleImageError = React.useCallback((error: string) => {
-    alert(error);
+    toast.error(error);
   }, []);
 
   const imageUpload = useImageUpload({
     onImageUploaded: handleImageUploaded,
     onError: handleImageError,
   });
+
+  const validation = useDesignValidation(data, category);
 
   const handleImagePointerDown = React.useCallback(
     (e: React.PointerEvent) => {
@@ -217,13 +221,11 @@ const PersonalizationEditor = ({
           <ImageControls
             image={currentLayer.image}
             fileInputRef={imageUpload.fileInputRef}
-            aiPrompt={imageUpload.aiPrompt}
-            aiLoading={imageUpload.aiLoading}
-            onAiPromptChange={imageUpload.setAiPrompt}
+            uploading={imageUpload.uploading}
+            quality={validation[activeSide]}
             onUploadClick={imageUpload.triggerFileInput}
             onFileChange={imageUpload.handleFileInputChange}
             onRemove={removeImage}
-            onAiGenerate={imageUpload.handleAiGenerate}
             onScaleChange={(scale) => updateImage({ scale })}
             onRotationChange={(rotation) => updateImage({ rotation })}
             onCenter={handleCenterImage}

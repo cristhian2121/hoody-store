@@ -86,7 +86,7 @@ export const DesignCanvas = ({
             onPointerDown={onImagePointerDown}
           >
             <img
-              src={currentLayer.image.src}
+              src={currentLayer.image.previewUrl}
               alt="Design"
               className="w-full pointer-events-none"
               draggable={false}

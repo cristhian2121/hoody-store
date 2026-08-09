@@ -1,4 +1,4 @@
-import * as sharp from "sharp";
+import sharp from "sharp";
 
 /**
  * Imagenes de prueba generadas en el momento, no archivos binarios versionados:

@@ -19,7 +19,7 @@ const translations = {
     // Hero
     "hero.title": "Diseña tu estilo",
     "hero.subtitle":
-      "Personaliza hoodies y camisetas con tu propio diseño o genera uno con IA.",
+      "Personaliza hoodies y camisetas con tu propio diseño: sube tu imagen, agrega tu texto y elige dónde va.",
     "hero.cta": "Explorar productos",
     "hero.secondary": "Cómo funciona",
     // Products
@@ -40,6 +40,7 @@ const translations = {
     "product.selectSize": "Selecciona una talla",
     "product.addedToCart": "¡Agregado al carrito!",
     "product.designSaved": "Diseño guardado",
+    "product.designTooSmall": "Tu imagen es muy pequeña para el tamaño elegido. Abrí el editor y reducila, o subí una de más resolución.",
     "product.notFound": "Producto no encontrado",
     "product.backToHome": "Volver al inicio",
     // Personalization
@@ -61,9 +62,8 @@ const translations = {
     "editor.preview": "Vista previa",
     "editor.printArea": "Área de impresión",
     "editor.dragHint": "Arrastra para posicionar",
-    "editor.generateAI": "Generar con IA",
-    "editor.aiPrompt": "Describe tu diseño...",
-    "editor.generating": "Generando...",
+    "editor.uploading": "Subiendo...",
+    "editor.uploadHint": "PNG, JPG o WebP hasta 25 MB. Para que el estampado salga recortado y no dentro de un rectángulo, subí un PNG con fondo transparente.",
     "editor.removeImage": "Quitar imagen",
     "editor.removeText": "Quitar texto",
     "editor.thumbnail.hasDesign": "Diseño aplicado",
@@ -124,6 +124,11 @@ const translations = {
       "Te redirigimos a Mercado Pago para procesar el pago.",
     "checkout.selectCity": "Selecciona una ciudad",
     "checkout.retry": "Volver a intentar",
+    "checkout.priceChanged":
+      "Los precios se actualizaron mientras armabas tu pedido. Revisá el nuevo total y confirmá.",
+    "checkout.confirmNewPrice": "Confirmar y pagar",
+    "product.noSizesForColor": "No hay tallas disponibles en este color.",
+    "catalog.error": "No pudimos cargar el catálogo. Intenta de nuevo.",
     "checkout.paymentError":
       "No pudimos conectar con Mercado Pago. Intenta de nuevo.",
     "checkout.success.title": "Pedido confirmado",
@@ -133,6 +138,7 @@ const translations = {
       "Recibimos tu retorno, pero aún no pudimos confirmar el pago. Si ya pagaste, la confirmación puede tardar unos minutos.",
     "checkout.success.noPaymentId":
       "No recibimos el identificador del pago para validarlo automáticamente.",
+    "checkout.success.reference": "Referencia de tu pedido",
     "checkout.cancel.title": "Pago cancelado",
     "checkout.cancel.message":
       "El pago fue cancelado. Puedes intentar de nuevo.",
@@ -148,6 +154,7 @@ const translations = {
     "category.sort": "Ordenar",
     "category.results": "resultados",
     // Footer
+    "notFound.message": "No encontramos esta página.",
     "footer.rights": "Todos los derechos reservados.",
     "footer.about": "Sobre nosotros",
     "footer.help": "Ayuda",
@@ -174,7 +181,7 @@ const translations = {
     "nav.menu": "Menu",
     "hero.title": "Design your style",
     "hero.subtitle":
-      "Customize hoodies and t-shirts with your own design or generate one with AI.",
+      "Customize hoodies and t-shirts with your own design: upload your image, add your text and place it where you want.",
     "hero.cta": "Explore products",
     "hero.secondary": "How it works",
     "products.featured": "Featured products",
@@ -193,6 +200,7 @@ const translations = {
     "product.selectSize": "Select a size",
     "product.addedToCart": "Added to cart!",
     "product.designSaved": "Design saved",
+    "product.designTooSmall": "Your image is too small for the chosen size. Open the editor and scale it down, or upload a higher-resolution one.",
     "product.notFound": "Product not found",
     "product.backToHome": "Back to home",
     "editor.title": "Design editor",
@@ -213,9 +221,8 @@ const translations = {
     "editor.preview": "Preview",
     "editor.printArea": "Print area",
     "editor.dragHint": "Drag to position",
-    "editor.generateAI": "Generate with AI",
-    "editor.aiPrompt": "Describe your design...",
-    "editor.generating": "Generating...",
+    "editor.uploading": "Uploading...",
+    "editor.uploadHint": "PNG, JPG or WebP up to 25 MB. For a cut-out print instead of a rectangle, upload a PNG with a transparent background.",
     "editor.removeImage": "Remove image",
     "editor.removeText": "Remove text",
     "editor.thumbnail.hasDesign": "Design applied",
@@ -267,6 +274,11 @@ const translations = {
       "We redirect you to Mercado Pago to complete the payment.",
     "checkout.selectCity": "Select a city",
     "checkout.retry": "Try again",
+    "checkout.priceChanged":
+      "Prices changed while you were building your order. Review the new total and confirm.",
+    "checkout.confirmNewPrice": "Confirm and pay",
+    "product.noSizesForColor": "No sizes available in this color.",
+    "catalog.error": "We could not load the catalog. Please try again.",
     "checkout.paymentError": "Unable to reach Mercado Pago. Please try again.",
     "checkout.success.title": "Order confirmed",
     "checkout.success.message": "Your order has been successfully processed",
@@ -293,6 +305,7 @@ const translations = {
     "category.filter": "Filter",
     "category.sort": "Sort",
     "category.results": "results",
+    "notFound.message": "We could not find this page.",
     "footer.rights": "All rights reserved.",
     "footer.about": "About us",
     "footer.help": "Help",

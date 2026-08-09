@@ -6,6 +6,7 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
+import { toast } from "sonner";
 import type {
   CartItem,
   Gender,
@@ -18,10 +19,6 @@ interface CartContextType {
   addItem: (item: Omit<CartItem, "cartItemId" | "quantity">) => void;
   removeItem: (cartItemId: string) => void;
   updateQuantity: (cartItemId: string, quantity: number) => void;
-  updateVariant: (
-    cartItemId: string,
-    updates: { gender?: Gender; size?: string; color?: ProductColor },
-  ) => void;
   clearCart: () => void;
   totalItems: number;
   subtotal: number;
@@ -31,12 +28,22 @@ interface CartContextType {
 
 const CartContext = createContext<CartContextType | null>(null);
 
-const STORAGE_KEY = "app-cart";
+/**
+ * v2 porque cambio la forma de los items: la imagen del diseno paso de ser un
+ * data URL base64 a una referencia al servidor. Un carrito v1 no tiene assetId
+ * y sus imagenes de producto apuntan a URLs con hash de Vite que ya no existen,
+ * asi que no hay nada que migrar: se descarta.
+ */
+const STORAGE_KEY = "app-cart-v2";
+const LEGACY_STORAGE_KEY = "app-cart";
 
 const loadCart = (): CartItem[] => {
   try {
+    // Los base64 del carrito viejo son justamente lo que llenaba la cuota.
+    localStorage.removeItem(LEGACY_STORAGE_KEY);
     const saved = localStorage.getItem(STORAGE_KEY);
-    return saved ? JSON.parse(saved) : [];
+    const parsed = saved ? JSON.parse(saved) : [];
+    return Array.isArray(parsed) ? parsed : [];
   } catch {
     return [];
   }
@@ -47,20 +54,26 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [isCartOpen, setCartOpen] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    } catch {
+      // Sin este catch, un QuotaExceededError aca es una excepcion sin capturar
+      // dentro de un effect de render: React desmonta el arbol y el cliente ve
+      // una pantalla en blanco con el carrito lleno. El carrito en memoria
+      // sigue funcionando; lo unico que se pierde es sobrevivir a un refresh.
+      toast.error("No pudimos guardar tu carrito. Si recargas la pagina puede que se pierda.");
+    }
   }, [items]);
 
   const addItem = useCallback(
     (item: Omit<CartItem, "cartItemId" | "quantity">) => {
       setItems((prev) => {
+        // Se fusiona por variante, que es la combinacion exacta de producto,
+        // genero, talla y color. Dos lineas personalizadas nunca se fusionan
+        // aunque compartan variante: cada una lleva su propio diseno y unirlas
+        // borraria uno en silencio.
         const existing = prev.find(
-          (i) =>
-            i.productId === item.productId &&
-            i.gender === item.gender &&
-            i.size === item.size &&
-            i.color.id === item.color.id &&
-            !i.personalization &&
-            !item.personalization,
+          (i) => i.variantId === item.variantId && !i.personalization && !item.personalization,
         );
         if (existing) {
           return prev.map((i) =>
@@ -90,20 +103,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     );
   }, []);
 
-  const updateVariant = useCallback(
-    (
-      cartItemId: string,
-      updates: { gender?: Gender; size?: string; color?: ProductColor },
-    ) => {
-      setItems((prev) =>
-        prev.map((i) =>
-          i.cartItemId === cartItemId ? { ...i, ...updates } : i,
-        ),
-      );
-    },
-    [],
-  );
-
   const clearCart = useCallback(() => setItems([]), []);
 
   const totalItems = items.reduce((sum, i) => sum + i.quantity, 0);
@@ -116,7 +115,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         addItem,
         removeItem,
         updateQuantity,
-        updateVariant,
         clearCart,
         totalItems,
         subtotal,

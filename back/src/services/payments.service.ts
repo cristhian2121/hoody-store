@@ -1,17 +1,25 @@
-import { Injectable, Inject } from "@nestjs/common";
+import { Injectable, Inject, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { OrderStatus } from "@prisma/client";
+import { Order, OrderStatus } from "@prisma/client";
 import { OrderRepository } from "../repositories/interfaces/orders.repository.interface";
-import { MercadoPagoService } from "./mercadopago.service";
+import { MercadoPagoService, PreferenceLineItem } from "./mercadopago.service";
 import { NotificationsService } from "../notifications/notifications.service";
+import {
+  PRINT_ASSETS_REPOSITORY,
+  PrintAssetsRepository,
+} from "../repositories/interfaces/print-assets.repository.interface";
+import { ORDER_CURRENCY } from "./orders.service";
 
 @Injectable()
 export class PaymentsService {
+  private readonly logger = new Logger(PaymentsService.name);
+
   constructor(
     @Inject("OrderRepository") private readonly orderRepository: OrderRepository,
     private readonly mercadoPagoService: MercadoPagoService,
     private readonly configService: ConfigService,
     private readonly notificationsService: NotificationsService,
+    @Inject(PRINT_ASSETS_REPOSITORY) private readonly printAssets: PrintAssetsRepository,
   ) {}
 
   async createPreference({
@@ -22,16 +30,7 @@ export class PaymentsService {
   }: {
     orderId: string;
     customer: { firstName: string; lastName: string; email: string; phone: string };
-    items: Array<{
-      productId: string;
-      name: string;
-      price: number;
-      quantity: number;
-      description?: string;
-      image?: string;
-      category?: string;
-      size?: string;
-    }>;
+    items: PreferenceLineItem[];
     shippingCost: number;
   }) {
     const frontendUrl = this.configService.get<string>("FRONTEND_URL") || "http://localhost:8080";
@@ -52,69 +51,123 @@ export class PaymentsService {
   }
 
   async processWebhook(paymentId: string) {
-    // Get payment from Mercado Pago
     const payment = await this.getPaymentById(paymentId);
 
     if (!payment.external_reference) {
       throw new Error("Payment missing external_reference");
     }
 
-    // Find order by external reference
     const order = await this.orderRepository.getByExternalReference(payment.external_reference);
-
     if (!order) {
       throw new Error(`Order not found for external reference: ${payment.external_reference}`);
     }
 
-    // Map Mercado Pago status to internal status
     if (!payment.status) {
       throw new Error("Payment missing status");
     }
-    const status = this.mapMercadoPagoStatus(payment.status);
-    const wasPaid = order.status === "paid";
 
-    // Update order
-    const updatedOrder = await this.orderRepository.update(order.id, (current: any) => {
-      const currentTotals = (current.totals as Record<string, unknown>) || {};
-      const approvedAmount = Number(payment.transaction_amount);
-      const paidAmount =
-        Number.isFinite(approvedAmount) && approvedAmount >= 0
-          ? approvedAmount
-          : Number(currentTotals.total || 0);
+    const status = this.resolveStatus(order, payment);
 
-      return {
-        ...current,
-        updatedAt: new Date(),
-        status,
-        totals: {
-          ...currentTotals,
-          ...(status === "paid" && {
-            totalPaid: paidAmount,
-            currency: payment.currency_id || currentTotals.currency || "COP",
-          }),
-        } as any,
-        payment: {
-          ...((current.payment as Record<string, unknown>) || {}),
-          provider: "mercadopago",
-          paymentId: String(payment.id),
-          status: payment.status,
-          statusDetail: payment.status_detail,
-          paidAt: payment.date_approved || null,
-          transactionAmount: paidAmount,
-          currency: payment.currency_id || "COP",
-        } as any,
-      };
+    const outcome = await this.orderRepository.applyPaymentResult(order.id, {
+      status,
+      payment: {
+        provider: "mercadopago",
+        paymentId: String(payment.id),
+        status: payment.status,
+        statusDetail: payment.status_detail,
+        paidAt: payment.date_approved || null,
+        transactionAmount: Number(payment.transaction_amount),
+        currency: payment.currency_id || ORDER_CURRENCY,
+      },
     });
 
-    if (!updatedOrder) {
+    if (!outcome) {
       throw new Error("Failed to update order");
     }
 
-    if (status === "paid" && !wasPaid) {
-      await this.notificationsService.notifyPaidOrder(updatedOrder);
+    // `applied` es falso cuando la orden ya estaba en un estado terminal, o sea
+    // cuando este webhook es un reintento del mismo pago. Notificar ahi seria
+    // mandarle al dueno el mismo pedido dos veces.
+    if (outcome.applied && status === OrderStatus.paid) {
+      // Solo las ordenes pagadas necesitan arte. Se encola aqui y no se
+      // renderiza en linea: Mercado Pago reintenta el webhook ante una respuesta
+      // lenta, y renderizar un PNG de decenas de MB dentro de la peticion
+      // garantizaria hacerlo dos veces.
+      await this.enqueuePrintAssets(outcome.order.id);
+
+      // Se relee con las lineas para que el recibo pueda mostrar talla, color y
+      // precio unitario en vez de un nombre suelto.
+      const withItems = await this.orderRepository.getByIdWithItems(outcome.order.id);
+      if (withItems) {
+        await this.notificationsService.notifyPaidOrder(withItems);
+      }
     }
 
-    return updatedOrder;
+    return outcome.order;
+  }
+
+  /**
+   * Encolar no puede tumbar el webhook.
+   *
+   * Si Mercado Pago no recibe un 200 vuelve a intentar, y en el reintento la
+   * orden ya estaria en estado terminal: no se notificaria y el cliente se
+   * quedaria sin recibo por un fallo de la cola. Se registra el error y el arte
+   * se puede reencolar despues desde el admin.
+   */
+  private async enqueuePrintAssets(orderId: string): Promise<void> {
+    try {
+      const queued = await this.printAssets.enqueueForOrder(orderId);
+      if (queued > 0) {
+        this.logger.log(`Encolados ${queued} archivos de impresion para la orden ${orderId}`);
+      }
+    } catch (error) {
+      this.logger.error(
+        `No se pudo encolar el arte de la orden ${orderId}: ${(error as Error).message}`,
+      );
+    }
+  }
+
+  /**
+   * Traduce el estado de Mercado Pago y, cuando dice aprobado, comprueba que lo
+   * cobrado sea lo que la orden decia.
+   *
+   * Antes esto hacia lo contrario de verificar: sobrescribia `totals.totalPaid`
+   * con lo que reportara Mercado Pago, con lo cual un monto manipulado quedaba
+   * registrado como si fuera el correcto. Ahora un desajuste no marca la orden
+   * como pagada ni dispara notificaciones: queda en `payment_review` para que la
+   * mire una persona.
+   */
+  private resolveStatus(
+    order: Order,
+    payment: {
+      status?: string | null;
+      transaction_amount?: number | null;
+      currency_id?: string | null;
+    },
+  ): OrderStatus {
+    const status = this.mapMercadoPagoStatus(payment.status as string);
+    if (status !== OrderStatus.paid) return status;
+
+    const totals = (order.totals as Record<string, unknown> | null) ?? {};
+    const expected = Number(totals.total);
+    const charged = Number(payment.transaction_amount);
+    const currency = payment.currency_id || ORDER_CURRENCY;
+
+    const amountsMatch =
+      Number.isFinite(expected) &&
+      Number.isFinite(charged) &&
+      Math.round(charged) === Math.round(expected);
+
+    if (!amountsMatch || currency !== ORDER_CURRENCY) {
+      this.logger.error(
+        `Pago con monto o moneda inesperados en la orden ${order.id}: ` +
+          `esperado ${expected} ${ORDER_CURRENCY}, cobrado ${charged} ${currency}. ` +
+          "Queda en revision y no se notifica.",
+      );
+      return OrderStatus.payment_review;
+    }
+
+    return OrderStatus.paid;
   }
 
   // El tipo de retorno es OrderStatus, no string: la columna es un enum de

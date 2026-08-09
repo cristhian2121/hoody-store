@@ -24,32 +24,7 @@ const CheckoutPending = () => {
         {t("checkout.pending.instructions")}
       </p>
 
-      {/* Display MP return parameters for debugging/verification */}
-      {(paymentId || externalReference || merchantOrderId) && (
-        <div className="mt-8 p-4 bg-muted rounded-lg text-left max-w-md mx-auto space-y-2 text-sm">
-          {externalReference && (
-            <div>
-              <span className="font-semibold">Referencia:</span> {externalReference}
-            </div>
-          )}
-          {paymentId && (
-            <div>
-              <span className="font-semibold">ID de pago:</span> {paymentId}
-            </div>
-          )}
-          {merchantOrderId && (
-            <div>
-              <span className="font-semibold">ID de orden:</span> {merchantOrderId}
-            </div>
-          )}
-          {status && (
-            <div>
-              <span className="font-semibold">Estado:</span> {status}
-            </div>
-          )}
-        </div>
-      )}
-
+      
       <div className="flex justify-center gap-3">
         <Button asChild>
           <Link to="/" className="inline-flex items-center gap-1">

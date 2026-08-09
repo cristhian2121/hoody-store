@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import type {
   PersonalizationData,
   PrintSide,
@@ -35,7 +35,17 @@ export const usePersonalization = ({
 
   const currentLayer = data[activeSide];
 
+  // `onChange` reporta cambios, no el estado inicial. Dispararlo en el montaje
+  // hace que abrir el editor se comporte como una edicion: quien escucha no
+  // puede distinguir "el cliente no tocó nada" de "el cliente dejó el diseño
+  // igual", y el preview del producto termina reflejando un estado que nadie
+  // eligió.
+  const isFirstRender = useRef(true);
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     onChange?.(data);
   }, [data, onChange]);
 

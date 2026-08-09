@@ -6,6 +6,7 @@ import {
   Post,
   Res,
   UploadedFile,
+  UseFilters,
   UseGuards,
   UseInterceptors,
 } from "@nestjs/common";
@@ -15,6 +16,7 @@ import { Throttle, ThrottlerGuard } from "@nestjs/throttler";
 import { ApiConsumes, ApiOperation, ApiTags } from "@nestjs/swagger";
 import type { Response } from "express";
 import { DesignImageService } from "./design-image.service";
+import { UploadSizeExceptionFilter } from "./upload-size.filter";
 import { MAX_UPLOAD_BYTES } from "./upload-limits";
 
 @ApiTags("uploads")
@@ -31,6 +33,7 @@ export class UploadsController {
    * decodificacion y barrido de los que nunca terminan en una compra.
    */
   @Post("design-image")
+  @UseFilters(UploadSizeExceptionFilter)
   @UseGuards(ThrottlerGuard)
   @Throttle({ default: { limit: 20, ttl: 600_000 } })
   @UseInterceptors(

@@ -3,44 +3,51 @@ import { useState } from "react";
 import { ChevronLeft, Palette } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguage, formatPrice } from "@/lib/i18n";
-import { getProduct } from "@/lib/products";
+import { useProduct } from "@/hooks/useProducts";
 import { useCart } from "@/lib/cart";
 import { useProductSelection } from "@/hooks/useProductSelection";
-import type { PersonalizationData } from "@/lib/types";
+import { useDesignValidation } from "@/hooks/useDesignValidation";
+import type { PersonalizationData, Product } from "@/lib/types";
 import PersonalizationEditor from "@/components/PersonalizationEditor";
 import { DesignLayerPreview } from "@/components/product/DesignLayerPreview";
 import { SizeGuideDialog } from "@/components/product/SizeGuideDialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
 
+/**
+ * Envoltorio de carga.
+ *
+ * La vista vive en su propio componente para que sus hooks se ejecuten siempre
+ * en el mismo orden. Antes habia un `product ? useProductSelection(...) : null`
+ * aqui mismo: con el catalogo en memoria era solo una violacion de las Rules of
+ * Hooks, pero con el catalogo cargando de forma asincrona el orden de hooks
+ * cambia entre el render sin producto y el render con producto, que es un
+ * crash real.
+ */
 const ProductDetail = () => {
   const { slug } = useParams<{ slug: string }>();
-  const { language, t } = useLanguage();
-  const { addItem } = useCart();
-  const product = getProduct(slug || "");
+  const { t } = useLanguage();
+  const { data: product, isLoading, isError } = useProduct(slug);
 
-  const [showEditor, setShowEditor] = useState(false);
-  const [personalization, setPersonalization] = useState<
-    PersonalizationData | undefined
-  >();
-  const [livePreview, setLivePreview] = useState<
-    PersonalizationData | undefined
-  >();
+  if (isLoading) {
+    return (
+      <div className="container py-6 md:py-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+          <Skeleton className="aspect-square rounded-2xl" />
+          <div className="space-y-4">
+            <Skeleton className="h-10 w-3/4" />
+            <Skeleton className="h-6 w-1/3" />
+            <Skeleton className="h-24 w-full" />
+            <Skeleton className="h-12 w-full" />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
-  const productSelection = product
-    ? useProductSelection({
-        product,
-        defaultGender: "hombre",
-        defaultColorIndex: 0,
-      })
-    : null;
-
-  const previewData = showEditor
-    ? (livePreview ?? personalization)
-    : personalization;
-
-  if (!product || !productSelection) {
+  if (isError || !product) {
     return (
       <div className="container py-20 text-center">
         <p className="text-muted-foreground">{t("product.notFound")}</p>
@@ -50,6 +57,17 @@ const ProductDetail = () => {
       </div>
     );
   }
+
+  return <ProductDetailView product={product} />;
+};
+
+const ProductDetailView = ({ product }: { product: Product }) => {
+  const { language, t } = useLanguage();
+  const { addItem } = useCart();
+
+  const [showEditor, setShowEditor] = useState(false);
+  const [personalization, setPersonalization] = useState<PersonalizationData | undefined>();
+  const [livePreview, setLivePreview] = useState<PersonalizationData | undefined>();
 
   const {
     selectedGender,
@@ -62,18 +80,35 @@ const ProductDetail = () => {
     setActiveImage,
     sizes,
     selectedColor,
+    selectedVariant,
+    displayPrice,
     isValidSelection,
-  } = productSelection;
+  } = useProductSelection({ product, defaultGender: "hombre", defaultColorIndex: 0 });
+
+  // Se evalua el diseno GUARDADO, no el que se esta editando: es lo que se
+  // agregaria al carrito.
+  const savedDesignQuality = useDesignValidation(personalization, product.category);
+
+  const previewData = showEditor ? (livePreview ?? personalization) : personalization;
 
   const handleAddToCart = () => {
-    if (!isValidSelection) {
+    if (!isValidSelection || !selectedVariant) {
       toast.error(t("product.selectSize"));
       return;
     }
+    // Unico caso en que se bloquea la compra: por debajo del piso el estampado
+    // sale visiblemente roto y la devolucion la pagamos nosotros.
+    if (savedDesignQuality.blocked) {
+      toast.error(t("product.designTooSmall"));
+      return;
+    }
+
     addItem({
+      variantId: selectedVariant.id,
       productId: product.id,
+      slug: product.slug,
       name: product.name,
-      price: product.price,
+      price: selectedVariant.price,
       gender: selectedGender,
       size: selectedSize,
       color: selectedColor,
@@ -102,11 +137,7 @@ const ProductDetail = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
         {/* Images */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="space-y-3"
-        >
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
           <div className="aspect-square rounded-2xl overflow-hidden bg-muted border relative">
             <img
               src={product.images[activeImage]}
@@ -126,7 +157,7 @@ const ProductDetail = () => {
           <div className="flex gap-2">
             {product.images.map((img, i) => (
               <button
-                key={i}
+                key={img}
                 onClick={() => setActiveImage(i)}
                 className={`h-16 w-16 rounded-lg overflow-hidden border-2 transition-colors ${activeImage === i ? "border-primary" : "border-transparent"}`}
               >
@@ -145,21 +176,13 @@ const ProductDetail = () => {
         >
           <div>
             <Badge variant="secondary" className="mb-2">
-              {product.category === "hoodies"
-                ? t("nav.hoodies")
-                : t("nav.tshirts")}
+              {product.category === "hoodies" ? t("nav.hoodies") : t("nav.tshirts")}
             </Badge>
-            <h1 className="text-3xl md:text-4xl font-bold mb-2">
-              {product.name[language]}
-            </h1>
-            <p className="text-2xl font-bold text-primary">
-              {formatPrice(product.price)}
-            </p>
+            <h1 className="text-3xl md:text-4xl font-bold mb-2">{product.name[language]}</h1>
+            <p className="text-2xl font-bold text-primary">{formatPrice(displayPrice)}</p>
           </div>
 
-          <p className="text-muted-foreground leading-relaxed">
-            {product.description[language]}
-          </p>
+          <p className="text-muted-foreground leading-relaxed">{product.description[language]}</p>
 
           {/* Gender */}
           <div className="space-y-2">
@@ -175,9 +198,7 @@ const ProductDetail = () => {
                   className="flex-1"
                   onClick={() => setSelectedGender(g)}
                 >
-                  {g === "hombre"
-                    ? t("product.gender.hombre")
-                    : t("product.gender.mujer")}
+                  {g === "hombre" ? t("product.gender.hombre") : t("product.gender.mujer")}
                 </Button>
               ))}
             </div>
@@ -189,10 +210,7 @@ const ProductDetail = () => {
               <label className="text-sm font-semibold uppercase tracking-wide">
                 {t("product.size")}
               </label>
-              <SizeGuideDialog
-                category={product.category}
-                gender={selectedGender}
-              />
+              <SizeGuideDialog sizeGuide={product.sizeGuide} gender={selectedGender} />
             </div>
             <div className="flex flex-wrap gap-2">
               {sizes.map((s) => (
@@ -207,12 +225,15 @@ const ProductDetail = () => {
                 </Button>
               ))}
             </div>
+            {sizes.length === 0 && (
+              <p className="text-sm text-muted-foreground">{t("product.noSizesForColor")}</p>
+            )}
           </div>
 
           {/* Color */}
           <div className="space-y-2">
             <label className="text-sm font-semibold uppercase tracking-wide">
-              {t("product.color")}: {selectedColor.name[language]}
+              {t("product.color")}: {selectedColor?.name[language]}
             </label>
             <div className="flex gap-2">
               {product.colors.map((c, i) => (
@@ -244,13 +265,8 @@ const ProductDetail = () => {
             </Button>
           </div>
 
-          {/* Add to cart */}
-          <Button
-            size="lg"
-            className="w-full text-base"
-            onClick={handleAddToCart}
-          >
-            {t("product.addToCart")} — {formatPrice(product.price)}
+          <Button size="lg" className="w-full text-base" onClick={handleAddToCart}>
+            {t("product.addToCart")} — {formatPrice(displayPrice)}
           </Button>
         </motion.div>
       </div>
@@ -264,7 +280,7 @@ const ProductDetail = () => {
         >
           <PersonalizationEditor
             category={product.category}
-            garmentColor={selectedColor.hex}
+            garmentColor={selectedColor?.hex ?? "#1a1a1a"}
             garmentImage={product.images[activeImage]}
             onSave={handleSavePersonalization}
             onChange={setLivePreview}

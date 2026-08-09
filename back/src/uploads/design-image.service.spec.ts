@@ -1,6 +1,6 @@
 import { BadRequestException, NotFoundException } from "@nestjs/common";
 import { DesignAsset } from "@prisma/client";
-import * as sharp from "sharp";
+import sharp from "sharp";
 import { DesignImageService } from "./design-image.service";
 import { StorageProvider } from "../storage/interfaces/storage-provider.interface";
 import {
@@ -110,7 +110,9 @@ describe("DesignImageService", () => {
 
   describe("normalizacion", () => {
     it("aplica la orientacion EXIF, asi que la foto no se imprime acostada", async () => {
-      const result = await service.createFromUpload(upload(await jpegNeedingExifRotation(200, 100)));
+      const result = await service.createFromUpload(
+        upload(await jpegNeedingExifRotation(200, 100)),
+      );
 
       // El archivo declara 200x100 con orientacion 6 (girar 90 grados).
       expect(result.width).toBe(100);
@@ -192,9 +194,7 @@ describe("DesignImageService", () => {
 
     it("rechaza un buffer mas grande que el tope", async () => {
       const oversized = Buffer.alloc(MAX_UPLOAD_BYTES + 1);
-      await expect(service.createFromUpload(upload(oversized))).rejects.toThrow(
-        /supera el maximo/,
-      );
+      await expect(service.createFromUpload(upload(oversized))).rejects.toThrow(/supera el maximo/);
     });
 
     it("no deja nada en el almacenamiento cuando rechaza", async () => {

@@ -2,13 +2,21 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/lib/i18n";
-import { products } from "@/lib/products";
+import { useProducts } from "@/hooks/useProducts";
 import ProductCard from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import heroImg from "@/assets/hero.jpg";
 
 const Index = () => {
   const { t } = useLanguage();
+  const { data: products = [], isLoading } = useProducts();
+
+  // Antes esto era products[0] y products[2]: dos indices fijos sobre una lista
+  // escrita a mano. Con el catalogo en la base, agregar un producto o cambiar el
+  // orden ponia la foto equivocada en la portada, o la rompia.
+  const hoodieCover = products.find((product) => product.category === "hoodies");
+  const tshirtCover = products.find((product) => product.category === "camisetas");
 
   return (
     <>
@@ -49,11 +57,13 @@ const Index = () => {
             to="/categoria/hoodies"
             className="group relative aspect-[16/9] rounded-2xl overflow-hidden border bg-card"
           >
-            <img
-              src={products[0].images[0]}
-              alt="Hoodies"
-              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-            />
+            {hoodieCover && (
+              <img
+                src={hoodieCover.images[0]}
+                alt="Hoodies"
+                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+            )}
             <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 to-transparent" />
             <div className="absolute bottom-6 left-6">
               <h2 className="text-2xl font-bold text-primary-foreground">
@@ -65,11 +75,13 @@ const Index = () => {
             to="/categoria/camisetas"
             className="group relative aspect-[16/9] rounded-2xl overflow-hidden border bg-card"
           >
-            <img
-              src={products[2].images[0]}
-              alt="Camisetas"
-              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-            />
+            {tshirtCover && (
+              <img
+                src={tshirtCover.images[0]}
+                alt="Camisetas"
+                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+            )}
             <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 to-transparent" />
             <div className="absolute bottom-6 left-6">
               <h2 className="text-2xl font-bold text-primary-foreground">
@@ -88,9 +100,13 @@ const Index = () => {
           </h2>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-          {products.map((product, i) => (
-            <ProductCard key={product.id} product={product} index={i} />
-          ))}
+          {isLoading
+            ? Array.from({ length: 4 }).map((_, i) => (
+                <Skeleton key={i} className="aspect-[3/4] rounded-xl" />
+              ))
+            : products.map((product, i) => (
+                <ProductCard key={product.id} product={product} index={i} />
+              ))}
         </div>
       </section>
     </>

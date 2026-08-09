@@ -10,6 +10,8 @@ interface OrderSummaryProps {
   shippingLoading: boolean;
   shippingCost: number;
   total: number;
+  /** Total recalculado por el servidor cuando no coincidio con el mostrado. */
+  serverTotal?: number | null;
   processing: boolean;
   checkoutDisabled: boolean;
 }
@@ -19,6 +21,7 @@ export const OrderSummary = ({
   shippingLoading,
   shippingCost,
   total,
+  serverTotal = null,
   processing,
   checkoutDisabled,
 }: OrderSummaryProps) => {
@@ -73,8 +76,25 @@ export const OrderSummary = ({
       <Separator />
       <div className="flex justify-between font-bold text-lg">
         <span>{t("cart.total")}</span>
-        <span>{formatPrice(total)}</span>
+        <span className={serverTotal !== null ? "line-through text-muted-foreground" : undefined}>
+          {formatPrice(total)}
+        </span>
       </div>
+
+      {/* El precio del catalogo cambio mientras el carrito estaba guardado. Se
+          muestra el real y se exige un segundo clic antes de cobrar. */}
+      {serverTotal !== null && (
+        <div className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-3 space-y-1">
+          <p className="text-xs text-amber-700 dark:text-amber-400">
+            {t("checkout.priceChanged")}
+          </p>
+          <p className="flex justify-between font-bold text-lg">
+            <span>{t("cart.total")}</span>
+            <span>{formatPrice(serverTotal)}</span>
+          </p>
+        </div>
+      )}
+
       <Button
         type="submit"
         size="lg"
@@ -82,7 +102,11 @@ export const OrderSummary = ({
         disabled={processing || checkoutDisabled}
       >
         <ShieldCheck className="h-4 w-4 mr-2" />
-        {processing ? t("checkout.processing") : t("checkout.payWithMercadoPago")}
+        {processing
+          ? t("checkout.processing")
+          : serverTotal !== null
+            ? t("checkout.confirmNewPrice")
+            : t("checkout.payWithMercadoPago")}
       </Button>
       <p className="text-[10px] text-center text-muted-foreground">
         {t("checkout.secure")}

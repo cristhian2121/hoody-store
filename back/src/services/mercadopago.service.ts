@@ -2,6 +2,25 @@ import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { MercadoPagoConfig, Preference, Payment } from "mercadopago";
 
+/**
+ * Linea tal como se le muestra al cliente en la pagina de pago.
+ *
+ * Todos los campos los arma el servidor a partir del catalogo. Antes el titulo y
+ * la descripcion venian del cuerpo del pedido, o sea que un comprador podia
+ * elegir que texto aparecia en su propia pantalla de cobro.
+ */
+export interface PreferenceLineItem {
+  /** SKU de la variante. */
+  id: string;
+  title: string;
+  description: string;
+  quantity: number;
+  unitPrice: number;
+  /** Se omite cuando la URL no es alcanzable desde afuera (dev local). */
+  pictureUrl?: string;
+  categoryId: string;
+}
+
 @Injectable()
 export class MercadoPagoService {
   private preferenceClient: Preference;
@@ -32,29 +51,20 @@ export class MercadoPagoService {
   }: {
     orderId: string;
     customer: { firstName: string; lastName: string; email: string; phone: string };
-    items: Array<{
-      productId: string;
-      name: string;
-      price: number;
-      quantity: number;
-      description?: string;
-      image?: string;
-      category?: string;
-      size?: string;
-    }>;
+    items: PreferenceLineItem[];
     shippingCost: number;
     frontendUrl: string;
     notificationUrl: string;
   }) {
     const preferenceItems = items.map((item) => ({
-      id: item.productId,
-      title: item.name,
-      description: item.description || `${item.category} · ${item.size}`,
+      id: item.id,
+      title: item.title,
+      description: item.description,
       quantity: item.quantity,
       currency_id: "COP" as const,
-      unit_price: this.sanitizeUnitPrice(item.price),
-      picture_url: item.image,
-      category_id: item.category,
+      unit_price: this.sanitizeUnitPrice(item.unitPrice),
+      picture_url: item.pictureUrl,
+      category_id: item.categoryId,
     }));
 
     if (shippingCost > 0) {
@@ -98,9 +108,7 @@ export class MercadoPagoService {
       return response;
     } catch (error: any) {
       const errorMessage =
-        error.message ||
-        error.cause?.[0]?.description ||
-        "Failed to create payment preference";
+        error.message || error.cause?.[0]?.description || "Failed to create payment preference";
       const errorDetails = {
         message: errorMessage,
         ...(error.cause && { cause: error.cause }),
@@ -117,9 +125,7 @@ export class MercadoPagoService {
       return response;
     } catch (error: any) {
       const errorMessage =
-        error.message ||
-        error.cause?.[0]?.description ||
-        "Failed to retrieve payment";
+        error.message || error.cause?.[0]?.description || "Failed to retrieve payment";
       const errorDetails = {
         message: errorMessage,
         ...(error.cause && { cause: error.cause }),

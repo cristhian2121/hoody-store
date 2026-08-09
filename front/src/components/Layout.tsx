@@ -132,12 +132,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               </div>
               atuestampa
             </div>
-            <div className="flex items-center gap-6 text-sm text-muted-foreground">
-              <span>{t("footer.about")}</span>
-              <span>{t("footer.help")}</span>
-              <span>{t("footer.terms")}</span>
-              <span>{t("footer.privacy")}</span>
-            </div>
             <p className="text-sm text-muted-foreground">
               © 2026 atuestampa. {t("footer.rights")}
             </p>

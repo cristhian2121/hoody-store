@@ -27,6 +27,10 @@ export class OrdersController {
     return {
       orderId: result.order.id,
       checkoutUrl: result.checkoutUrl,
+      // Los totales viajan de vuelta para que el frontend pueda comparar contra
+      // lo que le mostro al cliente. Si el catalogo cambio de precio entre que
+      // se armo el carrito y se apreto pagar, el numero de aca es el real.
+      totals: result.totals,
     };
   }
 

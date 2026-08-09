@@ -8,17 +8,19 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import type { Gender, ProductCategory } from "@/lib/types";
-import { SIZE_DATA } from "@/lib/constants";
+import type { Gender, SizeMeasurement } from "@/lib/types";
 
 interface SizeGuideDialogProps {
-  category: ProductCategory;
+  /** Viene del producto: la tabla vive en la base y no en una constante del bundle. */
+  sizeGuide: Record<string, Record<string, SizeMeasurement>>;
   gender: Gender;
 }
 
-export const SizeGuideDialog = ({ category, gender }: SizeGuideDialogProps) => {
+export const SizeGuideDialog = ({ sizeGuide, gender }: SizeGuideDialogProps) => {
   const { t } = useLanguage();
-  const sizeTable = SIZE_DATA[category]?.[gender] || {};
+  const sizeTable = sizeGuide?.[gender] ?? {};
+
+  if (Object.keys(sizeTable).length === 0) return null;
 
   return (
     <Dialog>

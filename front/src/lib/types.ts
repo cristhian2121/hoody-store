@@ -9,16 +9,47 @@ export interface ProductColor {
   id: string;
 }
 
-export interface Product {
+/** Lo que devuelve GET /api/products. Alcanza para las tarjetas del catalogo. */
+export interface ProductSummary {
   id: string;
   slug: string;
   category: ProductCategory;
   name: { es: string; en: string };
   description: { es: string; en: string };
-  price: number;
+  /** Precio minimo entre las variantes disponibles. */
+  priceFrom: number;
   images: string[];
   colors: ProductColor[];
+}
+
+export interface SizeMeasurement {
+  chest: number;
+  length: number;
+  shoulder: number;
+}
+
+/**
+ * Combinacion comprable concreta.
+ *
+ * Es lo unico que el checkout manda al servidor: de `id` se derivan el precio,
+ * el nombre, la talla, el color y la foto. El cliente ya no puede proponer
+ * ninguno de esos datos.
+ */
+export interface ProductVariant {
+  id: string;
+  sku: string;
+  colorId: string;
+  gender: Gender;
+  size: string;
+  price: number;
+  available: boolean;
+}
+
+/** Lo que devuelve GET /api/products/:slug. */
+export interface Product extends ProductSummary {
   sizes: Record<Gender, string[]>;
+  variants: ProductVariant[];
+  sizeGuide: Record<string, Record<string, SizeMeasurement>>;
 }
 
 export interface TextElement {
@@ -35,8 +66,27 @@ export interface TextElement {
   rotation: number;
 }
 
+/**
+ * Imagen del diseno, por referencia.
+ *
+ * Antes esto guardaba la imagen entera como data URL base64. El editor la
+ * degradaba a JPEG de 800 px (perdiendo la transparencia, que es lo unico que
+ * hace que un estampado se vea recortado y no como una calcomania rectangular),
+ * y ese base64 viajaba al carrito, a localStorage y al checkout. Tres items
+ * personalizados bastaban para reventar la cuota de ~5 MB del navegador.
+ *
+ * Ahora el original vive en el servidor y aca quedan ~150 bytes: el id, la URL
+ * del preview y el tamano real en pixeles, que es lo que permite calcular a que
+ * DPI se va a imprimir.
+ */
 export interface ImageElement {
-  src: string;
+  assetId: string;
+  previewUrl: string;
+  /** Tamano del master en el servidor, no del preview. */
+  naturalWidth: number;
+  naturalHeight: number;
+  /** Falso cuando la imagen se estampara con fondo rectangular. */
+  hasAlpha: boolean;
   x: number;
   y: number;
   scale: number;
@@ -53,10 +103,21 @@ export interface PersonalizationData {
   back: DesignLayer;
 }
 
+/**
+ * Linea del carrito.
+ *
+ * `variantId` es lo unico que viaja al servidor. Todo lo demas —nombre, precio,
+ * foto, talla, color— existe solo para pintar el carrito, y el servidor lo
+ * vuelve a derivar del catalogo al cobrar. Si el precio cambio mientras el
+ * carrito estaba guardado, manda el del catalogo y el checkout avisa.
+ */
 export interface CartItem {
   cartItemId: string;
+  variantId: string;
   productId: string;
+  slug: string;
   name: { es: string; en: string };
+  /** Solo para mostrar. El cobro usa el precio de la base de datos. */
   price: number;
   quantity: number;
   gender: Gender;

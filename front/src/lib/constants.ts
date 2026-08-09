@@ -1,4 +1,4 @@
-import type { ProductCategory, PrintSide, Gender } from "./types";
+import type { ProductCategory, PrintSide } from "./types";
 
 export type HorizontalPosition = "left" | "center" | "right";
 export type VerticalPosition = "top" | "middle" | "bottom";
@@ -112,60 +112,28 @@ export const getFontOption = (family: string): FontOption | undefined =>
  */
 export const MAX_TEXT_LENGTH = 40;
 
-export const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+/**
+ * 25 MB, igual que el tope del servidor.
+ *
+ * Los 5 MB anteriores no daban: un original util para estampar 280 mm a 300 dpi
+ * ronda los 3300 px de ancho, y un PNG con transparencia de ese tamano pesa
+ * entre 8 y 20 MB. Se valida aca ademas del servidor solo para dar un mensaje
+ * en espanol antes de gastar la subida.
+ */
+export const MAX_FILE_SIZE = 25 * 1024 * 1024;
 
-export const ALLOWED_IMAGE_TYPES = [
-  "image/png",
-  "image/jpeg",
-  "image/svg+xml",
-] as const;
+/**
+ * SVG salio de la lista: no tiene tamano en pixeles validable, resuelve fuentes
+ * por su cuenta (lo que romperia la equivalencia entre preview e impresion) y es
+ * un vector conocido de XSS. El servidor tambien lo rechaza.
+ */
+export const ALLOWED_IMAGE_TYPES = ["image/png", "image/jpeg", "image/webp"] as const;
 
-export const SIZE_DATA: Record<
-  ProductCategory,
-  Record<
-    Gender,
-    Record<string, { chest: string; length: string; shoulder: string }>
-  >
-> = {
-  hoodies: {
-    hombre: {
-      S: { chest: "96", length: "68", shoulder: "44" },
-      M: { chest: "102", length: "70", shoulder: "46" },
-      L: { chest: "108", length: "72", shoulder: "48" },
-      XL: { chest: "114", length: "74", shoulder: "50" },
-      XXL: { chest: "120", length: "76", shoulder: "52" },
-    },
-    mujer: {
-      XS: { chest: "84", length: "60", shoulder: "38" },
-      S: { chest: "90", length: "62", shoulder: "40" },
-      M: { chest: "96", length: "64", shoulder: "42" },
-      L: { chest: "102", length: "66", shoulder: "44" },
-      XL: { chest: "108", length: "68", shoulder: "46" },
-    },
-  },
-  camisetas: {
-    hombre: {
-      S: { chest: "92", length: "70", shoulder: "43" },
-      M: { chest: "98", length: "72", shoulder: "45" },
-      L: { chest: "104", length: "74", shoulder: "47" },
-      XL: { chest: "110", length: "76", shoulder: "49" },
-      XXL: { chest: "116", length: "78", shoulder: "51" },
-    },
-    mujer: {
-      XS: { chest: "80", length: "60", shoulder: "36" },
-      S: { chest: "86", length: "62", shoulder: "38" },
-      M: { chest: "92", length: "64", shoulder: "40" },
-      L: { chest: "98", length: "66", shoulder: "42" },
-      XL: { chest: "104", length: "68", shoulder: "44" },
-    },
-  },
-};
+export const IMAGE_FILE_ACCEPT = ".png,.jpg,.jpeg,.webp";
 
 export const POSITION_TOLERANCE = 6;
 
 export const BLUR_DELAY_MS = 150;
-
-export const IMAGE_MAX_DIMENSION = 800;
 
 export const DEFAULT_TEXT_CONTENT = "Tu texto";
 
