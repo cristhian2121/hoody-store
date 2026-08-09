@@ -1,10 +1,15 @@
-import { Injectable, Inject } from "@nestjs/common";
+import { Injectable, Inject, BadRequestException } from "@nestjs/common";
 import { randomUUID } from "node:crypto";
+import { Prisma, OrderStatus } from "@prisma/client";
 import { OrderRepository } from "../repositories/interfaces/orders.repository.interface";
 import { PaymentsService } from "./payments.service";
 import { CheckoutDto } from "../api/dto/checkout.dto";
-import { Prisma } from "@prisma/client";
 import { ShippingService } from "../shipping/shipping.service";
+import { PricingService, PricedLine } from "../products/pricing.service";
+import { DesignValidationService, NormalizedDesign } from "../print/design-validation.service";
+import { toRemoteFetchableUrl } from "../products/product-url.util";
+
+export const ORDER_CURRENCY = "COP";
 
 @Injectable()
 export class OrdersService {
@@ -12,37 +17,56 @@ export class OrdersService {
     @Inject("OrderRepository") private readonly orderRepository: OrderRepository,
     private readonly paymentsService: PaymentsService,
     private readonly shippingService: ShippingService,
+    private readonly pricingService: PricingService,
+    private readonly designValidation: DesignValidationService,
   ) {}
 
+  /**
+   * Crea la orden y la preferencia de pago.
+   *
+   * El orden de los pasos no es casual: todo lo que puede fallar por culpa del
+   * pedido —precio, envio, disenos— se comprueba antes de que exista una orden
+   * y antes de que se genere un link de pago. Un cliente nunca deberia poder
+   * pagar algo que despues no se puede producir.
+   */
   async createOrderWithCheckout(checkoutData: CheckoutDto) {
-    const orderId = randomUUID();
-    const createdAt = new Date().toISOString();
+    this.assertUniqueCartItemIds(checkoutData);
 
-    // Validate and normalize items
-    const items = checkoutData.items.map((item) => ({
-      ...item,
-      price: Number(item.price),
-      quantity: Number(item.quantity),
-    }));
+    // 1. El precio sale de la base de datos. `checkoutData` ni siquiera tiene un
+    //    campo de precio que se pudiera leer por accidente.
+    const priced = await this.pricingService.priceCart(
+      checkoutData.items.map((item) => ({
+        variantId: item.variantId,
+        quantity: item.quantity,
+      })),
+    );
 
-    // Calculate totals
-    const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const shippingQuote = await this.shippingService.calculateQuote({
       countryCode: checkoutData.shipping.countryCode,
       departmentCode: checkoutData.shipping.departmentCode,
       cityCode: checkoutData.shipping.cityCode,
     });
+
+    // 2. Los disenos se validan contra el catalogo real y contra los assets
+    //    subidos. Falla aqui es un 400 antes de cobrar; fallar despues seria un
+    //    cliente con el dinero descontado y una prenda que no se puede imprimir.
+    const designsPerItem: NormalizedDesign[][] = [];
+    for (const [index, item] of checkoutData.items.entries()) {
+      designsPerItem.push(
+        await this.designValidation.validateItemDesigns(item.designs, priced.lines[index].category),
+      );
+    }
+
+    const subtotal = priced.subtotalCop;
     const shippingCost = shippingQuote.amount;
     const total = subtotal + shippingCost;
+    const orderId = randomUUID();
 
-    // Create order
     const orderData: Prisma.OrderCreateInput = {
       id: orderId,
-      createdAt: new Date(createdAt),
-      updatedAt: new Date(createdAt),
-      status: "checkout_created",
+      status: OrderStatus.checkout_created,
       paymentProvider: "mercadopago",
-      customer: checkoutData.customer as any,
+      customer: { ...checkoutData.customer } as unknown as Prisma.InputJsonValue,
       shipping: {
         countryCode: shippingQuote.country.code,
         country: shippingQuote.country.name,
@@ -55,38 +79,55 @@ export class OrdersService {
         cost: shippingCost,
         currency: shippingQuote.currency,
         pricingProvider: shippingQuote.provider,
-      } as any,
+      } as unknown as Prisma.InputJsonValue,
       totals: {
         subtotal,
         shipping: shippingCost,
         total,
-        currency: "COP",
-      } as any,
-      items: items as any,
+        currency: ORDER_CURRENCY,
+      } as unknown as Prisma.InputJsonValue,
+      // Columna heredada. La fuente de verdad es la relacion orderItems; esto se
+      // conserva mientras las notificaciones sigan leyendola, y se elimina en la
+      // limpieza final.
+      items: priced.lines.map((line) => ({
+        name: line.productNameEs,
+        quantity: line.quantity,
+        price: line.unitPriceCop,
+      })) as unknown as Prisma.InputJsonValue,
       payment: Prisma.JsonNull,
+      orderItems: {
+        create: priced.lines.map((line, index) =>
+          this.toOrderItemCreate(line, checkoutData.items[index].cartItemId, designsPerItem[index]),
+        ),
+      },
     };
 
+    // 3. Una sola transaccion: orden, lineas y disenos.
     const order = await this.orderRepository.create(orderData);
 
-    // Create payment preference
     const preference = await this.paymentsService.createPreference({
       orderId,
       customer: checkoutData.customer,
-      items,
+      items: priced.lines.map((line) => ({
+        id: line.sku,
+        // El titulo y la descripcion se arman en el servidor. Antes se
+        // interpolaba un string del cliente directo en la pagina de pago.
+        title: line.productNameEs,
+        description: line.description,
+        quantity: line.quantity,
+        unitPrice: line.unitPriceCop,
+        pictureUrl: line.imageStorageKey ? toRemoteFetchableUrl(line.imageStorageKey) : undefined,
+        categoryId: line.category,
+      })),
       shippingCost,
     });
 
-    // Update order with payment info
-    const updatedOrder = await this.orderRepository.update(order.id, (current: any) => ({
-      ...current,
-      updatedAt: new Date(),
-      payment: {
-        provider: "mercadopago",
-        preferenceId: preference.id,
-        initPoint: preference.init_point,
-        status: "pending",
-      } as any,
-    }));
+    const updatedOrder = await this.orderRepository.attachPayment(order.id, {
+      provider: "mercadopago",
+      preferenceId: preference.id ?? null,
+      initPoint: preference.init_point ?? null,
+      status: "pending",
+    });
 
     if (!updatedOrder) {
       throw new Error("Failed to update order with payment information");
@@ -95,6 +136,57 @@ export class OrdersService {
     return {
       order: updatedOrder,
       checkoutUrl: preference.init_point,
+      totals: { subtotal, shipping: shippingCost, total, currency: ORDER_CURRENCY },
+    };
+  }
+
+  /**
+   * La tabla tiene @@unique([orderId, cartItemId]). Sin esta comprobacion, un
+   * carrito con ids repetidos reventaria como violacion de constraint a mitad de
+   * la transaccion en vez de como un 400 explicable.
+   */
+  private assertUniqueCartItemIds(checkoutData: CheckoutDto): void {
+    const ids = checkoutData.items.map((item) => item.cartItemId);
+    if (new Set(ids).size !== ids.length) {
+      throw new BadRequestException("Hay lineas repetidas en el carrito.");
+    }
+  }
+
+  private toOrderItemCreate(
+    line: PricedLine,
+    cartItemId: string,
+    designs: NormalizedDesign[],
+  ): Prisma.OrderItemCreateWithoutOrderInput {
+    return {
+      cartItemId,
+      variant: { connect: { id: line.variantId } },
+      // Columnas snapshot: no son redundantes con variantId, son el registro de
+      // que se vendio y a que precio. Retocar el catalogo despues no las cambia.
+      productSlug: line.productSlug,
+      productNameEs: line.productNameEs,
+      productNameEn: line.productNameEn,
+      category: line.category,
+      gender: line.gender,
+      size: line.size,
+      colorId: line.colorId,
+      colorNameEs: line.colorNameEs,
+      colorNameEn: line.colorNameEn,
+      colorHex: line.colorHex,
+      imageUrl: line.imageUrl,
+      unitPriceCop: line.unitPriceCop,
+      quantity: line.quantity,
+      lineTotalCop: line.lineTotalCop,
+      designs: {
+        create: designs.map((design) => ({
+          side: design.side,
+          category: design.category,
+          printAreaWidthMm: design.printAreaWidthMm,
+          printAreaHeightMm: design.printAreaHeightMm,
+          dpi: design.dpi,
+          layer: design.layer as unknown as Prisma.InputJsonValue,
+          ...(design.imageAssetId ? { imageAsset: { connect: { id: design.imageAssetId } } } : {}),
+        })),
+      },
     };
   }
 

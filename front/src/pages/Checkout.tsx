@@ -1,5 +1,6 @@
 import { FormEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 import { ChevronLeft } from "lucide-react";
 import { useLanguage, formatPrice } from "@/lib/i18n";
 import { useCart } from "@/lib/cart";
@@ -22,9 +23,17 @@ import { OrderSummary } from "@/components/checkout/OrderSummary";
 import { toast } from "sonner";
 
 const Checkout = () => {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
   const { items, subtotal } = useCart();
+  const queryClient = useQueryClient();
   const [processing, setProcessing] = useState(false);
+  /**
+   * Total que devolvio el servidor cuando no coincidio con el mostrado.
+   *
+   * Mientras esta puesto, el boton exige un segundo clic: el cliente ve el
+   * precio nuevo antes de que lo mandemos a pagarlo.
+   */
+  const [confirmedTotal, setConfirmedTotal] = useState<number | null>(null);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -91,26 +100,9 @@ const Checkout = () => {
 
     setProcessing(true);
     try {
-      await createCheckoutSession({
-        items: items.map((item) => ({
-          productId: item.productId,
-          name: item.name[language],
-          price: item.price,
-          quantity: item.quantity,
-          gender: item.gender,
-          size: item.size,
-          color: item.color,
-          category: item.category,
-          personalization: item.personalization,
-          description: `${item.size} · ${item.color.name[language]}`,
-          image: item.image,
-        })),
-        customer: {
-          firstName,
-          lastName,
-          email,
-          phone,
-        },
+      const session = await createCheckoutSession({
+        items,
+        customer: { firstName, lastName, email, phone },
         shipping: {
           countryCode: COLOMBIA_COUNTRY_CODE,
           departmentCode: selectedDepartment.code,
@@ -119,9 +111,22 @@ const Checkout = () => {
           postalCode: postalCode || undefined,
         },
       });
+
+      // El servidor recalcula el precio contra el catalogo. Si el carrito estaba
+      // guardado desde antes de un cambio de precio, el total real es otro: se
+      // muestra y se pide confirmacion en vez de mandar a pagar algo distinto de
+      // lo que decia la pantalla.
+      if (session.totals.total !== total && confirmedTotal !== session.totals.total) {
+        setConfirmedTotal(session.totals.total);
+        await queryClient.invalidateQueries({ queryKey: ["products"] });
+        toast.warning(t("checkout.priceChanged"));
+        return;
+      }
+
+      window.location.href = session.checkoutUrl;
     } catch (error) {
       console.error(error);
-      toast.error(t("checkout.paymentError"));
+      toast.error(error instanceof Error ? error.message : t("checkout.paymentError"));
     } finally {
       setProcessing(false);
     }
@@ -329,6 +334,7 @@ const Checkout = () => {
               shippingLoading={shippingLoading}
               shippingCost={shippingCost}
               total={total}
+              serverTotal={confirmedTotal}
               processing={processing}
               checkoutDisabled={shippingLoading || !shippingReady}
             />

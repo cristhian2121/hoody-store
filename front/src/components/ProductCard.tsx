@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import { useLanguage, formatPrice } from "@/lib/i18n";
-import type { Product } from "@/lib/types";
+import type { ProductSummary } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
 
 interface ProductCardProps {
-  product: Product;
+  product: ProductSummary;
   index?: number;
 }
 
@@ -40,7 +40,7 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
             {product.name[language]}
           </h3>
           <p className="text-primary font-bold text-lg">
-            {formatPrice(product.price)}
+            {formatPrice(product.priceFrom)}
           </p>
           <div className="flex items-center gap-1.5 mt-2">
             {product.colors.map((c) => (

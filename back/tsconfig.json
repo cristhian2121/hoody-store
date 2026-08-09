@@ -6,6 +6,11 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    // sharp 0.34+ solo publica un default export. Sin esModuleInterop el
+    // `import sharp from "sharp"` compila sin quejarse y en runtime resuelve a
+    // undefined, porque el .cjs exporta la funcion directamente y no trae
+    // .default. Es tambien el valor por defecto del tsconfig que genera Nest.
+    "esModuleInterop": true,
     "target": "ES2021",
     "sourceMap": true,
     "outDir": "./dist",

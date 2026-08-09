@@ -12,7 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { TextElement } from "@/lib/types";
-import { FONTS } from "@/lib/constants";
+import { FONT_OPTIONS, getFontOption, MAX_TEXT_LENGTH } from "@/lib/constants";
 
 interface TextControlsProps {
   text: TextElement;
@@ -42,12 +42,19 @@ export const TextControls = ({
   onRemove,
 }: TextControlsProps) => {
   const { t } = useLanguage();
+  const font = getFontOption(text.fontFamily);
+  // Bebas Neue no tiene archivos de negrita ni italica. Se deshabilitan los
+  // botones en vez de dejar que el navegador las falsifique: el renderer del
+  // servidor no falsifica igual y el estampado saldria distinto al preview.
+  const canBold = font?.hasBold ?? true;
+  const canItalic = font?.hasItalic ?? true;
 
   return (
     <div className="space-y-3 p-3 rounded-lg bg-muted/50">
       <Input
         value={text.content}
-        onChange={(e) => onContentChange(e.target.value)}
+        onChange={(e) => onContentChange(e.target.value.replace(/[\r\n]+/g, " "))}
+        maxLength={MAX_TEXT_LENGTH}
         className="text-sm"
       />
       <div className="grid grid-cols-2 gap-2">
@@ -56,9 +63,9 @@ export const TextControls = ({
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            {FONTS.map((f) => (
-              <SelectItem key={f} value={f} style={{ fontFamily: f }}>
-                {f}
+            {FONT_OPTIONS.map((f) => (
+              <SelectItem key={f.family} value={f.family} style={{ fontFamily: f.family }}>
+                {f.label}
               </SelectItem>
             ))}
           </SelectContent>
@@ -80,18 +87,22 @@ export const TextControls = ({
           className="h-8 w-10 p-0.5 cursor-pointer"
         />
         <Button
-          variant={text.bold ? "default" : "outline"}
+          variant={text.bold && canBold ? "default" : "outline"}
           size="sm"
           className="h-8 w-8 p-0 font-bold"
           onClick={onBoldToggle}
+          disabled={!canBold}
+          title={canBold ? undefined : `${font?.label} no tiene negrita`}
         >
           B
         </Button>
         <Button
-          variant={text.italic ? "default" : "outline"}
+          variant={text.italic && canItalic ? "default" : "outline"}
           size="sm"
           className="h-8 w-8 p-0 italic"
           onClick={onItalicToggle}
+          disabled={!canItalic}
+          title={canItalic ? undefined : `${font?.label} no tiene italica`}
         >
           I
         </Button>

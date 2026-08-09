@@ -45,6 +45,12 @@ services:
         condition: service_healthy
     networks:
       - hoodies-network
+    # El render del arte es lo que mas memoria usa: un lienzo de 280x400 mm a
+    # 300 dpi son 3307x4724 px y cada intermedio RGBA ronda los 62 MB. Medido en
+    # local, renderizar los dos lados de una orden deja el proceso en ~520 MB
+    # RSS. El tope va con margen sobre eso; el trabajador ya renderiza de a uno
+    # para que dos disenos grandes no sumen sus picos.
+    mem_limit: 1500m
     command: sh -c "npx prisma generate && npx prisma migrate deploy && npm run dev"
 
   frontend:

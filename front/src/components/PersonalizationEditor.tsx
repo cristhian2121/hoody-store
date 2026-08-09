@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Type, RotateCcw, Sparkles } from "lucide-react";
+import { toast } from "sonner";
 import { useLanguage } from "@/lib/i18n";
 import type { PersonalizationData, PrintSide, ProductCategory } from "@/lib/types";
 import { Button } from "@/components/ui/button";
@@ -8,8 +9,10 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { usePersonalization } from "@/hooks/usePersonalization";
 import { useDragAndDrop } from "@/hooks/useDragAndDrop";
 import { useImageUpload } from "@/hooks/useImageUpload";
+import { useDesignValidation } from "@/hooks/useDesignValidation";
 import { getPositionPreset } from "@/lib/utils/position";
 import type { HorizontalPosition, VerticalPosition } from "@/lib/constants";
+import { PRINT_AREAS, getFontOption } from "@/lib/constants";
 import { DesignCanvas } from "./personalization/DesignCanvas";
 import { ImageControls } from "./personalization/ImageControls";
 import { TextControls } from "./personalization/TextControls";
@@ -80,6 +83,7 @@ const PersonalizationEditor = ({
   const dragAndDrop = useDragAndDrop({
     onDragMove: handleDragMove,
     onDragStart: handleDragStart,
+    area: PRINT_AREAS[category][activeSide],
   });
 
   const handleImageUploaded = React.useCallback(
@@ -90,13 +94,15 @@ const PersonalizationEditor = ({
   );
 
   const handleImageError = React.useCallback((error: string) => {
-    alert(error);
+    toast.error(error);
   }, []);
 
   const imageUpload = useImageUpload({
     onImageUploaded: handleImageUploaded,
     onError: handleImageError,
   });
+
+  const validation = useDesignValidation(data, category);
 
   const handleImagePointerDown = React.useCallback(
     (e: React.PointerEvent) => {
@@ -215,13 +221,11 @@ const PersonalizationEditor = ({
           <ImageControls
             image={currentLayer.image}
             fileInputRef={imageUpload.fileInputRef}
-            aiPrompt={imageUpload.aiPrompt}
-            aiLoading={imageUpload.aiLoading}
-            onAiPromptChange={imageUpload.setAiPrompt}
+            uploading={imageUpload.uploading}
+            quality={validation[activeSide]}
             onUploadClick={imageUpload.triggerFileInput}
             onFileChange={imageUpload.handleFileInputChange}
             onRemove={removeImage}
-            onAiGenerate={imageUpload.handleAiGenerate}
             onScaleChange={(scale) => updateImage({ scale })}
             onRotationChange={(rotation) => updateImage({ rotation })}
             onCenter={handleCenterImage}
@@ -251,9 +255,17 @@ const PersonalizationEditor = ({
             <TextControls
               text={selectedText}
               onContentChange={(content) => updateText(selectedText.id, { content })}
-              onFontFamilyChange={(fontFamily) =>
-                updateText(selectedText.id, { fontFamily })
-              }
+              onFontFamilyChange={(fontFamily) => {
+                // Cambiar a una familia sin negrita o sin italica debe apagar
+                // esas banderas: si quedaran encendidas, el navegador las
+                // falsificaria y el estampado no coincidiria con el preview.
+                const font = getFontOption(fontFamily);
+                updateText(selectedText.id, {
+                  fontFamily,
+                  bold: selectedText.bold && (font?.hasBold ?? true),
+                  italic: selectedText.italic && (font?.hasItalic ?? true),
+                });
+              }}
               onFontSizeChange={(fontSize) =>
                 updateText(selectedText.id, { fontSize })
               }

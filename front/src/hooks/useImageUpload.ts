@@ -1,30 +1,49 @@
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 import type { ImageElement } from "@/lib/types";
-import { processImageFile, generateAIImage, createImageElement } from "@/lib/utils/image";
+import { createImageElement, validateImageFile } from "@/lib/utils/image";
+import { uploadDesignImage } from "@/lib/uploads";
 
 interface UseImageUploadOptions {
   onImageUploaded: (image: ImageElement) => void;
   onError?: (error: string) => void;
 }
 
-export const useImageUpload = ({
-  onImageUploaded,
-  onError,
-}: UseImageUploadOptions) => {
+export const useImageUpload = ({ onImageUploaded, onError }: UseImageUploadOptions) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [aiLoading, setAiLoading] = useState(false);
-  const [aiPrompt, setAiPrompt] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const abortRef = useRef<AbortController | null>(null);
+
+  // Si el editor se desmonta a mitad de una subida de 20 MB no tiene sentido
+  // seguir esperandola, y menos llamar a onImageUploaded sobre algo que ya no
+  // esta montado.
+  useEffect(() => () => abortRef.current?.abort(), []);
 
   const handleFileSelect = useCallback(
     async (file: File) => {
+      const validation = validateImageFile(file);
+      if (!validation.valid) {
+        onError?.(validation.error as string);
+        return;
+      }
+
+      // Una segunda seleccion cancela la anterior: sin esto, si la primera
+      // subida termina despues, pisa la imagen que el cliente eligio ultimo.
+      abortRef.current?.abort();
+      const controller = new AbortController();
+      abortRef.current = controller;
+
+      setUploading(true);
       try {
-        const { src } = await processImageFile(file);
-        const image = createImageElement(src);
-        onImageUploaded(image);
+        const uploaded = await uploadDesignImage(file, controller.signal);
+        onImageUploaded(createImageElement(uploaded));
       } catch (error) {
-        const errorMessage =
-          error instanceof Error ? error.message : "Failed to process image";
-        onError?.(errorMessage);
+        if (error instanceof DOMException && error.name === "AbortError") return;
+        onError?.(error instanceof Error ? error.message : "No pudimos subir tu imagen.");
+      } finally {
+        if (abortRef.current === controller) {
+          abortRef.current = null;
+          setUploading(false);
+        }
       }
     },
     [onImageUploaded, onError],
@@ -34,7 +53,8 @@ export const useImageUpload = ({
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0];
       if (!file) return;
-      handleFileSelect(file);
+      void handleFileSelect(file);
+      // Se limpia para que volver a elegir el mismo archivo dispare el evento.
       e.target.value = "";
     },
     [handleFileSelect],
@@ -44,30 +64,10 @@ export const useImageUpload = ({
     fileInputRef.current?.click();
   }, []);
 
-  const handleAiGenerate = useCallback(async () => {
-    if (!aiPrompt.trim()) return;
-    setAiLoading(true);
-    try {
-      const src = await generateAIImage(aiPrompt);
-      const image = createImageElement(src);
-      onImageUploaded(image);
-      setAiPrompt("");
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : "Failed to generate image";
-      onError?.(errorMessage);
-    } finally {
-      setAiLoading(false);
-    }
-  }, [aiPrompt, onImageUploaded, onError]);
-
   return {
     fileInputRef,
-    aiLoading,
-    aiPrompt,
-    setAiPrompt,
+    uploading,
     handleFileInputChange,
     triggerFileInput,
-    handleAiGenerate,
   };
 };

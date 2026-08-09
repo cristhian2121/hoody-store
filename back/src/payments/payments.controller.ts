@@ -48,7 +48,8 @@ export class PaymentsController {
   ) {
     const host = req.headers.host || "localhost";
     const requestUrl = new URL(req.originalUrl || req.url, `http://${host}`);
-    const topic = requestUrl.searchParams.get("topic") || requestUrl.searchParams.get("type") || body?.type;
+    const topic =
+      requestUrl.searchParams.get("topic") || requestUrl.searchParams.get("type") || body?.type;
     const paymentIdFromQuery =
       requestUrl.searchParams.get("data.id") || requestUrl.searchParams.get("id");
     const paymentId = paymentIdFromQuery || body?.data?.id;
@@ -83,13 +84,11 @@ export class PaymentsController {
     }
   }
 
-  private verifyWebhookSignature(
-    params: {
-      signature?: string;
-      requestId?: string;
-      dataId?: string;
-    },
-  ): boolean {
+  private verifyWebhookSignature(params: {
+    signature?: string;
+    requestId?: string;
+    dataId?: string;
+  }): boolean {
     const webhookSecret = this.configService.get<string>("MERCADOPAGO_WEBHOOK_SECRET");
     if (!webhookSecret || webhookSecret.includes("your_webhook_secret_here")) {
       console.warn(
@@ -103,16 +102,15 @@ export class PaymentsController {
       return false;
     }
 
-    const signatureParts = params.signature.split(",").reduce<Record<string, string>>(
-      (acc, rawPart) => {
+    const signatureParts = params.signature
+      .split(",")
+      .reduce<Record<string, string>>((acc, rawPart) => {
         const [key, value] = rawPart.trim().split("=");
         if (key && value) {
           acc[key.trim()] = value.trim();
         }
         return acc;
-      },
-      {},
-    );
+      }, {});
 
     const timestamp = signatureParts.ts;
     const receivedHash = signatureParts.v1;
@@ -133,9 +131,7 @@ export class PaymentsController {
     const manifest = `${manifestParts.join(";")};`;
 
     // Compute HMAC-SHA256
-    const computedHash = createHmac("sha256", webhookSecret)
-      .update(manifest)
-      .digest("hex");
+    const computedHash = createHmac("sha256", webhookSecret).update(manifest).digest("hex");
 
     let isValid = false;
     try {

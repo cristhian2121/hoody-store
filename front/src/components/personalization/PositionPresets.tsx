@@ -40,7 +40,7 @@ export const PositionPresets = ({
                 className={`rounded-lg border px-2 py-1 text-[10px] text-center transition ${
                   isActive
                     ? "border-primary bg-primary/10 text-primary"
-                    : "border-border bg-muted-foreground/60 hover:border-primary/60"
+                    : "border-border bg-muted/60 hover:border-primary/60"
                 }`}
               >
                 <span className="block">{t(`editor.position.${vertical}`)}</span>

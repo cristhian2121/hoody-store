@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { CheckCircle, ArrowLeft } from "lucide-react";
+import { CheckCircle, Clock, ArrowLeft } from "lucide-react";
 import { useLanguage } from "@/lib/i18n";
 import { useCart } from "@/lib/cart";
 import { Button } from "@/components/ui/button";
 import { confirmCheckoutPayment } from "@/lib/mercadopago";
 
-type ConfirmationState = "idle" | "loading" | "confirmed" | "error";
+type ConfirmationState = "idle" | "loading" | "confirmed" | "pending" | "error";
 
 const CheckoutSuccess = () => {
   const { t } = useLanguage();
@@ -15,52 +15,44 @@ const CheckoutSuccess = () => {
   const [confirmationState, setConfirmationState] = useState<ConfirmationState>("idle");
 
   const paymentId = searchParams.get("payment_id");
-  const status = searchParams.get("status");
   const externalReference = searchParams.get("external_reference");
-  const merchantOrderId = searchParams.get("merchant_order_id");
 
   const confirmationMessage = useMemo(() => {
-    if (!paymentId) {
-      return t("checkout.success.noPaymentId");
-    }
-    if (confirmationState === "loading") {
-      return t("checkout.success.verifying");
-    }
-    if (confirmationState === "confirmed") {
-      return t("checkout.success.message");
-    }
-    if (confirmationState === "error") {
-      return t("checkout.success.verifyFailed");
-    }
+    if (!paymentId) return t("checkout.success.noPaymentId");
+    if (confirmationState === "loading") return t("checkout.success.verifying");
+    if (confirmationState === "pending") return t("checkout.pending.message");
+    if (confirmationState === "error") return t("checkout.success.verifyFailed");
     return t("checkout.success.message");
   }, [confirmationState, paymentId, t]);
 
   useEffect(() => {
-    if (!paymentId) {
-      return;
-    }
+    if (!paymentId) return;
 
     let active = true;
     const confirmPayment = async () => {
       setConfirmationState("loading");
       try {
         const result = await confirmCheckoutPayment(paymentId);
-        if (!active) {
+        if (!active) return;
+
+        if (result.status === "paid") {
+          // El carrito solo se vacia con el pago confirmado. Un pago en efectivo
+          // por Efecty puede tardar horas: vaciarlo antes dejaria a la persona
+          // sin forma de reintentar si al final no paga.
+          clearCart();
+          setConfirmationState("confirmed");
           return;
         }
 
-        if (result.status === "paid") {
-          clearCart();
-          setConfirmationState("confirmed");
+        if (result.status === "payment_pending") {
+          setConfirmationState("pending");
           return;
         }
 
         setConfirmationState("error");
       } catch (error) {
         console.error(error);
-        if (active) {
-          setConfirmationState("error");
-        }
+        if (active) setConfirmationState("error");
       }
     };
 
@@ -71,37 +63,38 @@ const CheckoutSuccess = () => {
     };
   }, [clearCart, paymentId]);
 
+  const pending = confirmationState === "pending";
+
   return (
-    <div className="container py-20 text-center space-y-6">
-      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-500">
-        <CheckCircle className="h-8 w-8" />
+    <div className="container space-y-6 py-20 text-center">
+      <div
+        className={`mx-auto flex h-16 w-16 items-center justify-center rounded-full ${
+          pending ? "bg-amber-500/20 text-amber-600" : "bg-emerald-500/20 text-emerald-500"
+        }`}
+      >
+        {pending ? <Clock className="h-8 w-8" /> : <CheckCircle className="h-8 w-8" />}
       </div>
-      <h1 className="text-2xl font-bold">{t("checkout.success.title")}</h1>
+
+      <h1 className="text-2xl font-bold">
+        {pending ? t("checkout.pending.title") : t("checkout.success.title")}
+      </h1>
       <p className="text-muted-foreground">{confirmationMessage}</p>
 
-      {(externalReference || paymentId || merchantOrderId) && (
-        <div className="mt-8 p-4 bg-muted rounded-lg text-left max-w-md mx-auto space-y-2 text-sm">
-          {externalReference && (
-            <div>
-              <span className="font-semibold">Referencia de orden:</span> {externalReference}
-            </div>
-          )}
-          {paymentId && (
-            <div>
-              <span className="font-semibold">ID de pago:</span> {paymentId}
-            </div>
-          )}
-          {merchantOrderId && (
-            <div>
-              <span className="font-semibold">ID de orden:</span> {merchantOrderId}
-            </div>
-          )}
-          {status && (
-            <div>
-              <span className="font-semibold">Estado:</span> {status}
-            </div>
-          )}
-        </div>
+      {pending && (
+        <p className="mx-auto max-w-md text-sm text-muted-foreground">
+          {t("checkout.pending.instructions")}
+        </p>
+      )}
+
+      {/* La referencia es lo unico que le sirve al cliente si tiene que
+          escribirnos; los ids internos de Mercado Pago no le dicen nada. */}
+      {externalReference && (
+        <p className="text-sm text-muted-foreground">
+          {t("checkout.success.reference")}:{" "}
+          <span className="font-mono font-semibold">
+            {externalReference.slice(0, 8).toUpperCase()}
+          </span>
+        </p>
       )}
 
       <div className="flex justify-center gap-3">

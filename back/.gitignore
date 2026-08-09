@@ -20,6 +20,9 @@ pnpm-debug.log*
 # Data
 data/orders.json
 
+# Almacenamiento local de imagenes subidas (STORAGE_DRIVER=local)
+var/
+
 # IDE
 .vscode
 .idea

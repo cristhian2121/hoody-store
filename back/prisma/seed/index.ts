@@ -3,6 +3,7 @@ import departmentsJson = require("./departments.json");
 import citiesJson = require("./cities.json");
 import countriesJson = require("./countries.json");
 import { Department, City, Country } from "@prisma/client";
+import { seedCatalog } from "./catalog";
 
 const prisma = new PrismaClient();
 const departments = departmentsJson.map((dept) => ({
@@ -62,6 +63,8 @@ async function main() {
     });
   }
   console.log(`Seeded ${cities.length} cities`);
+
+  await seedCatalog(prisma);
 }
 
 main()

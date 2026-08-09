@@ -1,4 +1,12 @@
-import { Controller, Get, HttpCode, HttpStatus, Query, UsePipes, ValidationPipe } from "@nestjs/common";
+import {
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Query,
+  UsePipes,
+  ValidationPipe,
+} from "@nestjs/common";
 import { ShippingQuoteDto } from "./dto/shipping-quote.dto";
 import { ShippingService } from "./shipping.service";
 
