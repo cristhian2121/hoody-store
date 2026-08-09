@@ -1,0 +1,155 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Un push nuevo sobre la misma rama cancela la corrida anterior: revisar el
+# resultado de un commit que ya quedo atras no le sirve a nadie.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Fijada a proposito, igual que en los Dockerfile. pnpm cambia comportamiento
+  # entre mayores (la 11 movio la aprobacion de scripts de instalacion a
+  # pnpm-workspace.yaml) y el CI no deberia romperse solo el dia que salga la 12.
+  PNPM_VERSION: 11
+  NODE_VERSION: 24
+
+jobs:
+  backend:
+    name: Backend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: back
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+          cache-dependency-path: back/pnpm-lock.yaml
+
+      # --frozen-lockfile falla si el lockfile no coincide con package.json, que
+      # es justo lo que queremos saber antes de mezclar.
+      - name: Instalar dependencias
+        run: pnpm install --frozen-lockfile
+
+      # El cliente de Prisma es codigo generado: sin esto, el typecheck no
+      # encuentra los tipos de los modelos.
+      - name: Generar cliente de Prisma
+        run: pnpm run prisma:generate
+
+      - name: Typecheck
+        run: pnpm run typecheck
+
+      - name: Lint
+        run: pnpm run lint
+
+      # Los tests no necesitan base de datos ni variables de entorno: son
+      # unitarios y los repositorios estan mockeados. Verificado.
+      - name: Tests
+        run: pnpm test
+
+      - name: Build
+        run: pnpm run build
+
+  frontend:
+    name: Frontend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: front
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+          cache-dependency-path: front/pnpm-lock.yaml
+
+      - name: Instalar dependencias
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm run typecheck
+
+      - name: Lint
+        run: pnpm run lint
+
+      - name: Tests
+        run: pnpm test
+
+      - name: Build
+        env:
+          # `ensureApiUrl()` lanza sin esta variable, a proposito. El build no la
+          # necesita para compilar, pero se define para que el bundle no quede
+          # con un valor vacio si algun dia se evalua en tiempo de build.
+          VITE_API_URL: http://localhost:4242
+        run: pnpm run build
+
+  docker:
+    name: Imagenes Docker
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      # Este job existe por un fallo real: los Dockerfile no copiaban
+      # pnpm-workspace.yaml, asi que pnpm omitia el postinstall de Prisma y
+      # salia con codigo 1. Los tests y el build local pasaban perfecto; solo
+      # `docker compose up` lo revelaba. Construir las imagenes en CI es la
+      # unica forma de que eso no vuelva a llegar a main.
+      - name: Construir imagen del backend
+        uses: docker/build-push-action@v6
+        with:
+          context: ./back
+          push: false
+          load: true
+          tags: atuestampa-backend:ci
+          cache-from: type=gha,scope=backend
+          cache-to: type=gha,scope=backend,mode=max
+
+      - name: Construir imagen del frontend
+        uses: docker/build-push-action@v6
+        with:
+          context: ./front
+          push: false
+          load: true
+          tags: atuestampa-frontend:ci
+          cache-from: type=gha,scope=frontend
+          cache-to: type=gha,scope=frontend,mode=max
+
+      # Que la imagen compile no garantiza que sirva. Estas tres cosas solo se
+      # pueden comprobar dentro de la imagen final:
+      #   - las fuentes de impresion existen (la app se niega a arrancar sin ellas)
+      #   - sharp trajo su binario de Linux, no el de la maquina de quien commiteo
+      #   - resvg rasteriza
+      - name: Verificar la imagen del backend
+        run: |
+          docker run --rm atuestampa-backend:ci node -e "
+            const { assertFontFilesExist, SUPPORTED_FONT_FAMILIES } = require('/app/dist/src/print/fonts/font-registry');
+            assertFontFilesExist();
+            console.log('Fuentes verificadas:', SUPPORTED_FONT_FAMILIES.join(', '));
+
+            const sharp = require('sharp');
+            console.log('sharp libvips', sharp.versions.vips, '|', process.platform, process.arch);
+
+            const { Resvg } = require('@resvg/resvg-js');
+            new Resvg('<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"4\" height=\"4\"/>').render().asPng();
+            console.log('resvg operativo');
+          "

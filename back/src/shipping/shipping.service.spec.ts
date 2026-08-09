@@ -37,7 +37,9 @@ describe("ShippingService", () => {
     }).compile();
 
     service = module.get<ShippingService>(ShippingService);
-    locationsService = module.get<LocationsService>(LocationsService) as jest.Mocked<LocationsService>;
+    locationsService = module.get<LocationsService>(
+      LocationsService,
+    ) as jest.Mocked<LocationsService>;
     pricingProvider = module.get<ShippingPricingProvider>(
       SHIPPING_PRICING_PROVIDER,
     ) as jest.Mocked<ShippingPricingProvider>;

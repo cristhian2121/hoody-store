@@ -23,8 +23,8 @@ export const useCheckoutLocations = () => {
       try {
         const list = await fetchDepartmentsByCountry(COLOMBIA_COUNTRY_CODE);
         setDepartments(list);
-      } catch (err: any) {
-        setError(err.message || "No pudimos cargar departamentos.");
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : "No pudimos cargar departamentos.");
       } finally {
         setLoadingDepartments(false);
       }
@@ -47,8 +47,8 @@ export const useCheckoutLocations = () => {
       try {
         const list = await fetchCitiesByDepartment(selectedDepartmentCode);
         setCities(list);
-      } catch (err: any) {
-        setError(err.message || "No pudimos cargar ciudades.");
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : "No pudimos cargar ciudades.");
       } finally {
         setLoadingCities(false);
       }

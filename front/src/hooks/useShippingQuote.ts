@@ -38,10 +38,10 @@ export const useShippingQuote = ({
         if (active) {
           setQuote(result);
         }
-      } catch (err: any) {
+      } catch (err: unknown) {
         if (active) {
           setQuote(null);
-          setError(err.message || "No pudimos calcular el envío.");
+          setError(err instanceof Error ? err.message : "No pudimos calcular el envío.");
         }
       } finally {
         if (active) {
